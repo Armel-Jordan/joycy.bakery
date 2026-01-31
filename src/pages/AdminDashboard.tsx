@@ -9,7 +9,7 @@ interface AdminDashboardProps {
   user: User | null;
 }
 
-type TabType = 'orders' | 'products' | 'vacation' | 'calendar';
+type TabType = 'orders' | 'team' | 'products' | 'vacation' | 'calendar';
 
 export default function AdminDashboard({ user }: AdminDashboardProps) {
   const [activeTab, setActiveTab] = useState<TabType>('orders');
@@ -40,6 +40,12 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
           📦 Commandes
         </button>
         <button
+          className={activeTab === 'team' ? 'active' : ''}
+          onClick={() => setActiveTab('team')}
+        >
+          👥 Équipe
+        </button>
+        <button
           className={activeTab === 'products' ? 'active' : ''}
           onClick={() => setActiveTab('products')}
         >
@@ -61,6 +67,14 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
 
       <div className="admin-content">
         {activeTab === 'orders' && <OrderManagement />}
+        {activeTab === 'team' && (
+          <div className="team-management">
+            <h2>👥 Gestion de l'Équipe</h2>
+            <p style={{ color: 'rgba(255, 255, 255, 0.7)' }}>
+              Section pour gérer votre équipe de production - à venir prochainement.
+            </p>
+          </div>
+        )}
         {activeTab === 'products' && <ProductManagement />}
         {activeTab === 'vacation' && <VacationManagement />}
         {activeTab === 'calendar' && <CalendarView />}
