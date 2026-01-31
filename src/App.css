@@ -991,6 +991,75 @@ main {
   font-size: 0.9rem;
 }
 
+/* Team Management */
+.team-management {
+  color: #fff;
+  width: 100%;
+  max-width: 100%;
+}
+
+.team-form {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 2rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.team-form h3 {
+  margin-top: 0;
+  color: #fff;
+}
+
+.team-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.team-card {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s;
+}
+
+.team-card:hover {
+  background: rgba(255, 255, 255, 0.08);
+  transform: translateY(-2px);
+}
+
+.team-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.team-header h3 {
+  margin: 0 0 0.25rem 0;
+  color: #fff;
+}
+
+.team-role {
+  color: #f093fb;
+  font-weight: 600;
+  margin: 0.25rem 0;
+}
+
+.team-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.team-contact {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.95rem;
+  margin: 0;
+}
+
 /* Vacation Management */
 .vacation-management {
   color: #fff;

@@ -52,4 +52,21 @@ export interface Vacation {
   };
 }
 
+export interface TeamMember {
+  id: string;
+  name: string;
+  role: string;
+  email?: string;
+  phone?: string;
+  schedule?: {
+    day: string;
+    startTime: string;
+    endTime: string;
+  }[];
+  createdAt: {
+    seconds: number;
+    nanoseconds: number;
+  };
+}
+
 export type UserRole = 'customer' | 'admin';

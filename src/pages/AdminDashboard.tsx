@@ -4,6 +4,7 @@ import OrderManagement from '../components/admin/OrderManagement';
 import ProductManagement from '../components/admin/ProductManagement';
 import CalendarView from '../components/admin/CalendarView';
 import VacationManagement from '../components/admin/VacationManagement';
+import TeamManagement from '../components/admin/TeamManagement';
 
 interface AdminDashboardProps {
   user: User | null;
@@ -67,14 +68,7 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
 
       <div className="admin-content">
         {activeTab === 'orders' && <OrderManagement />}
-        {activeTab === 'team' && (
-          <div className="team-management">
-            <h2>👥 Gestion de l'Équipe</h2>
-            <p style={{ color: 'rgba(255, 255, 255, 0.7)' }}>
-              Section pour gérer votre équipe de production - à venir prochainement.
-            </p>
-          </div>
-        )}
+        {activeTab === 'team' && <TeamManagement />}
         {activeTab === 'products' && <ProductManagement />}
         {activeTab === 'vacation' && <VacationManagement />}
         {activeTab === 'calendar' && <CalendarView />}
