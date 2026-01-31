@@ -410,11 +410,14 @@ main {
 /* Admin Dashboard */
 .admin-dashboard {
   color: #fff;
+  width: 100%;
+  max-width: 100%;
 }
 
 .admin-header {
   text-align: center;
   margin-bottom: 2rem;
+  width: 100%;
 }
 
 .admin-header h1 {
@@ -459,6 +462,8 @@ main {
   border-radius: 12px;
   padding: 2rem;
   border: 1px solid rgba(255, 255, 255, 0.1);
+  width: 100%;
+  max-width: 100%;
 }
 
 .admin-login-required {
@@ -468,6 +473,11 @@ main {
 }
 
 /* Order Management */
+.order-management {
+  width: 100%;
+  max-width: 100%;
+}
+
 .order-filters {
   display: flex;
   gap: 0.5rem;
@@ -586,6 +596,11 @@ main {
 }
 
 /* Product Management */
+.product-management {
+  width: 100%;
+  max-width: 100%;
+}
+
 .management-header {
   display: flex;
   justify-content: space-between;
@@ -713,6 +728,8 @@ main {
 /* Calendar View */
 .calendar-view {
   color: #fff;
+  width: 100%;
+  max-width: 100%;
 }
 
 .calendar-header {
@@ -964,6 +981,8 @@ main {
 /* Vacation Management */
 .vacation-management {
   color: #fff;
+  width: 100%;
+  max-width: 100%;
 }
 
 .vacation-form {
