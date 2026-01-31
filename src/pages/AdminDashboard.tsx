@@ -15,22 +15,11 @@ type TabType = 'orders' | 'team' | 'products' | 'vacation' | 'calendar';
 export default function AdminDashboard({ user }: AdminDashboardProps) {
   const [activeTab, setActiveTab] = useState<TabType>('orders');
 
-  if (!user) {
-    return (
-      <div className="admin-dashboard">
-        <div className="admin-login-required">
-          <h2>🔒 Accès Administrateur</h2>
-          <p>Veuillez vous connecter pour accéder au tableau de bord administrateur.</p>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="admin-dashboard">
       <div className="admin-header">
         <h1>📊 Tableau de Bord Administrateur</h1>
-        <p>Bienvenue, {user.email}</p>
+        {user && <p>Bienvenue, {user.email}</p>}
       </div>
 
       <div className="admin-tabs">
