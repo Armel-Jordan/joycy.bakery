@@ -42,11 +42,13 @@ export default function Auth({ user }: AuthProps) {
     }
   };
 
+  const [showModal, setShowModal] = useState(false);
+
   if (user) {
     return (
-      <div className="auth-container">
-        <p>Connecté en tant que: {user.email}</p>
-        <button onClick={handleSignOut} className="btn btn-secondary">
+      <div className="auth-user">
+        <span className="user-email">{user.email}</span>
+        <button onClick={handleSignOut} className="btn btn-secondary btn-sm">
           Déconnexion
         </button>
       </div>
@@ -54,34 +56,45 @@ export default function Auth({ user }: AuthProps) {
   }
 
   return (
-    <div className="auth-container">
-      <h2>{isLogin ? 'Connexion' : 'Inscription'}</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Mot de passe"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <button type="submit" className="btn btn-primary">
-          {isLogin ? 'Se connecter' : "S'inscrire"}
-        </button>
-      </form>
-      {error && <p className="error">{error}</p>}
-      <button 
-        onClick={() => setIsLogin(!isLogin)} 
-        className="btn btn-link"
-      >
-        {isLogin ? "Créer un compte" : "Déjà un compte ?"}
+    <>
+      <button onClick={() => setShowModal(true)} className="btn btn-primary btn-sm">
+        Connexion
       </button>
-    </div>
+
+      {showModal && (
+        <div className="auth-modal" onClick={() => setShowModal(false)}>
+          <div className="auth-modal-content" onClick={(e) => e.stopPropagation()}>
+            <button className="close-modal" onClick={() => setShowModal(false)}>×</button>
+            <h2>{isLogin ? 'Connexion' : 'Inscription'}</h2>
+            <form onSubmit={handleSubmit}>
+              <input
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+              <input
+                type="password"
+                placeholder="Mot de passe"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+              <button type="submit" className="btn btn-primary">
+                {isLogin ? 'Se connecter' : "S'inscrire"}
+              </button>
+            </form>
+            {error && <p className="error">{error}</p>}
+            <button 
+              onClick={() => setIsLogin(!isLogin)} 
+              className="btn btn-link"
+            >
+              {isLogin ? "Créer un compte" : "Déjà un compte ?"}
+            </button>
+          </div>
+        </div>
+      )}
+    </>
   );
 }
