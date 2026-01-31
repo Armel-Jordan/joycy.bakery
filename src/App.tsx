@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react'
 import { auth } from './firebase'
-import { onAuthStateChanged } from 'firebase/auth'
+import { onAuthStateChanged, User } from 'firebase/auth'
 import Auth from './components/Auth'
 import DataList from './components/DataList'
 import './App.css'
 
 function App() {
-  const [user, setUser] = useState(null)
+  const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -25,7 +25,7 @@ function App() {
   return (
     <div className="app">
       <header>
-        <h1>🔥 React + Firebase</h1>
+        <h1>🧁 Joycy Bakery</h1>
       </header>
       <main>
         <Auth user={user} />

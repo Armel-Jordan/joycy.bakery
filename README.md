@@ -1,6 +1,6 @@
-# 🔥 React + Firebase + TypeScript
+# 🧁 Joycy Bakery
 
-Application web moderne construite avec React, TypeScript, Vite et Firebase.
+Application web de boulangerie construite avec React, TypeScript, Vite et Firebase.
 
 ## 📋 Fonctionnalités
 
@@ -14,8 +14,8 @@ Application web moderne construite avec React, TypeScript, Vite et Firebase.
 
 1. **Cloner le projet**
 ```bash
-git clone <votre-repo-url>
-cd react-firebase-app
+git clone https://github.com/Armel-Jordan/joycy.bakery.git
+cd joycy.bakery
 ```
 
 2. **Installer les dépendances**
@@ -102,7 +102,7 @@ git add .
 git commit -m "Initial commit"
 
 # Ajouter votre repository GitHub
-git remote add origin https://github.com/votre-username/votre-repo.git
+git remote add origin https://github.com/Armel-Jordan/joycy.bakery.git
 git branch -M main
 git push -u origin main
 ```
