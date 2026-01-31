@@ -1,15 +1,26 @@
 import { useState, useEffect } from 'react';
-import { collection, getDocs, doc, updateDoc, deleteDoc } from 'firebase/firestore';
+import { collection, getDocs, doc, updateDoc, deleteDoc, addDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../../firebase';
-import { Order } from '../../types';
+import { Order, Product, OrderItem } from '../../types';
 
 export default function OrderManagement() {
   const [orders, setOrders] = useState<Order[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<'all' | 'pending' | 'confirmed' | 'ready' | 'completed'>('all');
+  const [showPhoneOrderForm, setShowPhoneOrderForm] = useState(false);
+  const [phoneOrderItems, setPhoneOrderItems] = useState<OrderItem[]>([]);
+  const [phoneOrderData, setPhoneOrderData] = useState({
+    customerName: '',
+    customerEmail: '',
+    customerPhone: '',
+    deliveryDate: '',
+    notes: ''
+  });
 
   useEffect(() => {
     loadOrders();
+    loadProducts();
   }, []);
 
   const loadOrders = async () => {
@@ -34,6 +45,19 @@ export default function OrderManagement() {
     }
   };
 
+  const loadProducts = async () => {
+    try {
+      const querySnapshot = await getDocs(collection(db, 'products'));
+      const productsData = querySnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      })) as Product[];
+      setProducts(productsData.filter(p => p.available));
+    } catch (error) {
+      console.error('Erreur lors du chargement des produits:', error);
+    }
+  };
+
   const updateOrderStatus = async (orderId: string, status: Order['status']) => {
     try {
       await updateDoc(doc(db, 'orders', orderId), {
@@ -54,6 +78,75 @@ export default function OrderManagement() {
       loadOrders();
     } catch (error) {
       console.error('Erreur lors de la suppression:', error);
+    }
+  };
+
+  const addProductToPhoneOrder = (product: Product) => {
+    const existingItem = phoneOrderItems.find(item => item.productId === product.id);
+    
+    if (existingItem) {
+      setPhoneOrderItems(phoneOrderItems.map(item =>
+        item.productId === product.id
+          ? { ...item, quantity: item.quantity + 1 }
+          : item
+      ));
+    } else {
+      setPhoneOrderItems([...phoneOrderItems, {
+        productId: product.id,
+        productName: product.name,
+        quantity: 1,
+        price: product.price
+      }]);
+    }
+  };
+
+  const updatePhoneOrderItemQuantity = (productId: string, quantity: number) => {
+    if (quantity <= 0) {
+      setPhoneOrderItems(phoneOrderItems.filter(item => item.productId !== productId));
+    } else {
+      setPhoneOrderItems(phoneOrderItems.map(item =>
+        item.productId === productId ? { ...item, quantity } : item
+      ));
+    }
+  };
+
+  const createPhoneOrder = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (phoneOrderItems.length === 0) {
+      alert('Veuillez ajouter au moins un produit à la commande');
+      return;
+    }
+    
+    const total = phoneOrderItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    
+    try {
+      await addDoc(collection(db, 'orders'), {
+        userId: 'phone-order',
+        userEmail: phoneOrderData.customerEmail || phoneOrderData.customerPhone,
+        items: phoneOrderItems,
+        total,
+        status: 'pending',
+        notes: `Commande téléphonique - Client: ${phoneOrderData.customerName}${phoneOrderData.customerPhone ? ' - Tél: ' + phoneOrderData.customerPhone : ''}${phoneOrderData.notes ? '\n' + phoneOrderData.notes : ''}`,
+        deliveryDate: phoneOrderData.deliveryDate,
+        isPhoneOrder: true,
+        createdAt: serverTimestamp()
+      });
+      
+      setPhoneOrderData({
+        customerName: '',
+        customerEmail: '',
+        customerPhone: '',
+        deliveryDate: '',
+        notes: ''
+      });
+      setPhoneOrderItems([]);
+      setShowPhoneOrderForm(false);
+      loadOrders();
+      alert('Commande téléphonique créée avec succès!');
+    } catch (error) {
+      console.error('Erreur lors de la création de la commande:', error);
+      alert('Erreur lors de la création de la commande');
     }
   };
 
@@ -83,6 +176,127 @@ export default function OrderManagement() {
 
   return (
     <div className="order-management">
+      <div className="management-header">
+        <h2>📦 Gestion des Commandes</h2>
+        <button 
+          onClick={() => setShowPhoneOrderForm(!showPhoneOrderForm)} 
+          className="btn btn-primary"
+        >
+          {showPhoneOrderForm ? 'Annuler' : '📞 Nouvelle Commande Téléphonique'}
+        </button>
+      </div>
+
+      {showPhoneOrderForm && (
+        <form onSubmit={createPhoneOrder} className="phone-order-form">
+          <h3>Nouvelle commande téléphonique</h3>
+          
+          <div className="form-row">
+            <div className="form-group">
+              <label>Nom du client *</label>
+              <input
+                type="text"
+                value={phoneOrderData.customerName}
+                onChange={(e) => setPhoneOrderData({ ...phoneOrderData, customerName: e.target.value })}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label>Téléphone *</label>
+              <input
+                type="tel"
+                value={phoneOrderData.customerPhone}
+                onChange={(e) => setPhoneOrderData({ ...phoneOrderData, customerPhone: e.target.value })}
+                required
+              />
+            </div>
+          </div>
+
+          <div className="form-row">
+            <div className="form-group">
+              <label>Email (optionnel)</label>
+              <input
+                type="email"
+                value={phoneOrderData.customerEmail}
+                onChange={(e) => setPhoneOrderData({ ...phoneOrderData, customerEmail: e.target.value })}
+              />
+            </div>
+            <div className="form-group">
+              <label>Date de livraison *</label>
+              <input
+                type="date"
+                value={phoneOrderData.deliveryDate}
+                onChange={(e) => setPhoneOrderData({ ...phoneOrderData, deliveryDate: e.target.value })}
+                required
+              />
+            </div>
+          </div>
+
+          <div className="form-group">
+            <label>Notes</label>
+            <textarea
+              value={phoneOrderData.notes}
+              onChange={(e) => setPhoneOrderData({ ...phoneOrderData, notes: e.target.value })}
+              placeholder="Instructions spéciales, allergies, etc."
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Produits *</label>
+            <div className="product-selector">
+              {products.map(product => (
+                <button
+                  key={product.id}
+                  type="button"
+                  onClick={() => addProductToPhoneOrder(product)}
+                  className="product-selector-btn"
+                >
+                  {product.name} - {product.price.toFixed(2)}€
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {phoneOrderItems.length > 0 && (
+            <div className="phone-order-items">
+              <h4>Articles de la commande:</h4>
+              {phoneOrderItems.map(item => (
+                <div key={item.productId} className="phone-order-item">
+                  <span>{item.productName}</span>
+                  <div className="quantity-controls">
+                    <button
+                      type="button"
+                      onClick={() => updatePhoneOrderItemQuantity(item.productId, item.quantity - 1)}
+                    >
+                      -
+                    </button>
+                    <span>{item.quantity}</span>
+                    <button
+                      type="button"
+                      onClick={() => updatePhoneOrderItemQuantity(item.productId, item.quantity + 1)}
+                    >
+                      +
+                    </button>
+                  </div>
+                  <span>{(item.price * item.quantity).toFixed(2)}€</span>
+                </div>
+              ))}
+              <div className="phone-order-total">
+                <strong>Total: {phoneOrderItems.reduce((sum, item) => sum + (item.price * item.quantity), 0).toFixed(2)}€</strong>
+              </div>
+            </div>
+          )}
+
+          <div className="form-actions">
+            <button type="button" onClick={() => setShowPhoneOrderForm(false)} className="btn btn-secondary">
+              Annuler
+            </button>
+            <button type="submit" className="btn btn-primary">
+              Créer la commande
+            </button>
+          </div>
+        </form>
+      )}
+
       <div className="order-filters">
         <button 
           className={filter === 'all' ? 'active' : ''} 
@@ -124,9 +338,15 @@ export default function OrderManagement() {
             <div key={order.id} className="order-card">
               <div className="order-header">
                 <div>
-                  <h3>Commande #{order.id.slice(0, 8)}</h3>
+                  <h3>
+                    {order.isPhoneOrder && '📞 '}
+                    Commande #{order.id.slice(0, 8)}
+                  </h3>
                   <p className="order-email">{order.userEmail}</p>
-                  <p className="order-date">{formatDate(order.createdAt)}</p>
+                  <p className="order-date">Passée le: {formatDate(order.createdAt)}</p>
+                  {order.deliveryDate && (
+                    <p className="order-date">Livraison: {new Date(order.deliveryDate).toLocaleDateString('fr-FR')}</p>
+                  )}
                 </div>
                 <div className="order-status" style={{ backgroundColor: getStatusColor(order.status) }}>
                   {order.status}

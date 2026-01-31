@@ -23,10 +23,13 @@ export interface Order {
   items: OrderItem[];
   total: number;
   status: 'pending' | 'confirmed' | 'ready' | 'completed' | 'cancelled';
-  deliveryDate?: Date;
   notes?: string;
-  createdAt: any;
-  updatedAt: any;
+  createdAt: {
+    seconds: number;
+    nanoseconds: number;
+  };
+  deliveryDate?: string;
+  isPhoneOrder?: boolean;
 }
 
 export interface CalendarEvent {
@@ -38,7 +41,15 @@ export interface CalendarEvent {
   type: 'order' | 'event';
 }
 
-export interface UserRole {
-  email: string;
-  role: 'admin' | 'customer';
+export interface Vacation {
+  id: string;
+  startDate: string;
+  endDate: string;
+  reason?: string;
+  createdAt: {
+    seconds: number;
+    nanoseconds: number;
+  };
 }
+
+export type UserRole = 'customer' | 'admin';
