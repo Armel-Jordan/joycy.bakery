@@ -8,9 +8,14 @@
 }
 
 main {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 2rem;
+  width: 100%;
+  padding: 1rem;
+}
+
+@media (min-width: 768px) {
+  main {
+    padding: 2rem;
+  }
 }
 
 .loading {
@@ -712,18 +717,32 @@ main {
 
 .calendar-header {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  gap: 1rem;
   margin-bottom: 1.5rem;
 }
 
 .calendar-header h2 {
   margin: 0;
+  font-size: 1.5rem;
 }
 
 .calendar-controls {
   display: flex;
   gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+@media (min-width: 768px) {
+  .calendar-header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .calendar-header h2 {
+    font-size: 2rem;
+  }
 }
 
 .calendar-month-year {
@@ -746,7 +765,7 @@ main {
 
 .calendar-legends {
   display: flex;
-  gap: 2rem;
+  gap: 1rem;
   margin-bottom: 1.5rem;
   justify-content: center;
   flex-wrap: wrap;
@@ -757,6 +776,17 @@ main {
   align-items: center;
   gap: 0.5rem;
   color: rgba(255, 255, 255, 0.9);
+  font-size: 0.85rem;
+}
+
+@media (min-width: 768px) {
+  .calendar-legends {
+    gap: 2rem;
+  }
+  
+  .legend-item {
+    font-size: 1rem;
+  }
 }
 
 .legend-dot {
@@ -801,13 +831,22 @@ main {
 }
 
 .calendar-day {
-  min-height: 80px;
-  padding: 0.5rem;
+  min-height: 60px;
+  padding: 0.25rem;
   background: rgba(255, 255, 255, 0.03);
   border-radius: 8px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   cursor: pointer;
   transition: all 0.3s;
+  font-size: 0.85rem;
+}
+
+@media (min-width: 768px) {
+  .calendar-day {
+    min-height: 80px;
+    padding: 0.5rem;
+    font-size: 1rem;
+  }
 }
 
 .calendar-day.empty {
@@ -1080,6 +1119,13 @@ main {
   .main-nav {
     flex-direction: column;
     gap: 1rem;
+    padding: 1rem;
+  }
+
+  .nav-links {
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
   }
 
   .products-grid {
@@ -1094,5 +1140,79 @@ main {
     flex-direction: column;
     gap: 1rem;
     align-items: flex-start;
+  }
+
+  .admin-tabs {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .admin-tabs button {
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .admin-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .management-header {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .calendar-month-year {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .month-select,
+  .year-select {
+    width: 100%;
+  }
+
+  .calendar-grid {
+    gap: 0.25rem;
+  }
+
+  .calendar-day-name {
+    padding: 0.5rem 0.25rem;
+    font-size: 0.75rem;
+  }
+
+  .day-indicators {
+    font-size: 0.65rem;
+  }
+
+  .indicator {
+    font-size: 0.6rem;
+    padding: 0.1rem 0.3rem;
+  }
+
+  .product-selector {
+    grid-template-columns: 1fr;
+  }
+
+  .order-filters {
+    gap: 0.25rem;
+  }
+
+  .order-filters button {
+    font-size: 0.85rem;
+    padding: 0.4rem 0.75rem;
+  }
+
+  .event-details {
+    padding: 1.5rem;
+    max-height: 90vh;
+  }
+
+  .hero h1 {
+    font-size: 2rem;
+  }
+
+  .hero p {
+    font-size: 1rem;
   }
 }
