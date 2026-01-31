@@ -1,15 +1,25 @@
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  overflow-x: hidden;
 }
 
 .app {
   min-height: 100vh;
+  width: 100%;
   background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
 }
 
 main {
   width: 100%;
+  max-width: 100%;
   padding: 1rem;
+  box-sizing: border-box;
 }
 
 @media (min-width: 768px) {
@@ -37,6 +47,9 @@ main {
   position: sticky;
   top: 0;
   z-index: 100;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .nav-brand a {
