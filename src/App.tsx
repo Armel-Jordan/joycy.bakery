@@ -9,6 +9,7 @@ import Promotions from './pages/Promotions'
 import Personnalisation from './pages/Personnalisation'
 import Products from './pages/Products'
 import Cart from './pages/Cart'
+import Contact from './pages/Contact'
 import AdminDashboard from './pages/AdminDashboard'
 import './App.css'
 
@@ -44,6 +45,9 @@ function Navigation() {
         </Link>
         <Link to="/produits" className={location.pathname === '/produits' ? 'active' : ''}>
           Produits
+        </Link>
+        <Link to="/contact" className={location.pathname === '/contact' ? 'active' : ''}>
+          Contact
         </Link>
       </div>
       <div className="nav-cart">
@@ -85,6 +89,7 @@ function App() {
               <Route path="/personnalisation" element={<Personnalisation />} />
               <Route path="/produits" element={<Products />} />
               <Route path="/cart" element={<Cart />} />
+              <Route path="/contact" element={<Contact />} />
               <Route path="/admin" element={<AdminDashboard user={user} />} />
             </Routes>
           </main>
