@@ -64,7 +64,7 @@ main {
 }
 
 .nav-brand a span {
-  background: linear-gradient(135deg, #d4af37 0%, #f4e4c1 100%);
+  background: linear-gradient(135deg, #6E260E 0%, #D4A574 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -92,8 +92,8 @@ main {
 
 .nav-links a:hover,
 .nav-links a.active {
-  color: #d4af37;
-  background: #faf8f3;
+  color: #6E260E;
+  background: #F5EDE4;
 }
 
 .nav-cart {
@@ -111,7 +111,7 @@ main {
 }
 
 .cart-icon:hover {
-  color: #d4af37;
+  color: #6E260E;
   transform: scale(1.1);
 }
 
@@ -119,7 +119,7 @@ main {
   position: absolute;
   top: -5px;
   right: -5px;
-  background: #d4af37;
+  background: #6E260E;
   color: #fff;
   font-size: 0.7rem;
   font-weight: bold;
@@ -222,7 +222,7 @@ main {
 }
 
 .btn-primary {
-  background: #d4af37;
+  background: #6E260E;
   color: white;
   border: none;
 }
@@ -240,12 +240,12 @@ main {
 
 .btn-secondary {
   background: transparent;
-  color: #d4af37;
-  border: 2px solid #d4af37;
+  color: #6E260E;
+  border: 2px solid #6E260E;
 }
 
 .btn-secondary:hover {
-  background: #d4af37;
+  background: #6E260E;
   color: #fff;
 }
 
@@ -277,7 +277,7 @@ main {
 
 .btn-link {
   background: transparent;
-  color: #d4af37;
+  color: #6E260E;
   text-decoration: underline;
   margin-top: 1rem;
 }
@@ -296,7 +296,7 @@ main {
 .hero h1 {
   font-size: 3rem;
   margin: 0 0 1rem 0;
-  background: linear-gradient(135deg, #d4af37 0%, #f4e4c1 100%);
+  background: linear-gradient(135deg, #6E260E 0%, #D4A574 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -311,7 +311,7 @@ main {
   position: fixed;
   bottom: 2rem;
   right: 2rem;
-  background: #d4af37;
+  background: #6E260E;
   color: white;
   padding: 1rem 1.5rem;
   border-radius: 50px;
@@ -362,7 +362,7 @@ main {
   align-items: center;
   padding: 1rem;
   margin-bottom: 0.5rem;
-  background: #faf8f3;
+  background: #F5EDE4;
   border-radius: 8px;
   border: 1px solid #f0f0f0;
 }
@@ -378,7 +378,7 @@ main {
   height: 30px;
   border-radius: 50%;
   border: none;
-  background: #d4af37;
+  background: #6E260E;
   color: #fff;
   cursor: pointer;
   font-size: 1.2rem;
@@ -391,7 +391,7 @@ main {
 .cart-total {
   margin: 1rem 0;
   padding: 1rem;
-  background: #faf8f3;
+  background: #F5EDE4;
   border-radius: 8px;
   text-align: right;
   color: #2c2c2c;
@@ -399,7 +399,7 @@ main {
 }
 
 .cart-total strong {
-  color: #d4af37;
+  color: #6E260E;
 }
 
 .cart-content textarea {
@@ -416,7 +416,7 @@ main {
 
 .cart-content textarea:focus {
   outline: none;
-  border-color: #d4af37;
+  border-color: #6E260E;
 }
 
 .cart-actions {
@@ -446,7 +446,7 @@ main {
 }
 
 .product-card {
-  background: #faf8f3;
+  background: #F5EDE4;
   border-radius: 12px;
   padding: 1.5rem;
   border: 2px solid #f0f0f0;
@@ -455,7 +455,7 @@ main {
 
 .product-card:hover {
   transform: translateY(-5px);
-  border-color: #d4af37;
+  border-color: #6E260E;
   box-shadow: 0 10px 30px rgba(212, 175, 55, 0.15);
 }
 
@@ -487,7 +487,7 @@ main {
 .price {
   font-size: 1.25rem;
   font-weight: bold;
-  color: #d4af37;
+  color: #6E260E;
 }
 
 .empty-state {
@@ -515,7 +515,7 @@ main {
 
 .admin-header h1 {
   margin: 0 0 0.5rem 0;
-  background: linear-gradient(135deg, #d4af37 0%, #f4e4c1 100%);
+  background: linear-gradient(135deg, #6E260E 0%, #D4A574 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -546,12 +546,12 @@ main {
 }
 
 .admin-tabs button.active {
-  color: #d4af37;
-  border-bottom-color: #d4af37;
+  color: #6E260E;
+  border-bottom-color: #6E260E;
 }
 
 .admin-content {
-  background: #faf8f3;
+  background: #F5EDE4;
   border-radius: 12px;
   padding: 2rem;
   border: 1px solid #f0f0f0;
@@ -590,8 +590,8 @@ main {
 
 .order-filters button:hover,
 .order-filters button.active {
-  background: #d4af37;
-  border-color: #d4af37;
+  background: #6E260E;
+  border-color: #6E260E;
   color: #fff;
 }
 
@@ -654,7 +654,7 @@ main {
   display: flex;
   justify-content: space-between;
   padding: 0.5rem;
-  background: #faf8f3;
+  background: #F5EDE4;
   border-radius: 4px;
   margin-bottom: 0.25rem;
   color: #666;
@@ -663,7 +663,7 @@ main {
 .order-notes {
   margin-top: 1rem;
   padding: 0.75rem;
-  background: #faf8f3;
+  background: #F5EDE4;
   border-radius: 8px;
   color: #666;
   font-size: 0.9rem;
@@ -679,7 +679,7 @@ main {
 }
 
 .order-total {
-  color: #d4af37;
+  color: #6E260E;
   font-size: 1.1rem;
 }
 
@@ -747,7 +747,7 @@ main {
 .form-group select:focus,
 .form-group textarea:focus {
   outline: none;
-  border-color: #d4af37;
+  border-color: #6E260E;
 }
 
 .form-group textarea {
@@ -979,7 +979,7 @@ main {
 }
 
 .calendar-day.today {
-  border-color: #d4af37;
+  border-color: #6E260E;
   background: rgba(212, 175, 55, 0.1);
 }
 
@@ -1051,7 +1051,7 @@ main {
 
 .event-details h3 {
   margin-top: 0;
-  color: #d4af37;
+  color: #6E260E;
 }
 
 .event-details h4 {
@@ -1136,7 +1136,7 @@ main {
 }
 
 .team-role {
-  color: #d4af37;
+  color: #6E260E;
   font-weight: 600;
   margin: 0.25rem 0;
 }
@@ -1266,7 +1266,7 @@ main {
 
 .product-selector-btn:hover {
   background: rgba(212, 175, 55, 0.2);
-  border-color: #d4af37;
+  border-color: #6E260E;
   transform: translateY(-2px);
 }
 
@@ -1287,7 +1287,7 @@ main {
   justify-content: space-between;
   align-items: center;
   padding: 0.75rem;
-  background: #faf8f3;
+  background: #F5EDE4;
   border-radius: 6px;
   margin-bottom: 0.5rem;
   color: #666;
@@ -1298,7 +1298,7 @@ main {
   padding-top: 1rem;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   text-align: right;
-  color: #d4af37;
+  color: #6E260E;
   font-size: 1.1rem;
 }
 
@@ -1421,7 +1421,7 @@ main {
 
 .bio-hero {
   padding: 5rem 2rem;
-  background: linear-gradient(135deg, #faf8f3 0%, #ffffff 100%);
+  background: linear-gradient(135deg, #F5EDE4 0%, #ffffff 100%);
 }
 
 .bio-content {
@@ -1432,7 +1432,7 @@ main {
 .bio-content h1 {
   text-align: center;
   margin-bottom: 4rem;
-  background: linear-gradient(135deg, #d4af37 0%, #f4e4c1 100%);
+  background: linear-gradient(135deg, #6E260E 0%, #D4A574 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -1455,7 +1455,7 @@ main {
 }
 
 .bio-text h2 {
-  color: #d4af37;
+  color: #6E260E;
   margin-bottom: 1.5rem;
   font-size: 2rem;
   font-weight: 600;
@@ -1469,17 +1469,17 @@ main {
 }
 
 .bio-commitment {
-  background: linear-gradient(135deg, #faf8f3 0%, #ffffff 100%);
+  background: linear-gradient(135deg, #F5EDE4 0%, #ffffff 100%);
   padding: 2rem;
   border-radius: 12px;
-  border-left: 5px solid #d4af37;
+  border-left: 5px solid #6E260E;
   color: #2c2c2c;
   margin-top: 2rem;
   box-shadow: 0 2px 10px rgba(212, 175, 55, 0.1);
 }
 
 .bio-commitment strong {
-  color: #d4af37;
+  color: #6E260E;
   font-size: 1.1rem;
 }
 
@@ -1505,7 +1505,7 @@ main {
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
-  border: 3px solid #d4af37;
+  border: 3px solid #6E260E;
 }
 
 .bio-photo:hover {
@@ -1516,14 +1516,14 @@ main {
 .bio-specialties {
   margin-bottom: 5rem;
   padding: 4rem 3rem;
-  background: linear-gradient(135deg, #faf8f3 0%, #ffffff 100%);
+  background: linear-gradient(135deg, #F5EDE4 0%, #ffffff 100%);
   border-radius: 20px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 
 .bio-specialties h2 {
   text-align: center;
-  color: #d4af37;
+  color: #6E260E;
   margin-bottom: 3rem;
   font-size: 2.2rem;
   font-weight: 600;
@@ -1555,7 +1555,7 @@ main {
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, #d4af37 0%, #f4e4c1 100%);
+  background: linear-gradient(90deg, #6E260E 0%, #D4A574 100%);
   transform: scaleX(0);
   transition: transform 0.4s ease;
 }
@@ -1565,7 +1565,7 @@ main {
 }
 
 .specialty-card:hover {
-  border-color: #d4af37;
+  border-color: #6E260E;
   transform: translateY(-8px);
   box-shadow: 0 15px 40px rgba(212, 175, 55, 0.2);
 }
@@ -1598,7 +1598,7 @@ main {
 
 .bio-values h2 {
   text-align: center;
-  color: #d4af37;
+  color: #6E260E;
   margin-bottom: 3rem;
   font-size: 2.2rem;
   font-weight: 600;
@@ -1624,7 +1624,7 @@ main {
 }
 
 .value-item:hover {
-  border-color: #d4af37;
+  border-color: #6E260E;
   box-shadow: 0 8px 25px rgba(212, 175, 55, 0.15);
   transform: translateX(10px);
 }
@@ -1637,7 +1637,7 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #faf8f3 0%, #ffffff 100%);
+  background: linear-gradient(135deg, #F5EDE4 0%, #ffffff 100%);
   border-radius: 12px;
 }
 
@@ -1664,11 +1664,11 @@ main {
 .promotions-hero {
   text-align: center;
   padding: 4rem 2rem;
-  background: linear-gradient(135deg, #faf8f3 0%, #ffffff 100%);
+  background: linear-gradient(135deg, #F5EDE4 0%, #ffffff 100%);
 }
 
 .promotions-hero h1 {
-  background: linear-gradient(135deg, #d4af37 0%, #f4e4c1 100%);
+  background: linear-gradient(135deg, #6E260E 0%, #D4A574 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -1690,7 +1690,7 @@ main {
 }
 
 .promo-section h2 {
-  color: #d4af37;
+  color: #6E260E;
   margin-bottom: 2rem;
   font-size: 2rem;
 }
@@ -1704,7 +1704,7 @@ main {
 }
 
 .promo-card {
-  background: #faf8f3;
+  background: #F5EDE4;
   padding: 2rem;
   border-radius: 12px;
   border: 2px solid #f0f0f0;
@@ -1713,14 +1713,14 @@ main {
 }
 
 .promo-card:hover {
-  border-color: #d4af37;
+  border-color: #6E260E;
   transform: translateY(-5px);
   box-shadow: 0 10px 30px rgba(212, 175, 55, 0.15);
 }
 
 .promo-card.featured {
-  border-color: #d4af37;
-  background: linear-gradient(135deg, #faf8f3 0%, #ffffff 100%);
+  border-color: #6E260E;
+  background: linear-gradient(135deg, #F5EDE4 0%, #ffffff 100%);
 }
 
 .promo-badge {
@@ -1736,7 +1736,7 @@ main {
 }
 
 .promo-badge.popular {
-  background: #d4af37;
+  background: #6E260E;
   color: #fff;
 }
 
@@ -1753,7 +1753,7 @@ main {
   display: block;
   font-size: 2rem;
   font-weight: bold;
-  color: #d4af37;
+  color: #6E260E;
   margin-bottom: 0.25rem;
 }
 
@@ -1779,7 +1779,7 @@ main {
 }
 
 .delivery-info {
-  background: #faf8f3;
+  background: #F5EDE4;
   padding: 3rem 2rem;
   border-radius: 12px;
   margin-top: 3rem;
@@ -1787,7 +1787,7 @@ main {
 }
 
 .delivery-info h2 {
-  color: #d4af37;
+  color: #6E260E;
   margin-bottom: 2rem;
   font-size: 2rem;
 }
@@ -1833,11 +1833,11 @@ main {
 .products-hero {
   text-align: center;
   padding: 4rem 2rem;
-  background: linear-gradient(135deg, #faf8f3 0%, #ffffff 100%);
+  background: linear-gradient(135deg, #F5EDE4 0%, #ffffff 100%);
 }
 
 .products-hero h1 {
-  background: linear-gradient(135deg, #d4af37 0%, #f4e4c1 100%);
+  background: linear-gradient(135deg, #6E260E 0%, #D4A574 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -1871,26 +1871,26 @@ main {
 }
 
 .filter-btn:hover {
-  border-color: #d4af37;
-  color: #d4af37;
+  border-color: #6E260E;
+  color: #6E260E;
 }
 
 .filter-btn.active {
-  background: #d4af37;
-  border-color: #d4af37;
+  background: #6E260E;
+  border-color: #6E260E;
   color: #fff;
 }
 
 .pricing-info {
   margin: 4rem 2rem;
   padding: 3rem 2rem;
-  background: #faf8f3;
+  background: #F5EDE4;
   border-radius: 12px;
   border: 1px solid #f0f0f0;
 }
 
 .pricing-info h2 {
-  color: #d4af37;
+  color: #6E260E;
   text-align: center;
   margin-bottom: 2rem;
   font-size: 2rem;
@@ -1934,7 +1934,7 @@ main {
 }
 
 .pricing-card strong {
-  color: #d4af37;
+  color: #6E260E;
 }
 
 /* Cart Page */
@@ -1949,7 +1949,7 @@ main {
 .btn-add-cart {
   margin-top: 1rem;
   width: 100%;
-  background: #d4af37;
+  background: #6E260E;
   border: none;
   color: #fff;
   padding: 0.75rem;
@@ -1977,11 +1977,11 @@ main {
 .personnalisation-hero {
   text-align: center;
   padding: 4rem 2rem;
-  background: linear-gradient(135deg, #faf8f3 0%, #ffffff 100%);
+  background: linear-gradient(135deg, #F5EDE4 0%, #ffffff 100%);
 }
 
 .personnalisation-hero h1 {
-  background: linear-gradient(135deg, #d4af37 0%, #f4e4c1 100%);
+  background: linear-gradient(135deg, #6E260E 0%, #D4A574 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -2000,7 +2000,7 @@ main {
 }
 
 .custom-order-info {
-  background: #faf8f3;
+  background: #F5EDE4;
   padding: 2rem;
   border-radius: 12px;
   margin-bottom: 3rem;
@@ -2008,7 +2008,7 @@ main {
 }
 
 .custom-order-info h2 {
-  color: #d4af37;
+  color: #6E260E;
   margin-bottom: 2rem;
   font-size: 2rem;
 }
@@ -2026,7 +2026,7 @@ main {
 }
 
 .step-number {
-  background: #d4af37;
+  background: #6E260E;
   color: #fff;
   width: 40px;
   height: 40px;
@@ -2051,7 +2051,7 @@ main {
 }
 
 .custom-order-form {
-  background: #faf8f3;
+  background: #F5EDE4;
   padding: 2rem;
   border-radius: 12px;
   margin-bottom: 3rem;
@@ -2077,7 +2077,7 @@ main {
 
 .custom-order-form textarea:focus {
   outline: none;
-  border-color: #d4af37;
+  border-color: #6E260E;
 }
 
 .custom-order-form small {
@@ -2098,7 +2098,7 @@ main {
 }
 
 .custom-examples h2 {
-  color: #d4af37;
+  color: #6E260E;
   text-align: center;
   margin-bottom: 2rem;
   font-size: 2rem;
@@ -2113,7 +2113,7 @@ main {
 }
 
 .example-card {
-  background: #faf8f3;
+  background: #F5EDE4;
   padding: 2rem;
   border-radius: 12px;
   text-align: center;
@@ -2122,7 +2122,7 @@ main {
 }
 
 .example-card:hover {
-  border-color: #d4af37;
+  border-color: #6E260E;
   transform: translateY(-5px);
 }
 
@@ -2158,7 +2158,7 @@ main {
 }
 
 .cart-header h1 {
-  background: linear-gradient(135deg, #d4af37 0%, #f4e4c1 100%);
+  background: linear-gradient(135deg, #6E260E 0%, #D4A574 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -2212,7 +2212,7 @@ main {
 }
 
 .cart-item {
-  background: #faf8f3;
+  background: #F5EDE4;
   padding: 1.5rem;
   border-radius: 12px;
   border: 2px solid #f0f0f0;
@@ -2241,13 +2241,13 @@ main {
   padding: 1rem;
   border-radius: 8px;
   margin-top: 1rem;
-  border-left: 3px solid #d4af37;
+  border-left: 3px solid #6E260E;
   border: 1px solid #f0f0f0;
-  border-left: 3px solid #d4af37;
+  border-left: 3px solid #6E260E;
 }
 
 .cart-item-customization strong {
-  color: #d4af37;
+  color: #6E260E;
   display: block;
   margin-bottom: 0.5rem;
 }
@@ -2287,7 +2287,7 @@ main {
 }
 
 .btn-quantity {
-  background: #d4af37;
+  background: #6E260E;
   border: none;
   color: #fff;
   width: 30px;
@@ -2318,7 +2318,7 @@ main {
   display: block;
   font-size: 1.25rem;
   font-weight: bold;
-  color: #d4af37;
+  color: #6E260E;
   margin-bottom: 0.25rem;
 }
 
@@ -2329,7 +2329,7 @@ main {
 }
 
 .cart-summary {
-  background: #faf8f3;
+  background: #F5EDE4;
   padding: 2rem;
   border-radius: 12px;
   border: 2px solid #f0f0f0;
@@ -2377,10 +2377,10 @@ main {
   justify-content: space-between;
   padding: 1.5rem 0;
   margin-top: 1rem;
-  border-top: 2px solid #d4af37;
+  border-top: 2px solid #6E260E;
   font-size: 1.25rem;
   font-weight: bold;
-  color: #d4af37;
+  color: #6E260E;
 }
 
 .delivery-options-summary {
@@ -2492,7 +2492,7 @@ main {
 
 /* Hero Section */
 .hero-home {
-  background: linear-gradient(135deg, #faf8f3 0%, #ffffff 100%);
+  background: linear-gradient(135deg, #F5EDE4 0%, #ffffff 100%);
   padding: 6rem 2rem;
   text-align: center;
   border-bottom: 1px solid #f0f0f0;
@@ -2509,7 +2509,7 @@ main {
 .hero-content h1 {
   font-size: 3.5rem;
   font-weight: 700;
-  background: linear-gradient(135deg, #d4af37 0%, #f4e4c1 100%);
+  background: linear-gradient(135deg, #6E260E 0%, #D4A574 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -2550,7 +2550,7 @@ main {
 }
 
 .btn-hero-primary {
-  background: #d4af37;
+  background: #6E260E;
   color: #fff;
   padding: 1rem 2.5rem;
   border: none;
@@ -2570,9 +2570,9 @@ main {
 
 .btn-hero-secondary {
   background: transparent;
-  color: #d4af37;
+  color: #6E260E;
   padding: 1rem 2.5rem;
-  border: 2px solid #d4af37;
+  border: 2px solid #6E260E;
   border-radius: 50px;
   font-size: 1.1rem;
   font-weight: 600;
@@ -2581,7 +2581,7 @@ main {
 }
 
 .btn-hero-secondary:hover {
-  background: #d4af37;
+  background: #6E260E;
   color: #fff;
   transform: translateY(-2px);
 }
@@ -2608,7 +2608,7 @@ main {
 }
 
 .specialty-home-card {
-  background: #faf8f3;
+  background: #F5EDE4;
   padding: 3rem 2rem;
   border-radius: 20px;
   text-align: center;
@@ -2619,7 +2619,7 @@ main {
 
 .specialty-home-card:hover {
   transform: translateY(-10px);
-  border-color: #d4af37;
+  border-color: #6E260E;
   box-shadow: 0 10px 30px rgba(212, 175, 55, 0.2);
 }
 
@@ -2640,7 +2640,7 @@ main {
 }
 
 .specialty-price {
-  color: #d4af37;
+  color: #6E260E;
   font-weight: 700;
   font-size: 1.1rem;
   margin-top: 1rem;
@@ -2649,7 +2649,7 @@ main {
 /* Why Section */
 .home-why {
   padding: 5rem 2rem;
-  background: linear-gradient(135deg, #faf8f3 0%, #ffffff 100%);
+  background: linear-gradient(135deg, #F5EDE4 0%, #ffffff 100%);
 }
 
 .home-why h2 {
@@ -2710,7 +2710,7 @@ main {
 }
 
 .promo-highlight {
-  background: linear-gradient(135deg, #faf8f3 0%, #ffffff 100%);
+  background: linear-gradient(135deg, #F5EDE4 0%, #ffffff 100%);
   padding: 2.5rem;
   border-radius: 20px;
   text-align: center;
@@ -2720,7 +2720,7 @@ main {
 }
 
 .promo-highlight:hover {
-  border-color: #d4af37;
+  border-color: #6E260E;
   transform: translateY(-5px);
   box-shadow: 0 10px 30px rgba(212, 175, 55, 0.15);
 }
@@ -2729,7 +2729,7 @@ main {
   position: absolute;
   top: 1.5rem;
   right: 1.5rem;
-  background: #d4af37;
+  background: #6E260E;
   color: #fff;
   padding: 0.5rem 1rem;
   border-radius: 20px;
@@ -2746,7 +2746,7 @@ main {
 .promo-price-home {
   font-size: 2.5rem;
   font-weight: 700;
-  color: #d4af37;
+  color: #6E260E;
   margin: 1rem 0;
 }
 
@@ -2756,7 +2756,7 @@ main {
 }
 
 .btn-promo {
-  background: #d4af37;
+  background: #6E260E;
   color: #fff;
   padding: 0.875rem 2rem;
   border: none;
@@ -2776,7 +2776,7 @@ main {
 /* About Section */
 .home-about {
   padding: 5rem 2rem;
-  background: linear-gradient(135deg, #faf8f3 0%, #ffffff 100%);
+  background: linear-gradient(135deg, #F5EDE4 0%, #ffffff 100%);
 }
 
 .about-content {
@@ -2800,9 +2800,9 @@ main {
 
 .btn-learn-more {
   background: transparent;
-  color: #d4af37;
+  color: #6E260E;
   padding: 0.875rem 2rem;
-  border: 2px solid #d4af37;
+  border: 2px solid #6E260E;
   border-radius: 50px;
   font-size: 1rem;
   font-weight: 600;
@@ -2811,14 +2811,14 @@ main {
 }
 
 .btn-learn-more:hover {
-  background: #d4af37;
+  background: #6E260E;
   color: #fff;
 }
 
 /* CTA Section */
 .home-cta {
   padding: 5rem 2rem;
-  background: linear-gradient(135deg, #d4af37 0%, #f4e4c1 100%);
+  background: linear-gradient(135deg, #6E260E 0%, #D4A574 100%);
   text-align: center;
 }
 
@@ -2843,7 +2843,7 @@ main {
 
 .btn-cta-primary {
   background: #fff;
-  color: #d4af37;
+  color: #6E260E;
   padding: 1rem 2.5rem;
   border: none;
   border-radius: 50px;
@@ -2872,14 +2872,14 @@ main {
 
 .btn-cta-secondary:hover {
   background: #fff;
-  color: #d4af37;
+  color: #6E260E;
   transform: translateY(-2px);
 }
 
 /* Delivery Section */
 .home-delivery {
   padding: 3rem 2rem;
-  background: #faf8f3;
+  background: #F5EDE4;
   text-align: center;
 }
 
@@ -2970,7 +2970,7 @@ main {
 /* Hero Section */
 .bio-hero-section {
   position: relative;
-  background: linear-gradient(135deg, #faf8f3 0%, #ffffff 100%);
+  background: linear-gradient(135deg, #F5EDE4 0%, #ffffff 100%);
   padding: 6rem 2rem;
   text-align: center;
   overflow: hidden;
@@ -2994,7 +2994,7 @@ main {
 
 .bio-badge {
   display: inline-block;
-  background: linear-gradient(135deg, #d4af37 0%, #f4e4c1 100%);
+  background: linear-gradient(135deg, #6E260E 0%, #D4A574 100%);
   color: #1a1a2e;
   padding: 0.5rem 1.5rem;
   border-radius: 50px;
@@ -3005,7 +3005,7 @@ main {
 }
 
 .bio-hero-section h1 {
-  background: linear-gradient(135deg, #d4af37 0%, #f4e4c1 100%);
+  background: linear-gradient(135deg, #6E260E 0%, #D4A574 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -3015,7 +3015,7 @@ main {
 }
 
 .bio-tagline {
-  color: #d4af37;
+  color: #6E260E;
   font-size: 1.4rem;
   font-style: italic;
   font-weight: 300;
@@ -3031,7 +3031,7 @@ main {
 /* Section Labels */
 .bio-section-label {
   display: inline-block;
-  color: #d4af37;
+  color: #6E260E;
   font-size: 0.9rem;
   font-weight: 600;
   text-transform: uppercase;
@@ -3081,7 +3081,7 @@ main {
   left: -20px;
   right: 20px;
   bottom: 20px;
-  border: 3px solid #d4af37;
+  border: 3px solid #6E260E;
   border-radius: 20px;
   z-index: 1;
 }
@@ -3108,7 +3108,7 @@ main {
 }
 
 .bio-about-content strong {
-  color: #d4af37;
+  color: #6E260E;
   font-weight: 600;
 }
 
@@ -3122,11 +3122,11 @@ main {
 .bio-signature-line {
   width: 60px;
   height: 2px;
-  background: linear-gradient(90deg, #d4af37 0%, #f4e4c1 100%);
+  background: linear-gradient(90deg, #6E260E 0%, #D4A574 100%);
 }
 
 .bio-signature span {
-  color: #d4af37;
+  color: #6E260E;
   font-style: italic;
   font-size: 1.1rem;
 }
@@ -3134,7 +3134,7 @@ main {
 /* Commitment Section */
 .bio-commitment-section {
   padding: 6rem 0;
-  background: linear-gradient(135deg, #faf8f3 0%, #ffffff 100%);
+  background: linear-gradient(135deg, #F5EDE4 0%, #ffffff 100%);
 }
 
 .bio-commitment-grid {
@@ -3153,12 +3153,12 @@ main {
 
 .bio-quote {
   font-size: 1.8rem;
-  color: #d4af37;
+  color: #6E260E;
   font-style: italic;
   font-weight: 300;
   margin: 2rem 0;
   padding-left: 2rem;
-  border-left: 4px solid #d4af37;
+  border-left: 4px solid #6E260E;
 }
 
 .bio-commitment-content p {
@@ -3202,7 +3202,7 @@ main {
 }
 
 .bio-specialty-card.featured {
-  border-color: #d4af37;
+  border-color: #6E260E;
   transform: scale(1.05);
   box-shadow: 0 20px 50px rgba(212, 175, 55, 0.2);
 }
@@ -3211,7 +3211,7 @@ main {
   position: absolute;
   top: 1rem;
   right: 1rem;
-  background: #d4af37;
+  background: #6E260E;
   color: #fff;
   padding: 0.3rem 0.8rem;
   border-radius: 20px;
@@ -3220,7 +3220,7 @@ main {
 }
 
 .bio-specialty-card:hover {
-  border-color: #d4af37;
+  border-color: #6E260E;
   transform: translateY(-10px);
   box-shadow: 0 20px 50px rgba(212, 175, 55, 0.2);
 }
@@ -3251,18 +3251,18 @@ main {
 .bio-specialty-line {
   width: 50px;
   height: 3px;
-  background: linear-gradient(90deg, #d4af37 0%, #f4e4c1 100%);
+  background: linear-gradient(90deg, #6E260E 0%, #D4A574 100%);
   margin: 0 auto;
 }
 
 /* Values Section */
 .bio-values-section {
   padding: 6rem 0;
-  background: linear-gradient(135deg, #faf8f3 0%, #ffffff 100%);
+  background: linear-gradient(135deg, #F5EDE4 0%, #ffffff 100%);
 }
 
 .bio-values-section .bio-section-label {
-  color: #d4af37;
+  color: #6E260E;
 }
 
 .bio-values-section h2 {
@@ -3289,7 +3289,7 @@ main {
 .bio-value-card:hover {
   background: #ffffff;
   transform: translateY(-10px);
-  border-color: #d4af37;
+  border-color: #6E260E;
   box-shadow: 0 15px 40px rgba(212, 175, 55, 0.15);
 }
 
@@ -3323,7 +3323,7 @@ main {
 /* CTA Section */
 .bio-cta-section {
   padding: 6rem 0;
-  background: linear-gradient(135deg, #d4af37 0%, #f4e4c1 100%);
+  background: linear-gradient(135deg, #6E260E 0%, #D4A574 100%);
   text-align: center;
 }
 
