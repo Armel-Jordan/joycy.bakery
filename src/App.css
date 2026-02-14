@@ -1427,15 +1427,15 @@ main {
 
 .bio-story {
   display: grid;
-  grid-template-columns: 1.2fr 1fr;
-  gap: 4rem;
-  margin-bottom: 5rem;
-  padding: 0;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  margin-bottom: 4rem;
+  padding: 0 2rem;
   align-items: start;
 }
 
 .bio-text {
-  padding-right: 2rem;
+  padding-right: 1rem;
 }
 
 .bio-text h2 {
@@ -1468,30 +1468,33 @@ main {
 }
 
 .bio-images {
-  position: sticky;
-  top: 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
 .bio-image-grid {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 1.5rem;
-  grid-template-columns: 1fr;
 }
 
 .bio-photo {
   width: 100%;
+  max-width: 400px;
   height: auto;
-  object-fit: contain;
-  border-radius: 16px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
-  transition: all 0.4s ease;
-  border: 3px solid #ffffff;
+  max-height: 300px;
+  object-fit: cover;
+  object-position: center top;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  border: 3px solid #d4af37;
 }
 
 .bio-photo:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 40px rgba(212, 175, 55, 0.4);
-  border-color: #d4af37;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(212, 175, 55, 0.3);
 }
 
 .bio-specialties {
@@ -2936,5 +2939,478 @@ main {
   .delivery-options-home {
     flex-direction: column;
     gap: 1.5rem;
+  }
+}
+
+/* ============================================
+   NEW BIO PAGE DESIGN - Original & Professional
+   ============================================ */
+
+.bio-page-new {
+  color: #2c2c2c;
+  background: #ffffff;
+}
+
+/* Hero Section */
+.bio-hero-section {
+  position: relative;
+  background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%);
+  padding: 6rem 2rem;
+  text-align: center;
+  overflow: hidden;
+}
+
+.bio-hero-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('/bio1.jpeg') center/cover no-repeat;
+  opacity: 0.15;
+}
+
+.bio-hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(26, 26, 46, 0.9) 100%);
+}
+
+.bio-hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.bio-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #d4af37 0%, #f4e4c1 100%);
+  color: #1a1a2e;
+  padding: 0.5rem 1.5rem;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  letter-spacing: 1px;
+}
+
+.bio-hero-section h1 {
+  color: #ffffff;
+  font-size: 3.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+}
+
+.bio-tagline {
+  color: #d4af37;
+  font-size: 1.4rem;
+  font-style: italic;
+  font-weight: 300;
+}
+
+/* Container */
+.bio-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* Section Labels */
+.bio-section-label {
+  display: inline-block;
+  color: #d4af37;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 0.75rem;
+}
+
+/* About Section */
+.bio-about-section {
+  padding: 6rem 0;
+  background: #ffffff;
+}
+
+.bio-about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.bio-photo-wrapper {
+  position: relative;
+}
+
+.bio-photo-frame {
+  position: relative;
+  z-index: 2;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+.bio-main-photo {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.bio-photo-frame:hover .bio-main-photo {
+  transform: scale(1.03);
+}
+
+.bio-photo-decoration {
+  position: absolute;
+  top: -20px;
+  left: -20px;
+  right: 20px;
+  bottom: 20px;
+  border: 3px solid #d4af37;
+  border-radius: 20px;
+  z-index: 1;
+}
+
+.bio-photo-decoration.reverse {
+  top: 20px;
+  left: 20px;
+  right: -20px;
+  bottom: -20px;
+}
+
+.bio-about-content h2 {
+  font-size: 2.5rem;
+  color: #2c2c2c;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+}
+
+.bio-about-content p {
+  color: #666;
+  font-size: 1.1rem;
+  line-height: 1.9;
+  margin-bottom: 1.5rem;
+}
+
+.bio-about-content strong {
+  color: #d4af37;
+  font-weight: 600;
+}
+
+.bio-signature {
+  margin-top: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.bio-signature-line {
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, #d4af37 0%, #f4e4c1 100%);
+}
+
+.bio-signature span {
+  color: #d4af37;
+  font-style: italic;
+  font-size: 1.1rem;
+}
+
+/* Commitment Section */
+.bio-commitment-section {
+  padding: 6rem 0;
+  background: linear-gradient(135deg, #faf8f3 0%, #ffffff 100%);
+}
+
+.bio-commitment-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.bio-commitment-content h2 {
+  font-size: 2.5rem;
+  color: #2c2c2c;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+}
+
+.bio-quote {
+  font-size: 1.8rem;
+  color: #d4af37;
+  font-style: italic;
+  font-weight: 300;
+  margin: 2rem 0;
+  padding-left: 2rem;
+  border-left: 4px solid #d4af37;
+}
+
+.bio-commitment-content p {
+  color: #666;
+  font-size: 1.1rem;
+  line-height: 1.9;
+}
+
+/* Specialties Section */
+.bio-specialties-section {
+  padding: 6rem 0;
+  background: #ffffff;
+}
+
+.bio-section-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.bio-section-header h2 {
+  font-size: 2.5rem;
+  color: #2c2c2c;
+  font-weight: 700;
+}
+
+.bio-specialties-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.bio-specialty-card {
+  position: relative;
+  background: #ffffff;
+  padding: 3rem 2rem;
+  border-radius: 20px;
+  text-align: center;
+  border: 2px solid #f0f0f0;
+  transition: all 0.4s ease;
+  overflow: hidden;
+}
+
+.bio-specialty-card.featured {
+  border-color: #d4af37;
+  transform: scale(1.05);
+  box-shadow: 0 20px 50px rgba(212, 175, 55, 0.2);
+}
+
+.bio-specialty-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: #d4af37;
+  color: #fff;
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.bio-specialty-card:hover {
+  border-color: #d4af37;
+  transform: translateY(-10px);
+  box-shadow: 0 20px 50px rgba(212, 175, 55, 0.2);
+}
+
+.bio-specialty-card.featured:hover {
+  transform: scale(1.05) translateY(-10px);
+}
+
+.bio-specialty-icon {
+  font-size: 4rem;
+  margin-bottom: 1.5rem;
+}
+
+.bio-specialty-card h3 {
+  font-size: 1.5rem;
+  color: #2c2c2c;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.bio-specialty-card p {
+  color: #666;
+  font-size: 1rem;
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+}
+
+.bio-specialty-line {
+  width: 50px;
+  height: 3px;
+  background: linear-gradient(90deg, #d4af37 0%, #f4e4c1 100%);
+  margin: 0 auto;
+}
+
+/* Values Section */
+.bio-values-section {
+  padding: 6rem 0;
+  background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%);
+}
+
+.bio-values-section .bio-section-label {
+  color: #f4e4c1;
+}
+
+.bio-values-section h2 {
+  color: #ffffff;
+}
+
+.bio-values-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.bio-value-card {
+  position: relative;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 3rem 2rem;
+  border-radius: 20px;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.4s ease;
+}
+
+.bio-value-card:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-10px);
+  border-color: #d4af37;
+}
+
+.bio-value-number {
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
+  font-size: 3rem;
+  font-weight: 800;
+  color: rgba(212, 175, 55, 0.2);
+}
+
+.bio-value-icon {
+  font-size: 3rem;
+  margin-bottom: 1.5rem;
+}
+
+.bio-value-card h3 {
+  font-size: 1.4rem;
+  color: #ffffff;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.bio-value-card p {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+/* CTA Section */
+.bio-cta-section {
+  padding: 6rem 0;
+  background: linear-gradient(135deg, #d4af37 0%, #f4e4c1 100%);
+  text-align: center;
+}
+
+.bio-cta-content h2 {
+  font-size: 2.5rem;
+  color: #1a1a2e;
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.bio-cta-content p {
+  color: #2c2c2c;
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+.bio-cta-buttons {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.bio-cta-btn {
+  padding: 1rem 2.5rem;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.bio-cta-btn.primary {
+  background: #1a1a2e;
+  color: #ffffff;
+}
+
+.bio-cta-btn.primary:hover {
+  background: #2d2d44;
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.bio-cta-btn.secondary {
+  background: transparent;
+  color: #1a1a2e;
+  border: 2px solid #1a1a2e;
+}
+
+.bio-cta-btn.secondary:hover {
+  background: #1a1a2e;
+  color: #ffffff;
+  transform: translateY(-3px);
+}
+
+/* Mobile Responsive for New Bio Page */
+@media (max-width: 768px) {
+  .bio-hero-section h1 {
+    font-size: 2.5rem;
+  }
+  
+  .bio-tagline {
+    font-size: 1.1rem;
+  }
+  
+  .bio-about-grid,
+  .bio-commitment-grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+  
+  .bio-photo-decoration {
+    display: none;
+  }
+  
+  .bio-specialties-grid,
+  .bio-values-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .bio-specialty-card.featured {
+    transform: none;
+  }
+  
+  .bio-specialty-card.featured:hover {
+    transform: translateY(-10px);
+  }
+  
+  .bio-about-content h2,
+  .bio-commitment-content h2,
+  .bio-section-header h2,
+  .bio-cta-content h2 {
+    font-size: 2rem;
+  }
+  
+  .bio-quote {
+    font-size: 1.4rem;
   }
 }
