@@ -43,6 +43,7 @@ export default function Products() {
       <div className="products-hero">
         <h1>🍰 Nos Produits</h1>
         <p>Découvrez toutes nos délicieuses créations artisanales</p>
+        <p className="info-note">Pour commander, visitez nos <a href="/promotions">Promotions</a> ou créez une <a href="/personnalisation">Commande Personnalisée</a></p>
       </div>
 
       <div className="products-filters">
@@ -76,9 +77,6 @@ export default function Products() {
                 <p className="product-description">{product.description}</p>
                 <div className="product-footer">
                   <span className="product-price">{product.price.toFixed(2)} $</span>
-                  <button className="btn btn-primary">
-                    Ajouter au panier
-                  </button>
                 </div>
               </div>
             </div>
