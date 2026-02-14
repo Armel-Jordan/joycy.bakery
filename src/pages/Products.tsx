@@ -28,7 +28,7 @@ export default function Products() {
     }
   };
 
-  const categories = ['all', 'Cookies', 'Crêpes', 'Gâteaux', 'Pains'];
+  const categories = ['all', 'Cookies', 'Crêpes', 'Gâteaux'];
   
   const filteredProducts = selectedCategory === 'all' 
     ? products 
@@ -85,23 +85,34 @@ export default function Products() {
       </div>
 
       <div className="pricing-info">
-        <h2>💰 Tarifs Spéciaux</h2>
+        <h2>💰 Informations de Vente</h2>
         <div className="pricing-grid">
           <div className="pricing-card">
             <h3>🍪 Cookies</h3>
+            <p><strong>Vendus en boîte uniquement</strong></p>
             <ul>
-              <li>À l'unité : <strong>4,00 $</strong></li>
-              <li>Boîte de 3 : <strong>11,00 $</strong></li>
+              <li>Boîte de 4 : <strong>15,00 $</strong></li>
               <li>Boîte de 6 : <strong>20,00 $</strong></li>
-              <li>Boîte de 12 : <strong>40,00 $</strong></li>
+              <li>Boîte de 12 : <strong>35,00 $</strong></li>
+              <li>Boîte de 24 : <strong>65,00 $</strong></li>
             </ul>
           </div>
           <div className="pricing-card">
             <h3>🥞 Crêpes</h3>
+            <p><strong>Vendues en boîte uniquement</strong></p>
             <ul>
-              <li>13 crêpes : <strong>20,00 $</strong></li>
-              <li>30 crêpes : <strong>40,00 $</strong></li>
+              <li>Boîte de 13 crêpes : <strong>20,00 $</strong></li>
+              <li>Boîte de 30 crêpes : <strong>40,00 $</strong></li>
               <li>Saveurs : Nature, Citron, Vanille</li>
+            </ul>
+          </div>
+          <div className="pricing-card">
+            <h3>🎂 Gâteaux</h3>
+            <p><strong>Vendus à l'unité</strong></p>
+            <ul>
+              <li>Gâteau personnalisé sur mesure</li>
+              <li>Prix selon taille et design</li>
+              <li>Contactez-nous pour un devis</li>
             </ul>
           </div>
         </div>

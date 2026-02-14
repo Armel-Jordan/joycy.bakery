@@ -3,7 +3,7 @@ export interface Product {
   name: string;
   description: string;
   price: number;
-  category: 'pain' | 'viennoiserie' | 'gâteau' | 'pâtisserie' | 'autre';
+  category: 'Cookies' | 'Crêpes' | 'Gâteaux';
   imageUrl?: string;
   available: boolean;
   createdAt: any;

@@ -13,7 +13,7 @@ export default function ProductManagement() {
     name: '',
     description: '',
     price: 0,
-    category: 'pain' as Product['category'],
+    category: 'Cookies' as Product['category'],
     imageUrl: '',
     available: true
   });
@@ -91,7 +91,7 @@ export default function ProductManagement() {
       name: '',
       description: '',
       price: 0,
-      category: 'pain',
+      category: 'Cookies',
       imageUrl: '',
       available: true
     });
@@ -158,11 +158,9 @@ export default function ProductManagement() {
                 onChange={(e) => setFormData({ ...formData, category: e.target.value as Product['category'] })}
                 required
               >
-                <option value="pain">Pain</option>
-                <option value="viennoiserie">Viennoiserie</option>
-                <option value="gâteau">Gâteau</option>
-                <option value="pâtisserie">Pâtisserie</option>
-                <option value="autre">Autre</option>
+                <option value="Cookies">Cookies</option>
+                <option value="Crêpes">Crêpes</option>
+                <option value="Gâteaux">Gâteaux</option>
               </select>
             </div>
           </div>
