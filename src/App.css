@@ -2075,8 +2075,9 @@ main {
 
 .cart-content {
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: 1fr 400px;
   gap: 2rem;
+  align-items: start;
 }
 
 .cart-items {
@@ -2210,6 +2211,8 @@ main {
   height: fit-content;
   position: sticky;
   top: 2rem;
+  min-width: 350px;
+  width: 100%;
 }
 
 .cart-summary h2 {
@@ -2224,6 +2227,18 @@ main {
   padding: 0.75rem 0;
   border-bottom: 1px solid #f0f0f0;
   color: #666;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.summary-line span:first-child {
+  flex: 1;
+  word-wrap: break-word;
+}
+
+.summary-line span:last-child {
+  flex-shrink: 0;
+  text-align: right;
 }
 
 .summary-line.delivery-note {
@@ -2267,6 +2282,8 @@ main {
   color: #666;
   padding: 0.5rem 0;
   font-size: 0.9rem;
+  word-wrap: break-word;
+  line-height: 1.5;
 }
 
 .checkout-note {
