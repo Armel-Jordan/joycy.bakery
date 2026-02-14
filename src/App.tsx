@@ -24,7 +24,10 @@ function Navigation() {
   return (
     <nav className="main-nav">
       <div className="nav-brand">
-        <Link to="/">🧁 Joycy Bakery</Link>
+        <Link to="/">
+          <img src="/logo.jpeg" alt="Joycy Bakery" className="nav-logo" />
+          <span>Joycy Bakery</span>
+        </Link>
       </div>
       <div className="nav-links">
         <Link to="/" className={location.pathname === '/' ? 'active' : ''}>

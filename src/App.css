@@ -54,14 +54,26 @@ main {
 }
 
 .nav-brand a {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
   font-size: 1.5rem;
   font-weight: bold;
   color: #2c2c2c;
   text-decoration: none;
+}
+
+.nav-brand a span {
   background: linear-gradient(135deg, #d4af37 0%, #f4e4c1 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+}
+
+.nav-logo {
+  height: 50px;
+  width: auto;
+  object-fit: contain;
 }
 
 .nav-links {
@@ -2384,6 +2396,14 @@ main {
   border-bottom: 1px solid #f0f0f0;
 }
 
+.hero-logo {
+  width: 150px;
+  height: 150px;
+  object-fit: contain;
+  margin-bottom: 2rem;
+  animation: fadeInDown 1s ease-out;
+}
+
 .hero-content h1 {
   font-size: 3.5rem;
   font-weight: 700;
@@ -2392,6 +2412,17 @@ main {
   -webkit-text-fill-color: transparent;
   background-clip: text;
   margin-bottom: 1rem;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .hero-subtitle {

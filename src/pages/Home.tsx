@@ -13,6 +13,7 @@ export default function Home({ user }: HomeProps) {
       {/* Hero Section */}
       <section className="hero-home">
         <div className="hero-content">
+          <img src="/logo.jpeg" alt="Joycy Bakery Logo" className="hero-logo" />
           <h1>Joycy Bakery</h1>
           <p className="hero-subtitle">De l'art qui se mange, du goût qui reste</p>
           <p className="hero-description">
