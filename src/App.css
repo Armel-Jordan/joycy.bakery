@@ -1234,6 +1234,8 @@ main {
   cursor: pointer;
   transition: all 0.3s;
   text-align: left;
+}
+
 .product-selector-btn:hover {
   background: rgba(212, 175, 55, 0.2);
   border-color: #d4af37;
