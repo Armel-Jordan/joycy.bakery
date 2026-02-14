@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { collection, getDocs, addDoc, updateDoc, deleteDoc, doc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../../firebase';
 import { Product } from '../../types';
+import { resetProducts } from '../../scripts/seedProducts';
 
 export default function ProductManagement() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -99,6 +100,24 @@ export default function ProductManagement() {
     setShowForm(false);
   };
 
+  const handleResetProducts = async () => {
+    if (!confirm('⚠️ Attention: Cela va supprimer TOUS les produits existants et les remplacer par les 6 produits par défaut (2 cookies, 2 crêpes, 2 gâteaux). Continuer ?')) {
+      return;
+    }
+    
+    setLoading(true);
+    try {
+      await resetProducts();
+      alert('✅ Produits réinitialisés avec succès!');
+      loadProducts();
+    } catch (error) {
+      console.error('Erreur lors de la réinitialisation:', error);
+      alert('❌ Erreur lors de la réinitialisation des produits');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   if (loading) {
     return <div className="loading">Chargement des produits...</div>;
   }
@@ -107,12 +126,20 @@ export default function ProductManagement() {
     <div className="product-management">
       <div className="management-header">
         <h2>Gestion des Produits</h2>
-        <button 
-          onClick={() => setShowForm(!showForm)} 
-          className="btn btn-primary"
-        >
-          {showForm ? 'Annuler' : '+ Nouveau Produit'}
-        </button>
+        <div className="header-buttons">
+          <button 
+            onClick={handleResetProducts} 
+            className="btn btn-warning"
+          >
+            🔄 Réinitialiser Produits
+          </button>
+          <button 
+            onClick={() => setShowForm(!showForm)} 
+            className="btn btn-primary"
+          >
+            {showForm ? 'Annuler' : '+ Nouveau Produit'}
+          </button>
+        </div>
       </div>
 
       {showForm && (

@@ -259,6 +259,22 @@ main {
   background: #dc2626;
 }
 
+.btn-warning {
+  background: #f59e0b;
+  color: white;
+  border: none;
+}
+
+.btn-warning:hover {
+  background: #d97706;
+}
+
+.header-buttons {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
 .btn-link {
   background: transparent;
   color: #d4af37;
