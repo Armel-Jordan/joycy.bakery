@@ -205,13 +205,15 @@ main {
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  background: #d4af37;
   color: white;
+  border: none;
 }
 
 .btn-primary:hover:not(:disabled) {
+  background: #c19b2e;
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(245, 87, 108, 0.4);
+  box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
 }
 
 .btn-primary:disabled {
@@ -220,18 +222,20 @@ main {
 }
 
 .btn-secondary {
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: transparent;
+  color: #d4af37;
+  border: 2px solid #d4af37;
 }
 
 .btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: #d4af37;
+  color: #fff;
 }
 
 .btn-danger {
   background: #ef4444;
   color: white;
+  border: none;
 }
 
 .btn-danger:hover {
@@ -240,7 +244,7 @@ main {
 
 .btn-link {
   background: transparent;
-  color: #f093fb;
+  color: #d4af37;
   text-decoration: underline;
   margin-top: 1rem;
 }
@@ -259,7 +263,7 @@ main {
 .hero h1 {
   font-size: 3rem;
   margin: 0 0 1rem 0;
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  background: linear-gradient(135deg, #d4af37 0%, #f4e4c1 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -274,7 +278,7 @@ main {
   position: fixed;
   bottom: 2rem;
   right: 2rem;
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  background: #d4af37;
   color: white;
   padding: 1rem 1.5rem;
   border-radius: 50px;
@@ -438,7 +442,7 @@ main {
 .price {
   font-size: 1.25rem;
   font-weight: bold;
-  color: #f093fb;
+  color: #d4af37;
 }
 
 .empty-state {
@@ -463,7 +467,7 @@ main {
 
 .admin-header h1 {
   margin: 0 0 0.5rem 0;
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  background: linear-gradient(135deg, #d4af37 0%, #f4e4c1 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -494,8 +498,8 @@ main {
 }
 
 .admin-tabs button.active {
-  color: #f093fb;
-  border-bottom-color: #f093fb;
+  color: #d4af37;
+  border-bottom-color: #d4af37;
 }
 
 .admin-content {
@@ -538,8 +542,8 @@ main {
 
 .order-filters button:hover,
 .order-filters button.active {
-  background: rgba(240, 147, 251, 0.2);
-  border-color: #f093fb;
+  background: rgba(212, 175, 55, 0.2);
+  border-color: #d4af37;
   color: #fff;
 }
 
@@ -627,7 +631,7 @@ main {
 }
 
 .order-total {
-  color: #f093fb;
+  color: #d4af37;
   font-size: 1.1rem;
 }
 
@@ -914,8 +918,8 @@ main {
 }
 
 .calendar-day.today {
-  border-color: #f093fb;
-  background: rgba(240, 147, 251, 0.1);
+  border-color: #d4af37;
+  background: rgba(212, 175, 55, 0.1);
 }
 
 .calendar-day.has-events:hover {
@@ -986,7 +990,7 @@ main {
 
 .event-details h3 {
   margin-top: 0;
-  color: #f093fb;
+  color: #d4af37;
 }
 
 .event-details h4 {
@@ -1071,7 +1075,7 @@ main {
 }
 
 .team-role {
-  color: #f093fb;
+  color: #d4af37;
   font-weight: 600;
   margin: 0.25rem 0;
 }
@@ -1198,8 +1202,8 @@ main {
 }
 
 .product-selector-btn:hover {
-  background: rgba(240, 147, 251, 0.2);
-  border-color: #f093fb;
+  background: rgba(212, 175, 55, 0.2);
+  border-color: #d4af37;
   transform: translateY(-2px);
 }
 
@@ -1231,7 +1235,7 @@ main {
   padding-top: 1rem;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   text-align: right;
-  color: #f093fb;
+  color: #d4af37;
   font-size: 1.1rem;
 }
 
@@ -1791,13 +1795,6 @@ main {
   color: #fff;
 }
 
-.cart-page h1 {
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  margin-bottom: 1rem;
-}
 
 /* Add to Cart Button */
 .btn-add-cart {
