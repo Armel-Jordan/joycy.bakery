@@ -2,12 +2,14 @@ import { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom'
 import { auth } from './firebase'
 import { onAuthStateChanged, User } from 'firebase/auth'
-import Auth from './components/Auth'
 import Home from './pages/Home'
+import Bio from './pages/Bio'
+import Promotions from './pages/Promotions'
+import Products from './pages/Products'
 import AdminDashboard from './pages/AdminDashboard'
 import './App.css'
 
-function Navigation({ user }: { user: User | null }) {
+function Navigation() {
   const location = useLocation()
   
   return (
@@ -19,14 +21,20 @@ function Navigation({ user }: { user: User | null }) {
         <Link to="/" className={location.pathname === '/' ? 'active' : ''}>
           Accueil
         </Link>
-        {user && (
-          <Link to="/admin" className={location.pathname === '/admin' ? 'active' : ''}>
-            Admin
-          </Link>
-        )}
+        <Link to="/bio" className={location.pathname === '/bio' ? 'active' : ''}>
+          Bio
+        </Link>
+        <Link to="/promotions" className={location.pathname === '/promotions' ? 'active' : ''}>
+          Promotions
+        </Link>
+        <Link to="/produits" className={location.pathname === '/produits' ? 'active' : ''}>
+          Produits
+        </Link>
       </div>
-      <div className="nav-auth">
-        <Auth user={user} />
+      <div className="nav-cart">
+        <Link to="/cart" className="cart-icon">
+          🛒 <span className="cart-badge">0</span>
+        </Link>
       </div>
     </nav>
   )
@@ -52,10 +60,14 @@ function App() {
   return (
     <Router>
       <div className="app">
-        <Navigation user={user} />
+        <Navigation />
         <main>
           <Routes>
             <Route path="/" element={<Home user={user} />} />
+            <Route path="/bio" element={<Bio />} />
+            <Route path="/promotions" element={<Promotions />} />
+            <Route path="/produits" element={<Products />} />
+            <Route path="/cart" element={<div className="cart-page"><h1>🛒 Panier</h1><p>Fonctionnalité à venir</p></div>} />
             <Route path="/admin" element={<AdminDashboard user={user} />} />
           </Routes>
         </main>

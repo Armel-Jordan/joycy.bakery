@@ -83,10 +83,37 @@ main {
   background: rgba(255, 255, 255, 0.1);
 }
 
-.nav-auth {
+.nav-cart {
   display: flex;
   align-items: center;
-  gap: 1rem;
+}
+
+.cart-icon {
+  position: relative;
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.5rem;
+  padding: 0.5rem 1rem;
+  transition: all 0.3s;
+}
+
+.cart-icon:hover {
+  color: #f093fb;
+  transform: scale(1.1);
+}
+
+.cart-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: #f093fb;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: bold;
+  padding: 0.15rem 0.4rem;
+  border-radius: 50%;
+  min-width: 20px;
+  text-align: center;
 }
 
 /* Auth Components */
@@ -1315,5 +1342,440 @@ main {
 
   .hero p {
     font-size: 1rem;
+  }
+}
+
+/* Bio Page */
+.bio-page {
+  color: #fff;
+}
+
+.bio-hero {
+  padding: 2rem 0;
+}
+
+.bio-content h1 {
+  text-align: center;
+  margin-bottom: 3rem;
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.bio-story {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  margin-bottom: 4rem;
+}
+
+.bio-text h2 {
+  color: #f093fb;
+  margin-bottom: 1rem;
+}
+
+.bio-text p {
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.8;
+  margin-bottom: 1.5rem;
+}
+
+.bio-commitment {
+  background: rgba(240, 147, 251, 0.1);
+  padding: 1.5rem;
+  border-radius: 12px;
+  border-left: 4px solid #f093fb;
+}
+
+.bio-image-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.bio-image-placeholder {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 3rem 1rem;
+  text-align: center;
+  border: 2px dashed rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.bio-specialties {
+  margin-bottom: 4rem;
+}
+
+.bio-specialties h2 {
+  text-align: center;
+  color: #f093fb;
+  margin-bottom: 2rem;
+}
+
+.specialties-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.specialty-card {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 2rem;
+  border-radius: 12px;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s;
+}
+
+.specialty-card:hover {
+  background: rgba(255, 255, 255, 0.08);
+  transform: translateY(-5px);
+}
+
+.specialty-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.specialty-card h3 {
+  color: #fff;
+  margin-bottom: 0.5rem;
+}
+
+.specialty-card p {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+}
+
+.bio-values h2 {
+  text-align: center;
+  color: #f093fb;
+  margin-bottom: 2rem;
+}
+
+.values-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.value-item {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 1.5rem;
+  border-radius: 12px;
+}
+
+.value-icon {
+  font-size: 2rem;
+}
+
+.value-item h3 {
+  color: #fff;
+  margin: 0 0 0.5rem 0;
+}
+
+.value-item p {
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0;
+}
+
+/* Promotions Page */
+.promotions-page {
+  color: #fff;
+}
+
+.promotions-hero {
+  text-align: center;
+  padding: 2rem 0 3rem 0;
+}
+
+.promotions-hero h1 {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 1rem;
+}
+
+.promotions-hero p {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1.1rem;
+}
+
+.promo-section {
+  margin-bottom: 4rem;
+}
+
+.promo-section h2 {
+  color: #f093fb;
+  margin-bottom: 2rem;
+}
+
+.promo-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.promo-card {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 2rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  transition: all 0.3s;
+}
+
+.promo-card:hover {
+  background: rgba(255, 255, 255, 0.08);
+  transform: translateY(-5px);
+}
+
+.promo-card.featured {
+  border-color: #f093fb;
+  background: rgba(240, 147, 251, 0.1);
+}
+
+.promo-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.promo-badge.popular {
+  background: #f093fb;
+}
+
+.promo-card h3 {
+  color: #fff;
+  margin: 0 0 1rem 0;
+}
+
+.promo-price {
+  margin: 1.5rem 0;
+}
+
+.price-main {
+  display: block;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #f093fb;
+  margin-bottom: 0.25rem;
+}
+
+.price-unit {
+  display: block;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.promo-card p {
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0;
+}
+
+.savings {
+  margin-top: 1rem;
+  padding: 0.5rem;
+  background: rgba(16, 185, 129, 0.2);
+  color: #10b981;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.delivery-info {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 2rem;
+  border-radius: 12px;
+  margin-top: 3rem;
+}
+
+.delivery-info h2 {
+  color: #f093fb;
+  margin-bottom: 2rem;
+}
+
+.delivery-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.delivery-option {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 1.5rem;
+  border-radius: 12px;
+}
+
+.delivery-icon {
+  font-size: 2.5rem;
+}
+
+.delivery-details h3 {
+  color: #fff;
+  margin: 0 0 0.5rem 0;
+}
+
+.delivery-details p {
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0;
+}
+
+/* Products Page */
+.products-page {
+  color: #fff;
+}
+
+.products-hero {
+  text-align: center;
+  padding: 2rem 0 3rem 0;
+}
+
+.products-hero h1 {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 1rem;
+}
+
+.products-hero p {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1.1rem;
+}
+
+.products-filters {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 3rem;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.8);
+  padding: 0.75rem 1.5rem;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-weight: 500;
+}
+
+.filter-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+}
+
+.filter-btn.active {
+  background: #f093fb;
+  border-color: #f093fb;
+  color: #fff;
+}
+
+.pricing-info {
+  margin-top: 4rem;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+}
+
+.pricing-info h2 {
+  color: #f093fb;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.pricing-card {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 2rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.pricing-card h3 {
+  color: #fff;
+  margin: 0 0 1rem 0;
+  font-size: 1.5rem;
+}
+
+.pricing-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.pricing-card li {
+  color: rgba(255, 255, 255, 0.8);
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.pricing-card li:last-child {
+  border-bottom: none;
+}
+
+.pricing-card strong {
+  color: #f093fb;
+}
+
+/* Cart Page */
+.cart-page {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: #fff;
+}
+
+.cart-page h1 {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 1rem;
+}
+
+/* Mobile Responsive for new pages */
+@media (max-width: 768px) {
+  .bio-story {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .specialties-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .promo-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .delivery-options {
+    grid-template-columns: 1fr;
+  }
+
+  .pricing-grid {
+    grid-template-columns: 1fr;
   }
 }
