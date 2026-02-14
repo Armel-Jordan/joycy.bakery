@@ -471,10 +471,10 @@ main {
 
 /* Admin Dashboard */
 .admin-dashboard {
-  color: #fff;
+  color: #2c2c2c;
   width: 100%;
   max-width: 100%;
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  background: #ffffff;
   min-height: 100vh;
   padding: 2rem;
 }
@@ -497,13 +497,13 @@ main {
   display: flex;
   gap: 1rem;
   margin-bottom: 2rem;
-  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 2px solid #f0f0f0;
 }
 
 .admin-tabs button {
   background: none;
   border: none;
-  color: rgba(255, 255, 255, 0.6);
+  color: #666;
   padding: 1rem 1.5rem;
   cursor: pointer;
   font-size: 1rem;
@@ -514,7 +514,7 @@ main {
 }
 
 .admin-tabs button:hover {
-  color: rgba(255, 255, 255, 0.9);
+  color: #2c2c2c;
 }
 
 .admin-tabs button.active {
@@ -523,10 +523,10 @@ main {
 }
 
 .admin-content {
-  background: rgba(255, 255, 255, 0.05);
+  background: #faf8f3;
   border-radius: 12px;
   padding: 2rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid #f0f0f0;
   width: 100%;
   max-width: 100%;
 }
@@ -534,7 +534,7 @@ main {
 .admin-login-required {
   text-align: center;
   padding: 3rem;
-  color: rgba(255, 255, 255, 0.7);
+  color: #666;
 }
 
 /* Order Management */
@@ -551,9 +551,9 @@ main {
 }
 
 .order-filters button {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: rgba(255, 255, 255, 0.8);
+  background: #ffffff;
+  border: 2px solid #f0f0f0;
+  color: #666;
   padding: 0.5rem 1rem;
   border-radius: 8px;
   cursor: pointer;
@@ -562,7 +562,7 @@ main {
 
 .order-filters button:hover,
 .order-filters button.active {
-  background: rgba(212, 175, 55, 0.2);
+  background: #d4af37;
   border-color: #d4af37;
   color: #fff;
 }
@@ -574,10 +574,10 @@ main {
 }
 
 .order-card {
-  background: rgba(255, 255, 255, 0.05);
+  background: #ffffff;
   border-radius: 12px;
   padding: 1.5rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 2px solid #f0f0f0;
 }
 
 .order-header {
@@ -589,17 +589,17 @@ main {
 
 .order-header h3 {
   margin: 0 0 0.25rem 0;
-  color: #fff;
+  color: #2c2c2c;
 }
 
 .order-email {
-  color: rgba(255, 255, 255, 0.7);
+  color: #666;
   font-size: 0.9rem;
   margin: 0.25rem 0;
 }
 
 .order-date {
-  color: rgba(255, 255, 255, 0.5);
+  color: #999;
   font-size: 0.85rem;
   margin: 0.25rem 0;
 }
@@ -619,25 +619,25 @@ main {
 
 .order-items h4 {
   margin: 0 0 0.5rem 0;
-  color: rgba(255, 255, 255, 0.9);
+  color: #2c2c2c;
 }
 
 .order-item {
   display: flex;
   justify-content: space-between;
   padding: 0.5rem;
-  background: rgba(255, 255, 255, 0.03);
+  background: #faf8f3;
   border-radius: 4px;
   margin-bottom: 0.25rem;
-  color: rgba(255, 255, 255, 0.8);
+  color: #666;
 }
 
 .order-notes {
-  margin: 1rem 0;
+  margin-top: 1rem;
   padding: 0.75rem;
-  background: rgba(255, 255, 255, 0.05);
+  background: #faf8f3;
   border-radius: 8px;
-  color: rgba(255, 255, 255, 0.8);
+  color: #666;
   font-size: 0.9rem;
 }
 
@@ -675,20 +675,20 @@ main {
 
 .management-header h2 {
   margin: 0;
-  color: #fff;
+  color: #2c2c2c;
 }
 
 .product-form {
-  background: rgba(255, 255, 255, 0.05);
+  background: #ffffff;
   padding: 2rem;
   border-radius: 12px;
   margin-bottom: 2rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 2px solid #f0f0f0;
 }
 
 .product-form h3 {
   margin-top: 0;
-  color: #fff;
+  color: #2c2c2c;
 }
 
 .form-group {
@@ -766,13 +766,13 @@ main {
 }
 
 .products-table th {
-  color: rgba(255, 255, 255, 0.9);
+  color: #2c2c2c;
   font-weight: 600;
-  background: rgba(255, 255, 255, 0.05);
+  background: #f0f0f0;
 }
 
 .products-table td {
-  color: rgba(255, 255, 255, 0.8);
+  color: #666;
 }
 
 .products-table td.actions {
@@ -799,7 +799,7 @@ main {
 
 /* Calendar View */
 .calendar-view {
-  color: #fff;
+  color: #2c2c2c;
   width: 100%;
   max-width: 100%;
 }
@@ -841,13 +841,12 @@ main {
   justify-content: center;
 }
 
-.month-select,
-.year-select {
+.month-year-selector select {
   padding: 0.5rem 1rem;
   border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  background: rgba(255, 255, 255, 0.1);
-  color: #fff;
+  border: 2px solid #f0f0f0;
+  background: #ffffff;
+  color: #2c2c2c;
   font-size: 1rem;
   cursor: pointer;
 }
@@ -860,11 +859,11 @@ main {
   flex-wrap: wrap;
 }
 
-.legend-item {
+.calendar-legend-item {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: rgba(255, 255, 255, 0.9);
+  color: #666;
   font-size: 0.85rem;
 }
 
@@ -873,7 +872,7 @@ main {
     gap: 2rem;
   }
   
-  .legend-item {
+  .calendar-legend-item {
     font-size: 1rem;
   }
 }
@@ -910,12 +909,19 @@ main {
   gap: 0.5rem;
 }
 
-.calendar-day-name {
+.calendar-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.calendar-weekday {
   text-align: center;
   font-weight: bold;
   padding: 0.75rem;
-  color: rgba(255, 255, 255, 0.9);
-  background: rgba(255, 255, 255, 0.05);
+  color: #2c2c2c;
+  background: #f0f0f0;
   border-radius: 8px;
 }
 
@@ -956,7 +962,7 @@ main {
 
 .day-number {
   font-weight: bold;
-  color: rgba(255, 255, 255, 0.9);
+  color: #2c2c2c;
   margin-bottom: 0.25rem;
 }
 
@@ -1052,22 +1058,22 @@ main {
 
 /* Team Management */
 .team-management {
-  color: #fff;
+  color: #2c2c2c;
   width: 100%;
   max-width: 100%;
 }
 
 .team-form {
-  background: rgba(255, 255, 255, 0.05);
+  background: #ffffff;
   padding: 2rem;
   border-radius: 12px;
   margin-bottom: 2rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 2px solid #f0f0f0;
 }
 
 .team-form h3 {
   margin-top: 0;
-  color: #fff;
+  color: #2c2c2c;
 }
 
 .team-list {
@@ -1077,10 +1083,10 @@ main {
 }
 
 .team-card {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 12px;
+  background: #ffffff;
   padding: 1.5rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  border: 2px solid #f0f0f0;
   transition: all 0.3s;
 }
 
@@ -1098,7 +1104,7 @@ main {
 
 .team-header h3 {
   margin: 0 0 0.25rem 0;
-  color: #fff;
+  color: #2c2c2c;
 }
 
 .team-role {
@@ -1114,29 +1120,29 @@ main {
 }
 
 .team-contact {
-  color: rgba(255, 255, 255, 0.8);
+  color: #666;
   font-size: 0.95rem;
   margin: 0;
 }
 
 /* Vacation Management */
 .vacation-management {
-  color: #fff;
+  color: #2c2c2c;
   width: 100%;
   max-width: 100%;
 }
 
 .vacation-form {
-  background: rgba(255, 255, 255, 0.05);
+  background: #ffffff;
   padding: 2rem;
   border-radius: 12px;
   margin-bottom: 2rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 2px solid #f0f0f0;
 }
 
 .vacation-form h3 {
   margin-top: 0;
-  color: #fff;
+  color: #2c2c2c;
 }
 
 .vacations-list {
@@ -1146,10 +1152,10 @@ main {
 }
 
 .vacation-card {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 12px;
+  background: #ffffff;
   padding: 1.5rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  border: 2px solid #f0f0f0;
 }
 
 .vacation-card.current {
@@ -1175,11 +1181,11 @@ main {
 
 .vacation-header h3 {
   margin: 0 0 0.25rem 0;
-  color: #fff;
+  color: #2c2c2c;
 }
 
 .vacation-status {
-  color: rgba(255, 255, 255, 0.7);
+  color: #666;
   font-size: 0.9rem;
   margin: 0.25rem 0;
 }
@@ -1192,22 +1198,22 @@ main {
 
 .vacation-date,
 .vacation-duration {
-  color: rgba(255, 255, 255, 0.8);
+  color: #666;
   font-size: 0.95rem;
 }
 
 /* Phone Order Form */
 .phone-order-form {
-  background: rgba(255, 255, 255, 0.05);
+  background: #ffffff;
   padding: 2rem;
   border-radius: 12px;
   margin-bottom: 2rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 2px solid #f0f0f0;
 }
 
 .phone-order-form h3 {
   margin-top: 0;
-  color: #fff;
+  color: #2c2c2c;
 }
 
 .product-selector {
@@ -1218,16 +1224,16 @@ main {
 }
 
 .product-selector-btn {
-  padding: 0.75rem;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  width: 100%;
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+  background: #ffffff;
+  border: 2px solid #f0f0f0;
   border-radius: 8px;
-  color: #fff;
+  color: #2c2c2c;
   cursor: pointer;
   transition: all 0.3s;
   text-align: left;
-}
-
 .product-selector-btn:hover {
   background: rgba(212, 175, 55, 0.2);
   border-color: #d4af37;
@@ -1243,7 +1249,7 @@ main {
 
 .phone-order-items h4 {
   margin-top: 0;
-  color: rgba(255, 255, 255, 0.9);
+  color: #2c2c2c;
 }
 
 .phone-order-item {
@@ -1251,10 +1257,10 @@ main {
   justify-content: space-between;
   align-items: center;
   padding: 0.75rem;
-  background: rgba(255, 255, 255, 0.05);
+  background: #faf8f3;
   border-radius: 6px;
   margin-bottom: 0.5rem;
-  color: rgba(255, 255, 255, 0.9);
+  color: #666;
 }
 
 .phone-order-total {
