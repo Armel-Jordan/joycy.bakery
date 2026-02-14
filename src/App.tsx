@@ -16,6 +16,11 @@ function Navigation() {
   const location = useLocation()
   const { getItemCount } = useCart()
   
+  // Hide navigation on admin page
+  if (location.pathname === '/admin') {
+    return null
+  }
+  
   return (
     <nav className="main-nav">
       <div className="nav-brand">
