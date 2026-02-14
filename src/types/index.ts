@@ -70,3 +70,21 @@ export interface TeamMember {
 }
 
 export type UserRole = 'customer' | 'admin';
+
+export interface CartItem {
+  id: string;
+  type: 'promotion' | 'custom';
+  name: string;
+  price: number;
+  quantity: number;
+  description?: string;
+  customization?: string;
+}
+
+export interface CustomOrder {
+  productType: 'Cookies' | 'Crêpes' | 'Gâteaux' | '';
+  productName: string;
+  quantity: number;
+  customization: string;
+  price: number;
+}
