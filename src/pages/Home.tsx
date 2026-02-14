@@ -1,7 +1,4 @@
-import { useState, useEffect } from 'react';
-import { collection, getDocs, addDoc, serverTimestamp } from 'firebase/firestore';
-import { db } from '../firebase';
-import { Product, OrderItem } from '../types';
+import { useNavigate } from 'react-router-dom';
 import { User } from 'firebase/auth';
 
 interface HomeProps {
@@ -9,188 +6,150 @@ interface HomeProps {
 }
 
 export default function Home({ user }: HomeProps) {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [cart, setCart] = useState<OrderItem[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [orderNotes, setOrderNotes] = useState('');
-  const [showCart, setShowCart] = useState(false);
-
-  useEffect(() => {
-    loadProducts();
-  }, []);
-
-  const loadProducts = async () => {
-    try {
-      const querySnapshot = await getDocs(collection(db, 'products'));
-      const productsData = querySnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      })) as Product[];
-      setProducts(productsData.filter(p => p.available));
-    } catch (error) {
-      console.error('Erreur lors du chargement des produits:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const addToCart = (product: Product) => {
-    const existingItem = cart.find(item => item.productId === product.id);
-    if (existingItem) {
-      setCart(cart.map(item =>
-        item.productId === product.id
-          ? { ...item, quantity: item.quantity + 1 }
-          : item
-      ));
-    } else {
-      setCart([...cart, {
-        productId: product.id,
-        productName: product.name,
-        quantity: 1,
-        price: product.price
-      }]);
-    }
-    setShowCart(true);
-  };
-
-  const updateQuantity = (productId: string, quantity: number) => {
-    if (quantity <= 0) {
-      setCart(cart.filter(item => item.productId !== productId));
-    } else {
-      setCart(cart.map(item =>
-        item.productId === productId ? { ...item, quantity } : item
-      ));
-    }
-  };
-
-  const calculateTotal = () => {
-    return cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-  };
-
-  const placeOrder = async () => {
-    if (!user) {
-      alert('Veuillez vous connecter pour passer une commande');
-      return;
-    }
-
-    if (cart.length === 0) {
-      alert('Votre panier est vide');
-      return;
-    }
-
-    try {
-      await addDoc(collection(db, 'orders'), {
-        userId: user.uid,
-        userEmail: user.email,
-        items: cart,
-        total: calculateTotal(),
-        status: 'pending',
-        notes: orderNotes,
-        createdAt: serverTimestamp(),
-        updatedAt: serverTimestamp()
-      });
-      
-      alert('Commande passée avec succès !');
-      setCart([]);
-      setOrderNotes('');
-      setShowCart(false);
-    } catch (error) {
-      console.error('Erreur lors de la commande:', error);
-      alert('Erreur lors de la commande');
-    }
-  };
-
-  const categories = ['pain', 'viennoiserie', 'gâteau', 'pâtisserie', 'autre'];
-
-  if (loading) {
-    return <div className="loading">Chargement des produits...</div>;
-  }
+  const navigate = useNavigate();
 
   return (
     <div className="home-page">
-      <section className="hero">
-        <h1>🧁 Bienvenue chez Joycy Bakery</h1>
-        <p>Découvrez nos délicieuses créations artisanales</p>
-      </section>
-
-      {cart.length > 0 && (
-        <div className="cart-badge" onClick={() => setShowCart(!showCart)}>
-          🛒 Panier ({cart.length})
-        </div>
-      )}
-
-      {showCart && (
-        <div className="cart-modal">
-          <div className="cart-content">
-            <h2>Votre Panier</h2>
-            {cart.map(item => (
-              <div key={item.productId} className="cart-item">
-                <span>{item.productName}</span>
-                <div className="quantity-controls">
-                  <button onClick={() => updateQuantity(item.productId, item.quantity - 1)}>-</button>
-                  <span>{item.quantity}</span>
-                  <button onClick={() => updateQuantity(item.productId, item.quantity + 1)}>+</button>
-                </div>
-                <span>{(item.price * item.quantity).toFixed(2)} €</span>
-              </div>
-            ))}
-            <div className="cart-total">
-              <strong>Total: {calculateTotal().toFixed(2)} €</strong>
-            </div>
-            <textarea
-              placeholder="Notes pour la commande (optionnel)"
-              value={orderNotes}
-              onChange={(e) => setOrderNotes(e.target.value)}
-            />
-            <div className="cart-actions">
-              <button onClick={() => setShowCart(false)} className="btn btn-secondary">
-                Continuer mes achats
-              </button>
-              <button onClick={placeOrder} className="btn btn-primary">
-                Commander
-              </button>
-            </div>
+      {/* Hero Section */}
+      <section className="hero-home">
+        <div className="hero-content">
+          <h1>Joycy Bakery</h1>
+          <p className="hero-subtitle">De l'art qui se mange, du goût qui reste</p>
+          <p className="hero-description">
+            Créations artisanales faites avec passion à Québec. 
+            Cookies XL, crêpes gourmandes et gâteaux personnalisés pour vos moments spéciaux.
+          </p>
+          <div className="hero-buttons">
+            <button onClick={() => navigate('/promotions')} className="btn-hero-primary">
+              Voir nos Promotions
+            </button>
+            <button onClick={() => navigate('/personnalisation')} className="btn-hero-secondary">
+              Créer ma Commande
+            </button>
           </div>
         </div>
-      )}
+      </section>
 
-      {categories.map(category => {
-        const categoryProducts = products.filter(p => p.category === category);
-        if (categoryProducts.length === 0) return null;
-
-        return (
-          <section key={category} className="product-category">
-            <h2>{category.charAt(0).toUpperCase() + category.slice(1)}s</h2>
-            <div className="products-grid">
-              {categoryProducts.map(product => (
-                <div key={product.id} className="product-card">
-                  {product.imageUrl && (
-                    <img src={product.imageUrl} alt={product.name} />
-                  )}
-                  <h3>{product.name}</h3>
-                  <p>{product.description}</p>
-                  <div className="product-footer">
-                    <span className="price">{product.price.toFixed(2)} €</span>
-                    <button 
-                      onClick={() => addToCart(product)}
-                      className="btn btn-primary"
-                      disabled={!user}
-                    >
-                      {user ? 'Ajouter' : 'Connectez-vous'}
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </section>
-        );
-      })}
-
-      {products.length === 0 && (
-        <div className="empty-state">
-          <p>Aucun produit disponible pour le moment</p>
+      {/* Specialties Section */}
+      <section className="home-specialties">
+        <h2>Nos Spécialités</h2>
+        <div className="specialties-cards">
+          <div className="specialty-home-card" onClick={() => navigate('/promotions')}>
+            <div className="specialty-icon-large">🍪</div>
+            <h3>Cookies XL</h3>
+            <p>Irrésistibles et généreux</p>
+            <p className="specialty-price">À partir de 4,00 $</p>
+          </div>
+          <div className="specialty-home-card" onClick={() => navigate('/promotions')}>
+            <div className="specialty-icon-large">🥞</div>
+            <h3>Crêpes Artisanales</h3>
+            <p>Nature, citron ou vanille</p>
+            <p className="specialty-price">13 pour 20,00 $</p>
+          </div>
+          <div className="specialty-home-card" onClick={() => navigate('/personnalisation')}>
+            <div className="specialty-icon-large">🎂</div>
+            <h3>Cake Design</h3>
+            <p>Gâteaux personnalisés sur mesure</p>
+            <p className="specialty-price">Sur devis</p>
+          </div>
         </div>
-      )}
+      </section>
+
+      {/* Why Choose Us */}
+      <section className="home-why">
+        <h2>Pourquoi Joycy Bakery ?</h2>
+        <div className="why-grid">
+          <div className="why-item">
+            <div className="why-icon">✨</div>
+            <h3>Créations Uniques</h3>
+            <p>Chaque produit est fait avec soin et créativité</p>
+          </div>
+          <div className="why-item">
+            <div className="why-icon">🎨</div>
+            <h3>Personnalisation</h3>
+            <p>Vos gâteaux sur mesure pour toutes occasions</p>
+          </div>
+          <div className="why-item">
+            <div className="why-icon">❤️</div>
+            <h3>Fait avec Passion</h3>
+            <p>L'amour de la pâtisserie dans chaque bouchée</p>
+          </div>
+          <div className="why-item">
+            <div className="why-icon">📍</div>
+            <h3>Local - Québec</h3>
+            <p>Livraison ou ramassage gratuit</p>
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Promotions */}
+      <section className="home-promos">
+        <h2>Offres du Moment</h2>
+        <div className="promo-highlight-grid">
+          <div className="promo-highlight">
+            <div className="promo-badge-home">Populaire</div>
+            <h3>Boîte de 6 Cookies</h3>
+            <p className="promo-price-home">20,00 $</p>
+            <p>Économisez 4 $ - Parfait pour partager</p>
+            <button onClick={() => navigate('/promotions')} className="btn-promo">
+              Commander
+            </button>
+          </div>
+          <div className="promo-highlight">
+            <div className="promo-badge-home">Meilleure Valeur</div>
+            <h3>30 Crêpes</h3>
+            <p className="promo-price-home">40,00 $</p>
+            <p>Économisez 6 $ - Nature, citron ou vanille</p>
+            <button onClick={() => navigate('/promotions')} className="btn-promo">
+              Commander
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* About Preview */}
+      <section className="home-about">
+        <div className="about-content">
+          <h2>À Propos</h2>
+          <p>
+            Étudiante passionnée et créative basée à Québec, je suis la fondatrice de Joycy Bakery. 
+            Entrepreneure le jour et pâtissière passionnée la nuit, je combine la précision de la 
+            gestion et la magie de la pâtisserie.
+          </p>
+          <button onClick={() => navigate('/bio')} className="btn-learn-more">
+            En savoir plus
+          </button>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="home-cta">
+        <h2>Prêt à commander ?</h2>
+        <p>Découvrez nos promotions ou créez votre commande personnalisée</p>
+        <div className="cta-buttons">
+          <button onClick={() => navigate('/promotions')} className="btn-cta-primary">
+            Voir les Promotions
+          </button>
+          <button onClick={() => navigate('/personnalisation')} className="btn-cta-secondary">
+            Personnaliser ma Commande
+          </button>
+        </div>
+      </section>
+
+      {/* Delivery Info */}
+      <section className="home-delivery">
+        <h3>🚚 Livraison & Ramassage</h3>
+        <div className="delivery-options-home">
+          <div className="delivery-option-home">
+            <span className="delivery-icon-home">📍</span>
+            <span>Ramassage gratuit à Québec City</span>
+          </div>
+          <div className="delivery-option-home">
+            <span className="delivery-icon-home">🚗</span>
+            <span>Livraison 10 $ dans la ville de Québec</span>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
