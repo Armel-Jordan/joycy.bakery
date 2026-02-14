@@ -22,12 +22,8 @@ export default function Bio() {
             </div>
             <div className="bio-images">
               <div className="bio-image-grid">
-                <div className="bio-image-placeholder">
-                  <p>📸 Photo de Joyce en train de préparer des cookies</p>
-                </div>
-                <div className="bio-image-placeholder">
-                  <p>📸 Photo de Joyce dans sa cuisine</p>
-                </div>
+                <img src="/bio1.jpeg" alt="Joyce - Joycy Bakery" className="bio-photo" />
+                <img src="/bio2.jpeg" alt="Joyce dans sa cuisine" className="bio-photo" />
               </div>
             </div>
           </div>

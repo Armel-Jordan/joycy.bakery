@@ -1447,16 +1447,22 @@ main {
 
 .bio-image-grid {
   display: grid;
-  gap: 1rem;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
 }
 
-.bio-image-placeholder {
-  background: #faf8f3;
+.bio-photo {
+  width: 100%;
+  height: 350px;
+  object-fit: cover;
   border-radius: 12px;
-  padding: 3rem 1rem;
-  text-align: center;
-  border: 2px dashed #d4af37;
-  color: #999;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.bio-photo:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
 }
 
 .bio-specialties {
