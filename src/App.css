@@ -1480,8 +1480,8 @@ main {
 
 .bio-photo {
   width: 100%;
-  height: 280px;
-  object-fit: cover;
+  height: auto;
+  object-fit: contain;
   border-radius: 16px;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
   transition: all 0.4s ease;
@@ -1489,7 +1489,7 @@ main {
 }
 
 .bio-photo:hover {
-  transform: translateY(-8px) scale(1.02);
+  transform: translateY(-5px);
   box-shadow: 0 12px 40px rgba(212, 175, 55, 0.4);
   border-color: #d4af37;
 }
