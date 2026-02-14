@@ -45,7 +45,7 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
           className={activeTab === 'vacation' ? 'active' : ''}
           onClick={() => setActiveTab('vacation')}
         >
-          🏖️ Mes Congés
+          Mes Congés
         </button>
         <button
           className={activeTab === 'calendar' ? 'active' : ''}
