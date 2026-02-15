@@ -12,18 +12,18 @@ export const branding = {
   
   // Contact Information
   contact: {
-    email: import.meta.env.VITE_BUSINESS_EMAIL || 'contact@joycybakery.com',
-    phone: import.meta.env.VITE_BUSINESS_PHONE || '+1 (514) 555-1234',
-    whatsapp: '+15145551234',
-    address: import.meta.env.VITE_BUSINESS_ADDRESS || 'Québec, QC',
+    email: import.meta.env.VITE_BUSINESS_EMAIL || 'joycekeumogne1@gmail.com',
+    phone: import.meta.env.VITE_BUSINESS_PHONE || '+1 (819) 923-8098',
+    whatsapp: '+18199238098',
+    address: import.meta.env.VITE_BUSINESS_ADDRESS || 'Vanier, Québec, QC',
     country: 'Canada'
   },
   
   // Business Hours
   hours: {
     weekdays: 'Lundi - Vendredi: 9h - 18h',
-    saturday: 'Samedi: 10h - 16h',
-    sunday: 'Dimanche: Fermé'
+    saturday: 'Samedi: 10h - 18h',
+    sunday: 'Dimanche: 10h - 18h'
   },
   
   // Social Media (optional)
