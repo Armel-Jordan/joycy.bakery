@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { branding } from '../config/branding';
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -43,28 +44,28 @@ export default function Contact() {
           <div className="contact-info-card">
             <div className="contact-icon">📍</div>
             <h3>Adresse</h3>
-            <p>Québec, QC<br />Canada</p>
+            <p>{branding.contact.address}<br />{branding.contact.country}</p>
           </div>
 
           <div className="contact-info-card">
             <div className="contact-icon">📧</div>
             <h3>Email</h3>
-            <p><a href="mailto:contact@joycybakery.com">contact@joycybakery.com</a></p>
+            <p><a href={`mailto:${branding.contact.email}`}>{branding.contact.email}</a></p>
           </div>
 
           <div className="contact-info-card">
             <div className="contact-icon">📱</div>
             <h3>Téléphone</h3>
-            <p><a href="tel:+15145551234">+1 (514) 555-1234</a></p>
+            <p><a href={`tel:${branding.contact.phone.replace(/[^+\d]/g, '')}`}>{branding.contact.phone}</a></p>
           </div>
 
           <div className="contact-info-card">
             <div className="contact-icon">🕐</div>
             <h3>Horaires</h3>
             <p>
-              Lundi - Vendredi: 9h - 18h<br />
-              Samedi: 10h - 16h<br />
-              Dimanche: Fermé
+              {branding.hours.weekdays}<br />
+              {branding.hours.saturday}<br />
+              {branding.hours.sunday}
             </p>
           </div>
         </div>
@@ -157,10 +158,10 @@ export default function Contact() {
         <h2>Besoin d'une réponse rapide ?</h2>
         <p>Pour les commandes urgentes ou les questions simples, contactez-nous directement par téléphone ou WhatsApp</p>
         <div className="cta-buttons">
-          <a href="tel:+15145551234" className="btn btn-primary">
+          <a href={`tel:${branding.contact.phone.replace(/[^+\d]/g, '')}`} className="btn btn-primary">
             📞 Appelez-nous
           </a>
-          <a href="https://wa.me/18199238098" target="_blank" rel="noopener noreferrer" className="btn btn-secondary">
+          <a href={`https://wa.me/${branding.contact.whatsapp}`} target="_blank" rel="noopener noreferrer" className="btn btn-secondary">
             💬 WhatsApp
           </a>
         </div>
