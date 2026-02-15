@@ -1,14 +1,46 @@
-# 🧁 Joycy Bakery
+# 🧁 Bakery Management System - Multi-Client Template
 
-Application web de boulangerie construite avec React, TypeScript, Vite et Firebase.
+Application web de boulangerie/pâtisserie construite avec React, TypeScript, Vite et Firebase.
+
+**Ce projet est un template réutilisable** pour créer des sites web pour différentes boulangeries/pâtisseries.
+
+## 🏢 Branches Clients
+
+- `main` - Template de base (Joycy Bakery)
+- `jocy` - Joycy Bakery (client principal)
+- Autres branches créées par client
 
 ## 📋 Fonctionnalités
 
 - ✅ Authentification Firebase (Email/Password)
 - ✅ Base de données Firestore en temps réel
+- ✅ Gestion des produits (Cookies, Crêpes, Gâteaux)
+- ✅ Système de promotions
+- ✅ Commandes personnalisées
+- ✅ Panier d'achat
+- ✅ Dashboard administrateur
+- ✅ Gestion d'équipe
+- ✅ Calendrier de vacances
+- ✅ Page Bio, Contact, Produits
+- ✅ Configuration multi-clients
+- ✅ Thème personnalisable par client
 - ✅ TypeScript pour la sécurité des types
 - ✅ Interface utilisateur moderne et responsive
 - ✅ Vite pour un développement rapide
+
+## 🚀 Configuration pour un Nouveau Client
+
+**Voir le guide complet:** [SETUP_NEW_CLIENT.md](./SETUP_NEW_CLIENT.md)
+
+### Résumé Rapide
+
+1. Créer une branche client
+2. Créer un projet Firebase
+3. Configurer `.env` avec les credentials Firebase
+4. Personnaliser `src/config/branding.ts`
+5. Remplacer logo et assets
+6. Ajuster le thème de couleurs
+7. Déployer
 
 ## 🚀 Installation
 
@@ -62,14 +94,34 @@ npm run dev
 ## 🏗️ Structure du projet
 
 ```
-src/
-├── components/
-│   ├── Auth.tsx          # Composant d'authentification
-│   └── DataList.tsx      # Composant de gestion des données
-├── firebase.ts           # Configuration Firebase
-├── App.tsx              # Composant principal
-├── main.tsx             # Point d'entrée
-└── vite-env.d.ts        # Types TypeScript pour Vite
+react-firebase-app/
+├── src/
+│   ├── config/
+│   │   └── branding.ts          # Configuration client (thème, branding, features)
+│   ├── components/
+│   │   ├── admin/               # Composants admin
+│   │   └── ...                  # Autres composants
+│   ├── pages/
+│   │   ├── Home.tsx            # Page d'accueil
+│   │   ├── Bio.tsx             # Page bio
+│   │   ├── Products.tsx        # Page produits
+│   │   ├── Promotions.tsx      # Page promotions
+│   │   ├── Contact.tsx         # Page contact
+│   │   ├── Personnalisation.tsx # Commandes personnalisées
+│   │   ├── Cart.tsx            # Panier
+│   │   └── AdminDashboard.tsx  # Dashboard admin
+│   ├── context/
+│   │   └── CartContext.tsx     # Context du panier
+│   ├── types/
+│   │   └── index.ts            # Types TypeScript
+│   ├── firebase.ts             # Configuration Firebase
+│   ├── App.tsx                 # Composant principal
+│   └── main.tsx                # Point d'entrée
+├── public/                      # Assets statiques (logo, images)
+├── .env                         # Variables d'environnement (ne pas commit)
+├── .env.example                 # Template des variables
+├── README.md                    # Ce fichier
+└── SETUP_NEW_CLIENT.md          # Guide de configuration client
 ```
 
 ## 🔐 Sécurité

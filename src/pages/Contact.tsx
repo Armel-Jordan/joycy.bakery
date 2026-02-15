@@ -160,7 +160,7 @@ export default function Contact() {
           <a href="tel:+15145551234" className="btn btn-primary">
             📞 Appelez-nous
           </a>
-          <a href="https://wa.me/15145551234" target="_blank" rel="noopener noreferrer" className="btn btn-secondary">
+          <a href="https://wa.me/18199238098" target="_blank" rel="noopener noreferrer" className="btn btn-secondary">
             💬 WhatsApp
           </a>
         </div>
