@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import emailjs from '@emailjs/browser';
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -10,25 +11,60 @@ export default function Contact() {
   });
 
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Pour l'instant, on simule l'envoi
-    console.log('Message envoyé:', formData);
-    setSubmitted(true);
-    
-    // Réinitialiser le formulaire après 3 secondes
-    setTimeout(() => {
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        subject: '',
-        message: ''
-      });
-      setSubmitted(false);
-    }, 3000);
+    setError('');
+    setSending(true);
+
+    // Check if EmailJS is configured
+    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
+    if (!serviceId || !templateId || !publicKey) {
+      console.warn('EmailJS not configured. Message logged to console:', formData);
+      setError('Le service d\'envoi d\'email n\'est pas configuré. Veuillez contacter l\'administrateur.');
+      setSending(false);
+      return;
+    }
+
+    try {
+      // Send email using EmailJS
+      await emailjs.send(
+        serviceId,
+        templateId,
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          phone: formData.phone || 'Non fourni',
+          subject: formData.subject,
+          message: formData.message,
+        },
+        publicKey
+      );
+
+      setSubmitted(true);
+      setSending(false);
+
+      // Reset form after 3 seconds
+      setTimeout(() => {
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          subject: '',
+          message: ''
+        });
+        setSubmitted(false);
+      }, 3000);
+    } catch (err) {
+      console.error('Erreur lors de l\'envoi:', err);
+      setError('Une erreur est survenue lors de l\'envoi. Veuillez réessayer.');
+      setSending(false);
+    }
   };
 
   return (
@@ -75,6 +111,12 @@ export default function Contact() {
           {submitted && (
             <div className="success-message">
               ✅ Merci ! Votre message a été envoyé avec succès. Nous vous répondrons dans les plus brefs délais.
+            </div>
+          )}
+
+          {error && (
+            <div className="error-message">
+              ❌ {error}
             </div>
           )}
 
@@ -146,8 +188,8 @@ export default function Contact() {
               />
             </div>
 
-            <button type="submit" className="btn btn-primary btn-submit">
-              Envoyer le message
+            <button type="submit" className="btn btn-primary btn-submit" disabled={sending}>
+              {sending ? 'Envoi en cours...' : 'Envoyer le message'}
             </button>
           </form>
         </div>
