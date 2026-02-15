@@ -3597,6 +3597,16 @@ main {
   font-weight: 500;
 }
 
+.error-message {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: #ffffff;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-weight: 500;
+}
+
 /* Contact CTA */
 .contact-cta {
   background: linear-gradient(135deg, #6E260E 0%, #D4A574 100%);
