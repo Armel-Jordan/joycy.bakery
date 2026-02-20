@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { branding } from '../config/branding';
-import emailjs from '@emailjs/browser';
+import { getFunctions, httpsCallable } from 'firebase/functions';
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -20,32 +20,17 @@ export default function Contact() {
     setError('');
     setSending(true);
 
-    // Check if EmailJS is configured
-    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
-    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
-    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
-
-    if (!serviceId || !templateId || !publicKey) {
-      console.warn('EmailJS not configured. Message logged to console:', formData);
-      setError('Le service d\'envoi d\'email n\'est pas configuré. Veuillez contacter l\'administrateur.');
-      setSending(false);
-      return;
-    }
-
     try {
-      // Send email using EmailJS
-      await emailjs.send(
-        serviceId,
-        templateId,
-        {
-          from_name: formData.name,
-          from_email: formData.email,
-          phone: formData.phone || 'Non fourni',
-          subject: formData.subject,
-          message: formData.message,
-        },
-        publicKey
-      );
+      const functions = getFunctions();
+      const sendContactEmail = httpsCallable(functions, 'sendContactEmail');
+      
+      await sendContactEmail({
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        subject: formData.subject,
+        message: formData.message,
+      });
 
       setSubmitted(true);
       setSending(false);
@@ -61,9 +46,9 @@ export default function Contact() {
         });
         setSubmitted(false);
       }, 3000);
-    } catch (err) {
+    } catch (err: any) {
       console.error('Erreur lors de l\'envoi:', err);
-      setError('Une erreur est survenue lors de l\'envoi. Veuillez réessayer.');
+      setError(err.message || 'Une erreur est survenue lors de l\'envoi. Veuillez réessayer.');
       setSending(false);
     }
   };
