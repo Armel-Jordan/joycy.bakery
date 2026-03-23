@@ -1,17 +1,18 @@
 import { useState } from 'react';
-import { User, signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import { User, signInWithEmailAndPassword, signOut, sendPasswordResetEmail } from 'firebase/auth';
 import { auth } from '../firebase';
 import OrderManagement from '../components/admin/OrderManagement';
 import ProductManagement from '../components/admin/ProductManagement';
 import CalendarView from '../components/admin/CalendarView';
 import VacationManagement from '../components/admin/VacationManagement';
 import TeamManagement from '../components/admin/TeamManagement';
+import PasswordManagement from '../components/admin/PasswordManagement';
 
 interface AdminDashboardProps {
   user: User | null;
 }
 
-type TabType = 'orders' | 'team' | 'products' | 'vacation' | 'calendar';
+type TabType = 'orders' | 'team' | 'products' | 'vacation' | 'calendar' | 'password';
 
 const ALLOWED_ADMIN_EMAILS = [
   'joycekeumogne1@gmail.com',
@@ -24,6 +25,24 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [resetMode, setResetMode] = useState(false);
+  const [resetEmail, setResetEmail] = useState('');
+  const [resetSuccess, setResetSuccess] = useState('');
+
+  const handleResetPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    setResetSuccess('');
+    setLoading(true);
+    try {
+      await sendPasswordResetEmail(auth, resetEmail);
+      setResetSuccess('Un email de réinitialisation a été envoyé. Vérifiez votre boîte mail.');
+    } catch {
+      setError('Impossible d\'envoyer l\'email. Vérifiez l\'adresse saisie.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const isAdmin = user && ALLOWED_ADMIN_EMAILS.includes(user.email || '');
 
@@ -57,39 +76,70 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
     return (
       <div className="admin-login">
         <div className="admin-login-container">
-          <h1>🔐 Accès Administrateur</h1>
-          <p>Connectez-vous pour accéder au tableau de bord.</p>
-          
-          <form onSubmit={handleLogin} className="admin-login-form">
-            <div className="form-group">
-              <label htmlFor="email">Email</label>
-              <input
-                type="email"
-                id="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Entrez votre email"
-                required
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="password">Mot de passe</label>
-              <input
-                type="password"
-                id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Entrez votre mot de passe"
-                required
-              />
-            </div>
-            {error && <p className="error-message">{error}</p>}
-            <button type="submit" className="btn btn-primary" disabled={loading}>
-              {loading ? 'Connexion...' : 'Se connecter'}
-            </button>
-          </form>
-          
-          <a href="/" className="back-link">← Retour au site</a>
+          {resetMode ? (
+            <>
+              <h1>🔑 Mot de passe oublié</h1>
+              <p>Entrez votre email pour recevoir un lien de réinitialisation.</p>
+              <form onSubmit={handleResetPassword} className="admin-login-form">
+                <div className="form-group">
+                  <label htmlFor="resetEmail">Email</label>
+                  <input
+                    type="email"
+                    id="resetEmail"
+                    value={resetEmail}
+                    onChange={(e) => setResetEmail(e.target.value)}
+                    placeholder="Entrez votre email"
+                    required
+                  />
+                </div>
+                {error && <p className="error-message">{error}</p>}
+                {resetSuccess && <p className="success-message">{resetSuccess}</p>}
+                <button type="submit" className="btn btn-primary" disabled={loading}>
+                  {loading ? 'Envoi...' : 'Envoyer le lien'}
+                </button>
+              </form>
+              <button className="forgot-password-link" onClick={() => { setResetMode(false); setError(''); setResetSuccess(''); }}>
+                ← Retour à la connexion
+              </button>
+            </>
+          ) : (
+            <>
+              <h1>🔐 Accès Administrateur</h1>
+              <p>Connectez-vous pour accéder au tableau de bord.</p>
+              <form onSubmit={handleLogin} className="admin-login-form">
+                <div className="form-group">
+                  <label htmlFor="email">Email</label>
+                  <input
+                    type="email"
+                    id="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Entrez votre email"
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="password">Mot de passe</label>
+                  <input
+                    type="password"
+                    id="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Entrez votre mot de passe"
+                    required
+                  />
+                </div>
+                {error && <p className="error-message">{error}</p>}
+                <button type="submit" className="btn btn-primary" disabled={loading}>
+                  {loading ? 'Connexion...' : 'Se connecter'}
+                </button>
+              </form>
+              <button className="forgot-password-link" onClick={() => { setResetMode(true); setError(''); }}>
+                Mot de passe oublié ?
+              </button>
+              <a href="/" className="back-link">← Retour au site</a>
+            </>
+          )}
         </div>
       </div>
     );
@@ -138,6 +188,12 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
         >
           📅 Calendrier
         </button>
+        <button
+          className={activeTab === 'password' ? 'active' : ''}
+          onClick={() => setActiveTab('password')}
+        >
+          🔑 Mot de passe
+        </button>
       </div>
 
       <div className="admin-content">
@@ -146,6 +202,7 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
         {activeTab === 'products' && <ProductManagement />}
         {activeTab === 'vacation' && <VacationManagement />}
         {activeTab === 'calendar' && <CalendarView />}
+        {activeTab === 'password' && <PasswordManagement />}
       </div>
     </div>
   );
