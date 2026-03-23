@@ -17,11 +17,19 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
   const addToCart = (item: Omit<CartItem, 'id'>) => {
-    const newItem: CartItem = {
-      ...item,
-      id: Date.now().toString() + Math.random().toString(36).substr(2, 9)
-    };
-    setCartItems(prev => [...prev, newItem]);
+    setCartItems(prev => {
+      const existing = prev.find(i => i.type === 'promotion' && i.name === item.name);
+      if (existing) {
+        return prev.map(i =>
+          i.id === existing.id ? { ...i, quantity: i.quantity + item.quantity } : i
+        );
+      }
+      const newItem: CartItem = {
+        ...item,
+        id: Date.now().toString() + Math.random().toString(36).substr(2, 9)
+      };
+      return [...prev, newItem];
+    });
   };
 
   const removeFromCart = (id: string) => {
