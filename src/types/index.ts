@@ -2,6 +2,7 @@ export interface Product {
   id: string;
   name: string;
   description: string;
+  flavor?: string;
   price: number;
   category: 'Cookies' | 'Crêpes' | 'Gâteaux';
   imageUrl?: string;

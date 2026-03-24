@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { collection, getDocs, addDoc, updateDoc, deleteDoc, doc, serverTimestamp } from 'firebase/firestore';
-import { db } from '../../firebase';
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import { db, storage } from '../../firebase';
 import { Product } from '../../types';
 
 export default function ProductManagement() {
@@ -8,10 +9,13 @@ export default function ProductManagement() {
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+  const [uploadProgress, setUploadProgress] = useState<number | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   
   const [formData, setFormData] = useState({
     name: '',
     description: '',
+    flavor: '',
     price: 0,
     category: 'Cookies' as Product['category'],
     imageUrl: '',
@@ -67,6 +71,7 @@ export default function ProductManagement() {
     setFormData({
       name: product.name,
       description: product.description,
+      flavor: product.flavor || '',
       price: product.price,
       category: product.category,
       imageUrl: product.imageUrl || '',
@@ -84,6 +89,27 @@ export default function ProductManagement() {
     } catch (error) {
       console.error('Erreur lors de la suppression:', error);
     }
+  };
+
+  const handleImageUpload = (file: File) => {
+    const storageRef = ref(storage, `products/${Date.now()}_${file.name}`);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+    setUploadProgress(0);
+    uploadTask.on(
+      'state_changed',
+      snapshot => {
+        setUploadProgress(Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100));
+      },
+      () => {
+        alert('Erreur lors du téléchargement de l\'image.');
+        setUploadProgress(null);
+      },
+      async () => {
+        const url = await getDownloadURL(uploadTask.snapshot.ref);
+        setFormData(f => ({ ...f, imageUrl: url }));
+        setUploadProgress(null);
+      }
+    );
   };
 
   const resetForm = () => {
@@ -107,8 +133,8 @@ export default function ProductManagement() {
     <div className="product-management">
       <div className="management-header">
         <h2>Gestion des Produits</h2>
-        <button 
-          onClick={() => setShowForm(!showForm)} 
+        <button
+          onClick={() => setShowForm(!showForm)}
           className="btn btn-primary"
         >
           {showForm ? 'Annuler' : '+ Nouveau Produit'}
@@ -135,6 +161,16 @@ export default function ProductManagement() {
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               required
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Saveur / Parfum</label>
+            <input
+              type="text"
+              value={formData.flavor}
+              onChange={(e) => setFormData({ ...formData, flavor: e.target.value })}
+              placeholder="Ex: Chocolat noir & Vanille — fourré Nutella"
             />
           </div>
 
@@ -166,13 +202,40 @@ export default function ProductManagement() {
           </div>
 
           <div className="form-group">
-            <label>URL de l'image (optionnel)</label>
-            <input
-              type="url"
-              value={formData.imageUrl}
-              onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
-              placeholder="https://..."
-            />
+            <label>Image du produit</label>
+            <div className="image-upload-area">
+              {formData.imageUrl && (
+                <div className="image-preview">
+                  <img src={formData.imageUrl} alt="Aperçu" />
+                  <button
+                    type="button"
+                    className="image-remove-btn"
+                    onClick={() => setFormData(f => ({ ...f, imageUrl: '' }))}
+                  >✕</button>
+                </div>
+              )}
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                style={{ display: 'none' }}
+                onChange={e => { if (e.target.files?.[0]) handleImageUpload(e.target.files[0]); }}
+              />
+              {uploadProgress !== null ? (
+                <div className="upload-progress">
+                  <div className="upload-progress-bar" style={{ width: `${uploadProgress}%` }} />
+                  <span>{uploadProgress}%</span>
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={() => fileInputRef.current?.click()}
+                >
+                  📁 {formData.imageUrl ? 'Changer l\'image' : 'Choisir une image'}
+                </button>
+              )}
+            </div>
           </div>
 
           <div className="form-group checkbox">
