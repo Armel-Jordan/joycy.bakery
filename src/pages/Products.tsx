@@ -29,7 +29,6 @@ const CREPE_TIERS: PriceTier[] = [
   { label: 'Autre quantité', qty: 0, price: 0, custom: true },
 ];
 
-const CREPE_FLAVORS = ['Nature', 'Citron', 'Vanille'];
 
 function getTiers(category: string): PriceTier[] | null {
   if (category === 'Cookies') return COOKIE_TIERS;
@@ -96,12 +95,30 @@ export default function Products() {
   const totalPicked = Object.values(flavorPicks).reduce((s, v) => s + v, 0);
   const remaining = (selectedTier?.qty ?? 0) - totalPicked;
 
+  const MIN_CREPE_PER_FLAVOR = 7;
+
   const adjustFlavor = (name: string, delta: number) => {
+    if (!selectedProduct) return;
+    const isCrepe = selectedProduct.category === 'Crêpes';
+    const min = isCrepe ? MIN_CREPE_PER_FLAVOR : 1;
+
     setFlavorPicks(prev => {
       const current = prev[name] ?? 0;
-      const next = Math.max(0, current + delta);
-      if (delta > 0 && remaining <= 0) return prev;
-      return { ...prev, [name]: next };
+
+      if (delta > 0) {
+        if (remaining <= 0) return prev;
+        // Premier ajout : sauter directement au minimum
+        if (current === 0 && isCrepe) {
+          const jump = Math.min(min, remaining);
+          return { ...prev, [name]: jump };
+        }
+        if (remaining <= 0) return prev;
+        return { ...prev, [name]: current + 1 };
+      } else {
+        // Diminuer : si on est au minimum, retomber à 0
+        if (current <= min && isCrepe) return { ...prev, [name]: 0 };
+        return { ...prev, [name]: Math.max(0, current - 1) };
+      }
     });
   };
 
@@ -134,7 +151,7 @@ export default function Products() {
   const flavorOptions = selectedProduct?.category === 'Cookies'
     ? products.filter(p => p.category === 'Cookies').map(p => p.name)
     : selectedProduct?.category === 'Crêpes'
-    ? CREPE_FLAVORS
+    ? products.filter(p => p.category === 'Crêpes').map(p => p.name)
     : [];
 
   const categories = ['all', 'Cookies', 'Crêpes', 'Gâteaux'];
@@ -267,7 +284,7 @@ export default function Products() {
               {selectedTier && !selectedTier.custom && flavorOptions.length > 0 && (
                 <div className="flavor-picker">
                   <div className="flavor-picker-header">
-                    <label>Choisir les saveurs</label>
+                    <label>Choisir les saveurs {selectedProduct.category === 'Crêpes' && <small>(min. 7 / saveur)</small>}</label>
                     <span className={`flavor-counter ${remaining === 0 ? 'done' : ''}`}>
                       {totalPicked} / {selectedTier.qty}
                     </span>

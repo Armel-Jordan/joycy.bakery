@@ -2,6 +2,7 @@ import { useState, useRef } from 'react';
 import { useCart } from '../context/CartContext';
 import { useNavigate } from 'react-router-dom';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { getFunctions, httpsCallable } from 'firebase/functions';
 import { db } from '../firebase';
 
 interface OrderForm {
@@ -91,6 +92,34 @@ export default function Cart() {
         isPhoneOrder: false,
         createdAt: serverTimestamp(),
       });
+
+      // Envoi email de confirmation si le client a fourni un email
+      if (form.email) {
+        try {
+          const functions = getFunctions();
+          const sendOrderConfirmationEmail = httpsCallable(functions, 'sendOrderConfirmationEmail');
+          await sendOrderConfirmationEmail({
+            clientName: form.name,
+            clientEmail: form.email,
+            clientPhone: form.phone,
+            items: cartItems.map(item => ({
+              productName: item.name,
+              quantity: item.quantity,
+              price: item.price,
+            })),
+            total: orderTotal,
+            deliveryMode: form.delivery,
+            deliveryAddress: form.address || undefined,
+            deliveryDate: form.deliveryDate || undefined,
+            paymentMethod: form.payment,
+            notes: form.notes || undefined,
+          });
+        } catch {
+          // L'email échoue silencieusement — la commande est déjà enregistrée
+          console.warn('Email de confirmation non envoyé');
+        }
+      }
+
       setSuccess(true);
       clearCart();
     } catch {
