@@ -52,7 +52,7 @@ function Navigation() {
       </div>
       <div className="nav-cart">
         <Link to="/cart" className="cart-icon">
-          🛒 <span className="cart-badge">{getItemCount()}</span>
+          🛒 {getItemCount() > 0 && <span className="cart-badge">{getItemCount()}</span>}
         </Link>
       </div>
     </nav>

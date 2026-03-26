@@ -307,24 +307,6 @@ main {
   color: rgba(255, 255, 255, 0.7);
 }
 
-.cart-badge {
-  position: fixed;
-  bottom: 2rem;
-  right: 2rem;
-  background: #6E260E;
-  color: white;
-  padding: 1rem 1.5rem;
-  border-radius: 50px;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0 5px 20px rgba(245, 87, 108, 0.4);
-  z-index: 50;
-  transition: transform 0.3s;
-}
-
-.cart-badge:hover {
-  transform: scale(1.05);
-}
 
 .cart-modal {
   position: fixed;
