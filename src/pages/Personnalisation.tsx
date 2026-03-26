@@ -1,174 +1,249 @@
-import { useState } from 'react';
-import { useCart } from '../context/CartContext';
+import { useState, useRef } from 'react';
+import { getFunctions, httpsCallable } from 'firebase/functions';
+
+const OCCASIONS = [
+  'Anniversaire',
+  'Mariage',
+  'Baptême',
+  'Diplômation',
+  'Fête des mères / pères',
+  'Saint-Valentin',
+  'Noël',
+  'Événement corporatif',
+  'Autre',
+];
 
 export default function Personnalisation() {
-  const { addToCart } = useCart();
-  const [formData, setFormData] = useState({
+  const [form, setForm] = useState({
+    clientName: '',
+    clientEmail: '',
+    clientPhone: '',
     productType: '' as 'Cookies' | 'Crêpes' | 'Gâteaux' | '',
-    productName: '',
-    quantity: 1,
-    customization: '',
-    price: 0
+    occasion: '',
+    quantity: '',
+    deliveryDate: '',
+    description: '',
   });
 
-  const productTypes = ['Cookies', 'Crêpes', 'Gâteaux'];
+  const [sending, setSending] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState('');
+  const dateInputRef = useRef<HTMLInputElement>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError('');
 
-    if (!formData.productType || !formData.productName || formData.price <= 0) {
-      alert('Veuillez remplir tous les champs obligatoires');
+    if (!form.clientName || !form.clientEmail || !form.clientPhone || !form.productType || !form.description) {
+      setError('Veuillez remplir tous les champs obligatoires.');
       return;
     }
 
-    addToCart({
-      type: 'custom',
-      name: `${formData.productType} - ${formData.productName}`,
-      price: formData.price,
-      quantity: formData.quantity,
-      description: formData.productType,
-      customization: formData.customization
-    });
-
-    alert('Commande personnalisée ajoutée au panier !');
-    
-    // Reset form
-    setFormData({
-      productType: '',
-      productName: '',
-      quantity: 1,
-      customization: '',
-      price: 0
-    });
+    setSending(true);
+    try {
+      const functions = getFunctions();
+      const sendCustomOrderEmail = httpsCallable(functions, 'sendCustomOrderEmail');
+      await sendCustomOrderEmail({
+        clientName: form.clientName,
+        clientEmail: form.clientEmail,
+        clientPhone: form.clientPhone,
+        productType: form.productType,
+        occasion: form.occasion,
+        quantity: form.quantity || 'Non précisée',
+        deliveryDate: form.deliveryDate || undefined,
+        description: form.description,
+      });
+      setSubmitted(true);
+    } catch (err: any) {
+      setError(err.message || 'Une erreur est survenue. Veuillez réessayer.');
+    } finally {
+      setSending(false);
+    }
   };
+
+  if (submitted) {
+    return (
+      <div className="personnalisation-page">
+        <div className="personnalisation-hero">
+          <h1>🎨 Personnalisation</h1>
+        </div>
+        <div className="custom-success">
+          <div className="custom-success-icon">✅</div>
+          <h2>Demande envoyée !</h2>
+          <p>Merci <strong>{form.clientName}</strong> ! Votre demande a bien été reçue.</p>
+          <p>Nous vous contacterons très bientôt pour discuter des détails et confirmer le prix.</p>
+          <p className="custom-success-note">Un email de confirmation vous a été envoyé à <strong>{form.clientEmail}</strong>.</p>
+          <button className="btn btn-primary" onClick={() => { setSubmitted(false); setForm({ clientName: '', clientEmail: '', clientPhone: '', productType: '', occasion: '', quantity: '', deliveryDate: '', description: '' }); }}>
+            Faire une autre demande
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="personnalisation-page">
       <div className="personnalisation-hero">
         <h1>🎨 Personnalisation</h1>
-        <p>Créez votre commande sur mesure selon vos envies</p>
+        <p>Créez votre commande sur mesure — gâteau, cookies ou crêpes selon vos envies</p>
       </div>
 
       <div className="personnalisation-content">
+        <form onSubmit={handleSubmit} className="custom-order-form">
+          <h2>Votre demande</h2>
+
+          {error && <div className="error-message">❌ {error}</div>}
+
+          <fieldset className="form-fieldset">
+            <legend>Vos coordonnées</legend>
+            <div className="form-group">
+              <label>Nom complet *</label>
+              <input
+                type="text"
+                value={form.clientName}
+                onChange={e => setForm({ ...form, clientName: e.target.value })}
+                placeholder="Votre nom"
+                required
+              />
+            </div>
+            <div className="form-row">
+              <div className="form-group">
+                <label>Email *</label>
+                <input
+                  type="email"
+                  value={form.clientEmail}
+                  onChange={e => setForm({ ...form, clientEmail: e.target.value })}
+                  placeholder="votre@email.com"
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label>Téléphone *</label>
+                <input
+                  type="tel"
+                  value={form.clientPhone}
+                  onChange={e => setForm({ ...form, clientPhone: e.target.value })}
+                  placeholder="+1 (819) 000-0000"
+                  required
+                />
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset className="form-fieldset">
+            <legend>Votre commande</legend>
+            <div className="form-row">
+              <div className="form-group">
+                <label>Type de produit *</label>
+                <select
+                  value={form.productType}
+                  onChange={e => setForm({ ...form, productType: e.target.value as any })}
+                  required
+                >
+                  <option value="">-- Choisir --</option>
+                  <option value="Cookies">🍪 Cookies</option>
+                  <option value="Crêpes">🥞 Crêpes</option>
+                  <option value="Gâteaux">🎂 Gâteaux</option>
+                </select>
+              </div>
+              <div className="form-group">
+                <label>Occasion</label>
+                <select
+                  value={form.occasion}
+                  onChange={e => setForm({ ...form, occasion: e.target.value })}
+                >
+                  <option value="">-- Choisir --</option>
+                  {OCCASIONS.map(o => <option key={o} value={o}>{o}</option>)}
+                </select>
+              </div>
+            </div>
+            <div className="form-row">
+              <div className="form-group">
+                <label>Quantité souhaitée</label>
+                <input
+                  type="text"
+                  value={form.quantity}
+                  onChange={e => setForm({ ...form, quantity: e.target.value })}
+                  placeholder="Ex : 24 cookies, 1 gâteau 6 parts…"
+                />
+              </div>
+              <div className="form-group">
+                <label>Date souhaitée</label>
+                <div className="date-input-wrapper">
+                  <input
+                    ref={dateInputRef}
+                    type="date"
+                    value={form.deliveryDate}
+                    onChange={e => setForm({ ...form, deliveryDate: e.target.value })}
+                    min={new Date().toISOString().split('T')[0]}
+                  />
+                  <button type="button" className="date-picker-btn" onClick={() => dateInputRef.current?.showPicker()}>
+                    📅
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div className="form-group">
+              <label>Description de votre projet *</label>
+              <textarea
+                value={form.description}
+                onChange={e => setForm({ ...form, description: e.target.value })}
+                placeholder="Décrivez en détail votre idée :&#10;- Saveurs, couleurs, décorations&#10;- Thème de l'événement&#10;- Allergies ou restrictions alimentaires&#10;- Toute autre information importante…"
+                rows={7}
+                required
+              />
+            </div>
+          </fieldset>
+
+          <button type="submit" className="btn btn-primary btn-large" disabled={sending}>
+            {sending ? 'Envoi en cours...' : '✉️ Envoyer ma demande'}
+          </button>
+        </form>
+
         <div className="custom-order-info">
           <h2>Comment ça marche ?</h2>
           <div className="info-steps">
             <div className="info-step">
               <span className="step-number">1</span>
               <div>
-                <h3>Choisissez votre type de produit</h3>
-                <p>Cookies, Crêpes ou Gâteaux</p>
+                <h3>Remplissez le formulaire</h3>
+                <p>Décrivez votre projet, l'occasion et la quantité souhaitée</p>
               </div>
             </div>
             <div className="info-step">
               <span className="step-number">2</span>
               <div>
-                <h3>Nommez votre création</h3>
-                <p>Donnez un nom à votre commande personnalisée</p>
+                <h3>Nous vous contactons</h3>
+                <p>On revient vers vous dans les 24h pour discuter des détails</p>
               </div>
             </div>
             <div className="info-step">
               <span className="step-number">3</span>
               <div>
-                <h3>Décrivez vos souhaits</h3>
-                <p>Saveurs, décorations, allergies, occasions spéciales...</p>
-              </div>
-            </div>
-            <div className="info-step">
-              <span className="step-number">4</span>
-              <div>
-                <h3>Ajoutez au panier</h3>
-                <p>Je vous contacterai pour finaliser les détails et le prix exact</p>
+                <h3>Confirmation & paiement</h3>
+                <p>Une fois le prix validé, vous confirmez et on prépare votre commande</p>
               </div>
             </div>
           </div>
-        </div>
 
-        <form onSubmit={handleSubmit} className="custom-order-form">
-          <h2>Créer ma commande personnalisée</h2>
-
-          <div className="form-group">
-            <label>Type de produit *</label>
-            <select
-              value={formData.productType}
-              onChange={(e) => setFormData({ ...formData, productType: e.target.value as any })}
-              required
-            >
-              <option value="">-- Sélectionnez un type --</option>
-              {productTypes.map(type => (
-                <option key={type} value={type}>{type}</option>
-              ))}
-            </select>
-          </div>
-
-          <div className="form-group">
-            <label>Nom de votre création *</label>
-            <input
-              type="text"
-              value={formData.productName}
-              onChange={(e) => setFormData({ ...formData, productName: e.target.value })}
-              placeholder="Ex: Gâteau d'anniversaire licorne, Cookies chocolat-noisette..."
-              required
-            />
-          </div>
-
-          <div className="form-group">
-            <label>Quantité *</label>
-            <input
-              type="number"
-              min="1"
-              value={formData.quantity}
-              onChange={(e) => setFormData({ ...formData, quantity: parseInt(e.target.value) || 1 })}
-              required
-            />
-          </div>
-
-          <div className="form-group">
-            <label>Prix estimé (CAD) *</label>
-            <input
-              type="number"
-              min="0"
-              step="0.01"
-              value={formData.price}
-              onChange={(e) => setFormData({ ...formData, price: parseFloat(e.target.value) || 0 })}
-              placeholder="Prix approximatif"
-              required
-            />
-            <small>Le prix final sera confirmé après discussion</small>
-          </div>
-
-          <div className="form-group">
-            <label>Description et personnalisation</label>
-            <textarea
-              value={formData.customization}
-              onChange={(e) => setFormData({ ...formData, customization: e.target.value })}
-              placeholder="Décrivez en détail ce que vous souhaitez :&#10;- Saveurs préférées&#10;- Couleurs et décorations&#10;- Thème de l'événement&#10;- Allergies ou restrictions alimentaires&#10;- Date de livraison souhaitée&#10;- Toute autre information importante..."
-              rows={8}
-            />
-          </div>
-
-          <button type="submit" className="btn btn-primary btn-large">
-            🛒 Ajouter au panier
-          </button>
-        </form>
-
-        <div className="custom-examples">
-          <h2>Exemples de personnalisations</h2>
-          <div className="examples-grid">
-            <div className="example-card">
-              <div className="example-icon">🍪</div>
-              <h3>Cookies Personnalisés</h3>
-              <p>Choisissez vos pépites : chocolat noir, blanc, caramel, noisettes, M&M's...</p>
-            </div>
-            <div className="example-card">
-              <div className="example-icon">🥞</div>
-              <h3>Crêpes Sur Mesure</h3>
-              <p>Saveurs : vanille, citron, orange, chocolat, fruits rouges...</p>
-            </div>
-            <div className="example-card">
-              <div className="example-icon">🎂</div>
-              <h3>Cake Design</h3>
-              <p>Gâteaux thématiques : anniversaire, mariage, baptême, diplômation...</p>
+          <div className="custom-examples">
+            <h3>Idées de personnalisation</h3>
+            <div className="examples-grid">
+              <div className="example-card">
+                <div className="example-icon">🍪</div>
+                <h4>Cookies</h4>
+                <p>Pépites de chocolat noir, blanc ou caramel, noisettes, M&M's, glaçage personnalisé…</p>
+              </div>
+              <div className="example-card">
+                <div className="example-icon">🥞</div>
+                <h4>Crêpes</h4>
+                <p>Saveurs vanille, citron, chocolat, fruits rouges, garnitures sur mesure…</p>
+              </div>
+              <div className="example-card">
+                <div className="example-icon">🎂</div>
+                <h4>Gâteaux</h4>
+                <p>Thématiques : anniversaire, mariage, baptême, diplômation, cake design…</p>
+              </div>
             </div>
           </div>
         </div>
