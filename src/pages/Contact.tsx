@@ -1,6 +1,15 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { branding } from '../config/branding';
 import { getFunctions, httpsCallable } from 'firebase/functions';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '../firebase';
+
+interface DayHours {
+  name: string;
+  open: string;
+  close: string;
+  closed: boolean;
+}
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -14,6 +23,13 @@ export default function Contact() {
   const [submitted, setSubmitted] = useState(false);
   const [sending, setSending] = useState(false);
   const [error, setError] = useState('');
+  const [hours, setHours] = useState<DayHours[] | null>(null);
+
+  useEffect(() => {
+    getDoc(doc(db, 'settings', 'businessHours')).then(snap => {
+      if (snap.exists() && snap.data().days) setHours(snap.data().days);
+    });
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -83,11 +99,21 @@ export default function Contact() {
           <div className="contact-info-card">
             <div className="contact-icon">🕐</div>
             <h3>Horaires</h3>
-            <p>
-              {branding.hours.weekdays}<br />
-              {branding.hours.saturday}<br />
-              {branding.hours.sunday}
-            </p>
+            {hours ? (
+              <p>
+                {hours.map(d => (
+                  <span key={d.name} style={{ display: 'block' }}>
+                    {d.name} : {d.closed ? 'Fermé' : `${d.open} – ${d.close}`}
+                  </span>
+                ))}
+              </p>
+            ) : (
+              <p>
+                {branding.hours.weekdays}<br />
+                {branding.hours.saturday}<br />
+                {branding.hours.sunday}
+              </p>
+            )}
           </div>
         </div>
 

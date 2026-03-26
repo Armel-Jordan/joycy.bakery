@@ -1050,6 +1050,72 @@ main {
   opacity: 0.75;
 }
 
+/* Hours Management */
+.hours-management {
+  max-width: 600px;
+}
+
+.hours-table {
+  border: 1px solid #f0e0d0;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 1.5rem;
+}
+
+.hours-header-row {
+  display: grid;
+  grid-template-columns: 120px 1fr 1fr 100px;
+  gap: 1rem;
+  padding: 10px 16px;
+  background: #f5ede4;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: #6E260E;
+}
+
+.hours-row {
+  display: grid;
+  grid-template-columns: 120px 1fr 1fr 100px;
+  gap: 1rem;
+  align-items: center;
+  padding: 10px 16px;
+  border-top: 1px solid #f0e0d0;
+  transition: background 0.2s;
+}
+
+.hours-row--closed {
+  background: #fafafa;
+  color: #aaa;
+}
+
+.hours-day {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.hours-input {
+  padding: 6px 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  width: 100%;
+}
+
+.hours-input:disabled {
+  background: #f5f5f5;
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+.hours-closed-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  color: #666;
+}
+
 .password-management {
   max-width: 480px;
   padding: 2rem 0;

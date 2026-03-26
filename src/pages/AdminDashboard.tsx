@@ -7,12 +7,13 @@ import CalendarView from '../components/admin/CalendarView';
 import VacationManagement from '../components/admin/VacationManagement';
 import TeamManagement from '../components/admin/TeamManagement';
 import PasswordManagement from '../components/admin/PasswordManagement';
+import HoursManagement from '../components/admin/HoursManagement';
 
 interface AdminDashboardProps {
   user: User | null;
 }
 
-type TabType = 'orders' | 'team' | 'products' | 'vacation' | 'calendar' | 'password';
+type TabType = 'orders' | 'team' | 'products' | 'vacation' | 'calendar' | 'password' | 'hours';
 
 const ALLOWED_ADMIN_EMAILS = [
   'joycekeumogne1@gmail.com',
@@ -194,6 +195,12 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
         >
           🔑 Mot de passe
         </button>
+        <button
+          className={activeTab === 'hours' ? 'active' : ''}
+          onClick={() => setActiveTab('hours')}
+        >
+          🕐 Horaires
+        </button>
       </div>
 
       <div className="admin-content">
@@ -203,6 +210,7 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
         {activeTab === 'vacation' && <VacationManagement />}
         {activeTab === 'calendar' && <CalendarView />}
         {activeTab === 'password' && <PasswordManagement />}
+        {activeTab === 'hours' && <HoursManagement />}
       </div>
     </div>
   );

@@ -44,20 +44,48 @@ export const sendContactEmail = functions.onCall(
 
     const transporter = createTransporter(user, pass);
 
+    const subjectLabels: Record<string, string> = {
+      commande: "🎂 Commande personnalisée",
+      info: "ℹ️ Demande d'information",
+      feedback: "💬 Commentaire / Suggestion",
+      autre: "📩 Autre demande",
+    };
+
+    const subjectLabel = subjectLabels[subject] || subject;
+
+    const subjectColors: Record<string, string> = {
+      commande: "#6E260E",
+      info: "#1a6fb5",
+      feedback: "#2e7d32",
+      autre: "#555",
+    };
+    const headerColor = subjectColors[subject] || "#6E260E";
+
+    const html = `
+      <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#2c2c2c;">
+        <div style="background:${headerColor};padding:20px 24px;border-radius:12px 12px 0 0;">
+          <h2 style="color:#fff;margin:0;">Nouveau message — ${subjectLabel}</h2>
+        </div>
+        <div style="background:#fff;padding:24px;border:1px solid #e0e0e0;border-top:none;">
+          <div style="background:#f9f9f9;border-left:4px solid ${headerColor};padding:14px 16px;border-radius:4px;margin-bottom:20px;">
+            <p style="margin:4px 0;"><strong>Nom :</strong> ${name}</p>
+            <p style="margin:4px 0;"><strong>Email :</strong> <a href="mailto:${email}" style="color:${headerColor};">${email}</a></p>
+            <p style="margin:4px 0;"><strong>Téléphone :</strong> ${phone || "Non fourni"}</p>
+          </div>
+          <h3 style="color:${headerColor};border-bottom:2px solid #f0f0f0;padding-bottom:6px;">Message</h3>
+          <p style="line-height:1.6;">${message.replace(/\n/g, "<br>")}</p>
+        </div>
+        <div style="background:#f5f5f5;padding:12px;text-align:center;border-radius:0 0 12px 12px;font-size:0.82rem;color:#999;">
+          Joycy Bakery — Formulaire de contact
+        </div>
+      </div>`;
+
     await transporter.sendMail({
-      from: user,
+      from: `"Joycy Bakery Contact" <${user}>`,
       to: recipient,
       replyTo: email,
-      subject: `Contact: ${subject}`,
-      html: `
-        <h2>Nouveau message de contact</h2>
-        <p><strong>Nom :</strong> ${name}</p>
-        <p><strong>Email :</strong> ${email}</p>
-        <p><strong>Téléphone :</strong> ${phone || "Non fourni"}</p>
-        <p><strong>Sujet :</strong> ${subject}</p>
-        <h3>Message :</h3>
-        <p>${message.replace(/\n/g, "<br>")}</p>
-      `,
+      subject: `[${subjectLabel}] ${name}`,
+      html,
     });
 
     return { success: true };
@@ -165,11 +193,54 @@ export const sendOrderConfirmationEmail = functions.onCall(
     });
 
     // Notification à l'admin
+    const adminHtml = `
+      <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#2c2c2c;">
+        <div style="background:#6E260E;padding:20px;border-radius:12px 12px 0 0;">
+          <h2 style="color:#fff;margin:0;">🆕 Nouvelle commande reçue</h2>
+        </div>
+        <div style="background:#fff;padding:24px;border:1px solid #f0e0d0;border-top:none;">
+
+          <div style="background:#fff8f2;border:1px solid #f0d8c0;border-radius:8px;padding:16px;margin-bottom:20px;">
+            <h3 style="margin:0 0 10px;color:#6E260E;">👤 Client</h3>
+            <p style="margin:4px 0;"><strong>Nom :</strong> ${data.clientName}</p>
+            <p style="margin:4px 0;"><strong>Téléphone :</strong> ${data.clientPhone}</p>
+            <p style="margin:4px 0;"><strong>Email :</strong> ${data.clientEmail}</p>
+          </div>
+
+          <h3 style="color:#6E260E;border-bottom:2px solid #f5ede4;padding-bottom:6px;">📦 Commande</h3>
+          <table style="width:100%;border-collapse:collapse;">
+            <thead>
+              <tr style="background:#f5ede4;">
+                <th style="padding:8px;text-align:left;">Produit</th>
+                <th style="padding:8px;text-align:center;">Qté</th>
+                <th style="padding:8px;text-align:right;">Prix</th>
+              </tr>
+            </thead>
+            <tbody>${itemsHtml}</tbody>
+          </table>
+          <div style="text-align:right;margin-top:10px;font-size:1.1rem;">
+            <strong style="color:#6E260E;">Total : ${data.total.toFixed(2)} $</strong>
+          </div>
+
+          <h3 style="color:#6E260E;border-bottom:2px solid #f5ede4;padding-bottom:6px;margin-top:20px;">🚗 Livraison</h3>
+          <p style="margin:4px 0;">${deliveryLine}</p>
+          ${data.deliveryDate ? `<p style="margin:4px 0;">📅 Date souhaitée : <strong>${data.deliveryDate}</strong></p>` : ""}
+
+          <h3 style="color:#6E260E;border-bottom:2px solid #f5ede4;padding-bottom:6px;margin-top:20px;">💳 Paiement</h3>
+          <p style="margin:4px 0;">${paymentLabel}</p>
+
+          ${data.notes ? `<h3 style="color:#6E260E;border-bottom:2px solid #f5ede4;padding-bottom:6px;margin-top:20px;">📝 Notes du client</h3><p style="margin:4px 0;">${data.notes}</p>` : ""}
+        </div>
+        <div style="background:#f9f0e8;padding:12px;text-align:center;border-radius:0 0 12px 12px;font-size:0.85rem;color:#999;">
+          Joycy Bakery — Québec City
+        </div>
+      </div>`;
+
     await transporter.sendMail({
       from: user,
       to: recipient,
       subject: `🆕 Nouvelle commande — ${data.clientName} (${data.total.toFixed(2)} $)`,
-      html: `<p><strong>Client :</strong> ${data.clientName} — ${data.clientPhone} — ${data.clientEmail}</p>${html}`,
+      html: adminHtml,
     });
 
     return { success: true };
