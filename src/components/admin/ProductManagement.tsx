@@ -93,32 +93,6 @@ export default function ProductManagement() {
     }
   };
 
-  const handleSeedCrepes = async () => {
-    if (!confirm('Ajouter les 4 crêpes dans Firestore ? (à faire une seule fois)')) return;
-    const crepes = [
-      { name: 'Crêpe Nature', flavor: 'Nature', description: 'Crêpe moelleuse nature, légère et dorée à souhait. Simple et délicieuse.' },
-      { name: 'Crêpe Chocolat', flavor: 'Chocolat', description: 'Crêpe garnie de chocolat fondant — un classique gourmand irrésistible.' },
-      { name: 'Crêpe Caramel', flavor: 'Caramel', description: 'Crêpe nappée de caramel maison — douce, riche et parfumée.' },
-      { name: 'Crêpe Citron', flavor: 'Citron', description: 'Crêpe au citron frais et acidulé — légère et rafraîchissante.' },
-    ];
-    try {
-      for (const crepe of crepes) {
-        await addDoc(collection(db, 'products'), {
-          ...crepe,
-          price: 2.00,
-          category: 'Crêpes',
-          imageUrl: '',
-          available: true,
-          createdAt: serverTimestamp(),
-        });
-      }
-      alert('✅ 4 crêpes ajoutées avec succès !');
-      loadProducts();
-    } catch {
-      alert('Erreur lors de l\'ajout des crêpes.');
-    }
-  };
-
   const handleImageUpload = (file: File) => {
     const storageRef = ref(storage, `products/${Date.now()}_${file.name}`);
     const uploadTask = uploadBytesResumable(storageRef, file);
@@ -162,9 +136,6 @@ export default function ProductManagement() {
       <div className="management-header">
         <h2>Gestion des Produits</h2>
         <div style={{ display: 'flex', gap: '0.75rem' }}>
-          <button onClick={handleSeedCrepes} className="btn btn-secondary btn-sm">
-            🥞 Importer les crêpes
-          </button>
           <button
             onClick={() => setShowForm(!showForm)}
             className="btn btn-primary"

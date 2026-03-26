@@ -8,20 +8,33 @@ import VacationManagement from '../components/admin/VacationManagement';
 import TeamManagement from '../components/admin/TeamManagement';
 import PasswordManagement from '../components/admin/PasswordManagement';
 import HoursManagement from '../components/admin/HoursManagement';
+import CustomOrderManagement from '../components/admin/CustomOrderManagement';
 
 interface AdminDashboardProps {
   user: User | null;
 }
 
-type TabType = 'orders' | 'team' | 'products' | 'vacation' | 'calendar' | 'password' | 'hours';
+type TabType = 'orders' | 'custom' | 'products' | 'team' | 'calendar' | 'vacation' | 'hours' | 'password';
 
 const ALLOWED_ADMIN_EMAILS = [
   'joycekeumogne1@gmail.com',
   'jkuibia@gmail.com'
 ];
 
+const NAV_ITEMS: { id: TabType; icon: string; label: string }[] = [
+  { id: 'orders',   icon: '📦', label: 'Commandes'        },
+  { id: 'custom',   icon: '🎨', label: 'Personnalisations' },
+  { id: 'products', icon: '🍰', label: 'Produits'          },
+  { id: 'team',     icon: '👥', label: 'Équipe'            },
+  { id: 'calendar', icon: '📅', label: 'Calendrier'        },
+  { id: 'vacation', icon: '🏖️', label: 'Congés'            },
+  { id: 'hours',    icon: '🕐', label: 'Horaires'          },
+  { id: 'password', icon: '🔑', label: 'Mot de passe'      },
+];
+
 export default function AdminDashboard({ user }: AdminDashboardProps) {
   const [activeTab, setActiveTab] = useState<TabType>('orders');
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -30,14 +43,35 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
   const [resetEmail, setResetEmail] = useState('');
   const [resetSuccess, setResetSuccess] = useState('');
 
-  const handleResetPassword = async (e: React.FormEvent) => {
+  const isAdmin = user && ALLOWED_ADMIN_EMAILS.includes(user.email || '');
+
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-    setResetSuccess('');
     setLoading(true);
     try {
+      const cred = await signInWithEmailAndPassword(auth, email, password);
+      if (!ALLOWED_ADMIN_EMAILS.includes(cred.user.email || '')) {
+        await signOut(auth);
+        setError('Accès refusé. Vous n\'êtes pas autorisé.');
+      }
+    } catch (err: any) {
+      setError(
+        err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential'
+          ? 'Email ou mot de passe incorrect.'
+          : 'Erreur de connexion. Veuillez réessayer.'
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleResetPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(''); setResetSuccess(''); setLoading(true);
+    try {
       await sendPasswordResetEmail(auth, resetEmail);
-      setResetSuccess('Un email de réinitialisation a été envoyé. Vérifiez votre boîte mail.');
+      setResetSuccess('Email de réinitialisation envoyé. Vérifiez votre boîte mail.');
     } catch {
       setError('Impossible d\'envoyer l\'email. Vérifiez l\'adresse saisie.');
     } finally {
@@ -45,100 +79,55 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
     }
   };
 
-  const isAdmin = user && ALLOWED_ADMIN_EMAILS.includes(user.email || '');
+  const currentNav = NAV_ITEMS.find(n => n.id === activeTab);
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError('');
-    setLoading(true);
-
-    try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      if (!ALLOWED_ADMIN_EMAILS.includes(userCredential.user.email || '')) {
-        await signOut(auth);
-        setError('Accès refusé. Vous n\'êtes pas autorisé à accéder à cette page.');
-      }
-    } catch (err: any) {
-      if (err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') {
-        setError('Email ou mot de passe incorrect.');
-      } else {
-        setError('Erreur de connexion. Veuillez réessayer.');
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleLogout = async () => {
-    await signOut(auth);
-  };
-
+  // ── LOGIN SCREEN ──────────────────────────────────────────────────────────
   if (!isAdmin) {
     return (
       <div className="admin-login">
         <div className="admin-login-container">
+          <div className="admin-login-logo">🍪</div>
           {resetMode ? (
             <>
-              <h1>🔑 Mot de passe oublié</h1>
+              <h1>Mot de passe oublié</h1>
               <p>Entrez votre email pour recevoir un lien de réinitialisation.</p>
               <form onSubmit={handleResetPassword} className="admin-login-form">
                 <div className="form-group">
-                  <label htmlFor="resetEmail">Email</label>
-                  <input
-                    type="email"
-                    id="resetEmail"
-                    value={resetEmail}
-                    onChange={(e) => setResetEmail(e.target.value)}
-                    placeholder="Entrez votre email"
-                    required
-                  />
+                  <label>Email</label>
+                  <input type="email" value={resetEmail} onChange={e => setResetEmail(e.target.value)} placeholder="votre@email.com" required />
                 </div>
-                {error && <p className="error-message">{error}</p>}
+                {error       && <p className="error-message">{error}</p>}
                 {resetSuccess && <p className="success-message">{resetSuccess}</p>}
                 <button type="submit" className="btn btn-primary" disabled={loading}>
-                  {loading ? 'Envoi...' : 'Envoyer le lien'}
+                  {loading ? 'Envoi…' : 'Envoyer le lien'}
                 </button>
               </form>
-              <button className="forgot-password-link" onClick={() => { setResetMode(false); setError(''); setResetSuccess(''); }}>
+              <button className="admin-text-btn" onClick={() => { setResetMode(false); setError(''); setResetSuccess(''); }}>
                 ← Retour à la connexion
               </button>
             </>
           ) : (
             <>
-              <h1>🔐 Accès Administrateur</h1>
+              <h1>Accès Administrateur</h1>
               <p>Connectez-vous pour accéder au tableau de bord.</p>
               <form onSubmit={handleLogin} className="admin-login-form">
                 <div className="form-group">
-                  <label htmlFor="email">Email</label>
-                  <input
-                    type="email"
-                    id="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Entrez votre email"
-                    required
-                  />
+                  <label>Email</label>
+                  <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="votre@email.com" required />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="password">Mot de passe</label>
-                  <input
-                    type="password"
-                    id="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Entrez votre mot de passe"
-                    required
-                  />
+                  <label>Mot de passe</label>
+                  <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="••••••••" required />
                 </div>
                 {error && <p className="error-message">{error}</p>}
                 <button type="submit" className="btn btn-primary" disabled={loading}>
-                  {loading ? 'Connexion...' : 'Se connecter'}
+                  {loading ? 'Connexion…' : 'Se connecter'}
                 </button>
               </form>
-              <button className="forgot-password-link" onClick={() => { setResetMode(true); setError(''); }}>
+              <button className="admin-text-btn" onClick={() => { setResetMode(true); setError(''); }}>
                 Mot de passe oublié ?
               </button>
-              <a href="/" className="back-link">← Retour au site</a>
+              <a href="/" className="admin-text-btn">← Retour au site</a>
             </>
           )}
         </div>
@@ -146,72 +135,66 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
     );
   }
 
+  // ── DASHBOARD ─────────────────────────────────────────────────────────────
   return (
-    <div className="admin-dashboard">
-      <div className="admin-header">
-        <h1>📊 Tableau de Bord Administrateur</h1>
-        <div className="admin-user-info">
-          <p>Bienvenue, {user?.email}</p>
-          <button onClick={handleLogout} className="btn btn-secondary btn-sm">
+    <div className="admin-layout">
+
+      {/* Sidebar */}
+      <aside className={`admin-sidebar${sidebarOpen ? ' open' : ''}`}>
+        <div className="admin-sidebar-logo">
+          <span>🍪</span>
+          <span>Joycy Bakery</span>
+        </div>
+
+        <nav className="admin-nav">
+          {NAV_ITEMS.map(item => (
+            <button
+              key={item.id}
+              className={`admin-nav-item${activeTab === item.id ? ' active' : ''}`}
+              onClick={() => { setActiveTab(item.id); setSidebarOpen(false); }}
+            >
+              <span className="admin-nav-icon">{item.icon}</span>
+              <span>{item.label}</span>
+            </button>
+          ))}
+        </nav>
+
+        <div className="admin-sidebar-footer">
+          <div className="admin-sidebar-user">
+            <span className="admin-sidebar-avatar">
+              {user?.email?.[0].toUpperCase()}
+            </span>
+            <span className="admin-sidebar-email">{user?.email}</span>
+          </div>
+          <button className="admin-logout-btn" onClick={() => signOut(auth)}>
             Déconnexion
           </button>
         </div>
-      </div>
+      </aside>
 
-      <div className="admin-tabs">
-        <button
-          className={activeTab === 'orders' ? 'active' : ''}
-          onClick={() => setActiveTab('orders')}
-        >
-          📦 Commandes
-        </button>
-        <button
-          className={activeTab === 'team' ? 'active' : ''}
-          onClick={() => setActiveTab('team')}
-        >
-          👥 Équipe
-        </button>
-        <button
-          className={activeTab === 'products' ? 'active' : ''}
-          onClick={() => setActiveTab('products')}
-        >
-          🍰 Produits
-        </button>
-        <button
-          className={activeTab === 'vacation' ? 'active' : ''}
-          onClick={() => setActiveTab('vacation')}
-        >
-          Mes Congés
-        </button>
-        <button
-          className={activeTab === 'calendar' ? 'active' : ''}
-          onClick={() => setActiveTab('calendar')}
-        >
-          📅 Calendrier
-        </button>
-        <button
-          className={activeTab === 'password' ? 'active' : ''}
-          onClick={() => setActiveTab('password')}
-        >
-          🔑 Mot de passe
-        </button>
-        <button
-          className={activeTab === 'hours' ? 'active' : ''}
-          onClick={() => setActiveTab('hours')}
-        >
-          🕐 Horaires
-        </button>
-      </div>
+      {/* Overlay mobile */}
+      {sidebarOpen && <div className="admin-overlay" onClick={() => setSidebarOpen(false)} />}
 
-      <div className="admin-content">
-        {activeTab === 'orders' && <OrderManagement />}
-        {activeTab === 'team' && <TeamManagement />}
-        {activeTab === 'products' && <ProductManagement />}
-        {activeTab === 'vacation' && <VacationManagement />}
-        {activeTab === 'calendar' && <CalendarView />}
-        {activeTab === 'password' && <PasswordManagement />}
-        {activeTab === 'hours' && <HoursManagement />}
-      </div>
+      {/* Main */}
+      <main className="admin-main">
+        <div className="admin-topbar">
+          <button className="admin-menu-btn" onClick={() => setSidebarOpen(true)}>☰</button>
+          <h1 className="admin-page-title">
+            <span>{currentNav?.icon}</span> {currentNav?.label}
+          </h1>
+        </div>
+
+        <div className="admin-content">
+          {activeTab === 'orders'   && <OrderManagement />}
+          {activeTab === 'custom'   && <CustomOrderManagement />}
+          {activeTab === 'products' && <ProductManagement />}
+          {activeTab === 'team'     && <TeamManagement />}
+          {activeTab === 'calendar' && <CalendarView />}
+          {activeTab === 'vacation' && <VacationManagement />}
+          {activeTab === 'hours'    && <HoursManagement />}
+          {activeTab === 'password' && <PasswordManagement />}
+        </div>
+      </main>
     </div>
   );
 }
