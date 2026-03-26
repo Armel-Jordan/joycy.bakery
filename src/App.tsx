@@ -26,7 +26,7 @@ function Navigation() {
     <nav className="main-nav">
       <div className="nav-brand">
         <Link to="/">
-          <img src="/logo.jpeg" alt="Joycy Bakery" className="nav-logo" />
+          <img src="/logo.png" alt="Joycy Bakery" className="nav-logo" />
           <span>Joycy Bakery</span>
         </Link>
       </div>

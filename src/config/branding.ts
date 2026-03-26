@@ -35,7 +35,7 @@ export const branding = {
   
   // Logo and Images
   assets: {
-    logo: '/logo.jpeg',
+    logo: '/logo.png',
     favicon: '/favicon.ico'
   }
 };
