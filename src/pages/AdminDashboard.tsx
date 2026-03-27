@@ -9,12 +9,13 @@ import TeamManagement from '../components/admin/TeamManagement';
 import PasswordManagement from '../components/admin/PasswordManagement';
 import HoursManagement from '../components/admin/HoursManagement';
 import CustomOrderManagement from '../components/admin/CustomOrderManagement';
+import PromotionManagement from '../components/admin/PromotionManagement';
 
 interface AdminDashboardProps {
   user: User | null;
 }
 
-type TabType = 'orders' | 'custom' | 'products' | 'team' | 'calendar' | 'vacation' | 'hours' | 'password';
+type TabType = 'orders' | 'custom' | 'products' | 'promotions' | 'team' | 'calendar' | 'vacation' | 'hours' | 'password';
 
 const ALLOWED_ADMIN_EMAILS = [
   'joycekeumogne1@gmail.com',
@@ -24,8 +25,9 @@ const ALLOWED_ADMIN_EMAILS = [
 const NAV_ITEMS: { id: TabType; icon: string; label: string }[] = [
   { id: 'orders',   icon: '📦', label: 'Commandes'        },
   { id: 'custom',   icon: '🎨', label: 'Personnalisations' },
-  { id: 'products', icon: '🍰', label: 'Produits'          },
-  { id: 'team',     icon: '👥', label: 'Équipe'            },
+  { id: 'products',   icon: '🍰', label: 'Produits'      },
+  { id: 'promotions', icon: '🎉', label: 'Promotions'    },
+  { id: 'team',       icon: '👥', label: 'Équipe'        },
   { id: 'calendar', icon: '📅', label: 'Calendrier'        },
   { id: 'vacation', icon: '🏖️', label: 'Congés'            },
   { id: 'hours',    icon: '🕐', label: 'Horaires'          },
@@ -187,8 +189,9 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
         <div className="admin-content">
           {activeTab === 'orders'   && <OrderManagement />}
           {activeTab === 'custom'   && <CustomOrderManagement />}
-          {activeTab === 'products' && <ProductManagement />}
-          {activeTab === 'team'     && <TeamManagement />}
+          {activeTab === 'products'   && <ProductManagement />}
+          {activeTab === 'promotions' && <PromotionManagement />}
+          {activeTab === 'team'       && <TeamManagement />}
           {activeTab === 'calendar' && <CalendarView />}
           {activeTab === 'vacation' && <VacationManagement />}
           {activeTab === 'hours'    && <HoursManagement />}

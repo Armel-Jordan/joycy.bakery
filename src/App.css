@@ -1181,6 +1181,112 @@ main {
 .back-link { display: inline-block; margin-top: 1.5rem; color: #6E260E; text-decoration: none; font-size: 0.9rem; }
 
 /* Custom Order Management */
+/* Promotion Management */
+.promo-mgmt-form {
+  background: #fff;
+  border: 1px solid #ede5de;
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.promo-mgmt-form h3 {
+  margin: 0 0 1.25rem;
+  color: #2c1608;
+  font-size: 1rem;
+}
+
+.promo-toggle-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  color: #444;
+}
+
+.promo-mgmt-list table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid #ede5de;
+}
+
+.promo-mgmt-list th {
+  background: #f5ede4;
+  padding: 10px 14px;
+  text-align: left;
+  font-size: 0.83rem;
+  color: #6E260E;
+  font-weight: 600;
+}
+
+.promo-mgmt-list td {
+  padding: 10px 14px;
+  border-bottom: 1px solid #f5ede4;
+  font-size: 0.88rem;
+  color: #333;
+  vertical-align: middle;
+}
+
+.promo-mgmt-list tr:last-child td { border-bottom: none; }
+
+.promo-row--off td { opacity: 0.45; }
+
+.promo-thumb {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #ede5de;
+}
+
+.promo-thumb-empty {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  background: #f5ede4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+}
+
+.promo-card-img {
+  width: calc(100% + 3.5rem);
+  margin: -1.75rem -1.75rem 1rem;
+  height: 160px;
+  overflow: hidden;
+  border-radius: 14px 14px 0 0;
+}
+
+.promo-card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.promo-featured-tag {
+  display: inline-block;
+  margin-left: 6px;
+  font-size: 0.72rem;
+  background: #f5ede4;
+  color: #6E260E;
+  border-radius: 4px;
+  padding: 1px 6px;
+  vertical-align: middle;
+}
+
+.promo-badge-tag {
+  background: #6E260E;
+  color: #fff;
+  font-size: 0.72rem;
+  padding: 2px 8px;
+  border-radius: 20px;
+}
+
 .custom-order-mgmt { padding: 0.5rem 0; }
 
 .custom-order-filters {
@@ -2532,42 +2638,93 @@ main {
   padding: 2rem;
 }
 
-.promo-section {
-  margin-bottom: 4rem;
-}
-
-.promo-section h2 {
-  color: #6E260E;
+/* Promotions — onglets */
+.promo-tabs {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
   margin-bottom: 2rem;
-  font-size: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid #f0e8e0;
 }
 
-.promo-cards {
+.promo-tab {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.55rem 1.1rem;
+  border: 1.5px solid #e8ddd4;
+  border-radius: 30px;
+  background: #fff;
+  color: #666;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.promo-tab:hover {
+  border-color: #6E260E;
+  color: #6E260E;
+}
+
+.promo-tab.active {
+  background: #6E260E;
+  border-color: #6E260E;
+  color: #fff;
+}
+
+.promo-tab-count {
+  background: rgba(255,255,255,0.25);
+  border-radius: 20px;
+  padding: 0 6px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  min-width: 20px;
+  text-align: center;
+}
+
+.promo-tab:not(.active) .promo-tab-count {
+  background: #f0e8e0;
+  color: #888;
+}
+
+/* Grille promotions */
+.promo-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.promo-card-cat {
+  font-size: 0.78rem;
+  color: #999;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
 }
 
 .promo-card {
-  background: #F5EDE4;
-  padding: 2rem;
-  border-radius: 12px;
-  border: 2px solid #f0f0f0;
+  background: #fff;
+  padding: 1.75rem;
+  border-radius: 14px;
+  border: 1.5px solid #ede5de;
   position: relative;
-  transition: all 0.3s;
+  transition: all 0.25s;
+  display: flex;
+  flex-direction: column;
 }
 
 .promo-card:hover {
   border-color: #6E260E;
-  transform: translateY(-5px);
-  box-shadow: 0 10px 30px rgba(212, 175, 55, 0.15);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(110,38,14,0.1);
 }
 
 .promo-card.featured {
   border-color: #6E260E;
-  background: linear-gradient(135deg, #F5EDE4 0%, #ffffff 100%);
+  background: linear-gradient(135deg, #fff8f2 0%, #ffffff 100%);
+  grid-column: span 1;
 }
 
 .promo-badge {
@@ -2818,8 +2975,12 @@ main {
 }
 
 .btn-add-cart:hover {
-  background: #c19b2e;
-  transform: scale(1.02);
+  background: #5a1f08;
+}
+
+.btn-add-cart.btn-added {
+  background: #27ae60;
+  cursor: default;
 }
 
 .promo-card {
