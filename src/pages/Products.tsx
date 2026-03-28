@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { db } from '../firebase';
 import { Product } from '../types';
 import { useCart } from '../context/CartContext';
+import { useTranslation } from 'react-i18next';
 
 interface PriceTier {
   label: string;
@@ -29,7 +30,6 @@ const CREPE_TIERS: PriceTier[] = [
   { label: 'Autre quantité', qty: 0, price: 0, custom: true },
 ];
 
-
 function getTiers(category: string): PriceTier[] | null {
   if (category === 'Cookies') return COOKIE_TIERS;
   if (category === 'Crêpes') return CREPE_TIERS;
@@ -43,11 +43,19 @@ export default function Products() {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [selectedTier, setSelectedTier] = useState<PriceTier | null>(null);
   const [flavorPicks, setFlavorPicks] = useState<Record<string, number>>({});
-  const [quantity, setQuantity] = useState(1);
   const [added, setAdded] = useState(false);
 
   const { addToCart } = useCart();
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
+
+  const loc = (product: Product, field: 'name' | 'description' | 'flavor') => {
+    if (i18n.language === 'en') {
+      const enVal = product[`${field}_en` as keyof Product] as string | undefined;
+      if (enVal) return enVal;
+    }
+    return product[field] || '';
+  };
 
   useEffect(() => { loadProducts(); }, []);
 
@@ -70,7 +78,6 @@ export default function Products() {
     setSelectedProduct(product);
     setSelectedTier(null);
     setFlavorPicks({});
-    setQuantity(1);
     setAdded(false);
   };
 
@@ -79,7 +86,6 @@ export default function Products() {
     setAdded(false);
   };
 
-  // When a tier is selected, pre-fill the clicked product with full qty
   const handleSelectTier = (tier: PriceTier) => {
     setSelectedTier(tier);
     setAdded(false);
@@ -87,7 +93,8 @@ export default function Products() {
       if (selectedProduct.category === 'Cookies') {
         setFlavorPicks({ [selectedProduct.name]: tier.qty });
       } else if (selectedProduct.category === 'Crêpes') {
-        setFlavorPicks({ [CREPE_FLAVORS[0]]: tier.qty });
+        const firstFlavor = products.filter(p => p.category === 'Crêpes')[0]?.name;
+        if (firstFlavor) setFlavorPicks({ [firstFlavor]: tier.qty });
       }
     }
   };
@@ -107,7 +114,6 @@ export default function Products() {
 
       if (delta > 0) {
         if (remaining <= 0) return prev;
-        // Premier ajout : sauter directement au minimum
         if (current === 0 && isCrepe) {
           const jump = Math.min(min, remaining);
           return { ...prev, [name]: jump };
@@ -115,7 +121,6 @@ export default function Products() {
         if (remaining <= 0) return prev;
         return { ...prev, [name]: current + 1 };
       } else {
-        // Diminuer : si on est au minimum, retomber à 0
         if (current <= min && isCrepe) return { ...prev, [name]: 0 };
         return { ...prev, [name]: Math.max(0, current - 1) };
       }
@@ -147,7 +152,6 @@ export default function Products() {
     else setAdded(true);
   };
 
-  // Flavor options depending on category
   const flavorOptions = selectedProduct?.category === 'Cookies'
     ? products.filter(p => p.category === 'Cookies').map(p => p.name)
     : selectedProduct?.category === 'Crêpes'
@@ -159,13 +163,13 @@ export default function Products() {
     ? products
     : products.filter(p => p.category === selectedCategory);
 
-  if (loading) return <div className="loading">Chargement des produits...</div>;
+  if (loading) return <div className="loading">{t('products.loading')}</div>;
 
   return (
     <div className="products-page">
       <div className="products-hero">
-        <h1>🍰 Nos Produits</h1>
-        <p>Découvrez toutes nos délicieuses créations artisanales</p>
+        <h1>{t('products.hero.title')}</h1>
+        <p>{t('products.hero.desc')}</p>
       </div>
 
       <div className="products-filters">
@@ -175,7 +179,7 @@ export default function Products() {
             className={`filter-btn ${selectedCategory === cat ? 'active' : ''}`}
             onClick={() => setSelectedCategory(cat)}
           >
-            {cat === 'all' ? 'Tous' : cat}
+            {cat === 'all' ? t('products.all') : cat}
           </button>
         ))}
       </div>
@@ -183,7 +187,7 @@ export default function Products() {
       <div className="products-grid">
         {filteredProducts.length === 0 ? (
           <div className="empty-state">
-            <p>Aucun produit disponible dans cette catégorie pour le moment.</p>
+            <p>{t('products.empty')}</p>
           </div>
         ) : (
           filteredProducts.map(product => (
@@ -195,9 +199,9 @@ export default function Products() {
               )}
               <div className="product-info">
                 <div className="product-category">{product.category}</div>
-                <h3>{product.name}</h3>
-                {product.flavor && <div className="product-flavor">🍫 {product.flavor}</div>}
-                <p className="product-description">{product.description}</p>
+                <h3>{loc(product, 'name')}</h3>
+                {product.flavor && <div className="product-flavor">🍫 {loc(product, 'flavor')}</div>}
+                <p className="product-description">{loc(product, 'description')}</p>
                 <div className="product-footer">
                   <span className="product-price">{product.price.toFixed(2)} $</span>
                 </div>
@@ -208,7 +212,7 @@ export default function Products() {
       </div>
 
       <div className="pricing-info">
-        <h2>💰 Informations de Vente</h2>
+        <h2>{t('products.pricing.title')}</h2>
         <div className="pricing-grid">
           <div className="pricing-card">
             <h3>🍪 Cookies</h3>
@@ -218,9 +222,9 @@ export default function Products() {
               <li>Boîte de 6 : <strong>25,00 $</strong></li>
               <li>Boîte de 12 : <strong>45,00 $</strong></li>
               <li>Boîte de 24 : <strong>85,00 $</strong></li>
-              <li>Autre quantité : <strong>prix sur demande</strong></li>
+              <li>Autre quantité : <strong>{t('products.pricing.customPrice')}</strong></li>
             </ul>
-            <p className="pricing-note">⚠️ Les saveurs spéciales doivent être confirmées à l'avance</p>
+            <p className="pricing-note">{t('products.pricing.note')}</p>
           </div>
           <div className="pricing-card">
             <h3>🥞 Crêpes</h3>
@@ -229,17 +233,17 @@ export default function Products() {
               <li>30 crêpes : <strong>40,00 $</strong></li>
               <li>45 crêpes : <strong>60,00 $</strong></li>
               <li>60 crêpes : <strong>70,00 $</strong></li>
-              <li>Autre quantité : <strong>prix sur demande</strong></li>
+              <li>Autre quantité : <strong>{t('products.pricing.customPrice')}</strong></li>
             </ul>
-            <p className="pricing-note">⚠️ Les saveurs spéciales doivent être confirmées à l'avance</p>
+            <p className="pricing-note">{t('products.pricing.note')}</p>
           </div>
           <div className="pricing-card">
-            <h3>🎂 Gâteaux</h3>
-            <p><strong>Vendus à l'unité</strong></p>
+            <h3>{t('products.pricing.cakes.title')}</h3>
+            <p><strong>{t('products.pricing.soldByUnit')}</strong></p>
             <ul>
-              <li>Gâteau personnalisé sur mesure</li>
-              <li>Prix selon taille et design</li>
-              <li>Contactez-nous pour un devis</li>
+              <li>{t('products.pricing.cakes.custom')}</li>
+              <li>{t('products.pricing.cakes.price')}</li>
+              <li>{t('products.pricing.cakes.contact')}</li>
             </ul>
           </div>
         </div>
@@ -256,15 +260,14 @@ export default function Products() {
 
             <div className="product-modal-body">
               <div className="product-category">{selectedProduct.category}</div>
-              <h2>{selectedProduct.name}</h2>
-              {selectedProduct.flavor && <div className="product-flavor">🍫 {selectedProduct.flavor}</div>}
-              <p className="product-modal-desc">{selectedProduct.description}</p>
-              <div className="product-modal-price">{selectedProduct.price.toFixed(2)} $ / unité</div>
+              <h2>{loc(selectedProduct, 'name')}</h2>
+              {selectedProduct.flavor && <div className="product-flavor">🍫 {loc(selectedProduct, 'flavor')}</div>}
+              <p className="product-modal-desc">{loc(selectedProduct, 'description')}</p>
+              <div className="product-modal-price">{selectedProduct.price.toFixed(2)} {t('products.perUnit')}</div>
 
-              {/* Tier selection */}
               {getTiers(selectedProduct.category) && (
                 <div className="tier-selector">
-                  <label>Choisir une quantité</label>
+                  <label>{t('products.chooseQty')}</label>
                   <div className="tier-grid">
                     {getTiers(selectedProduct.category)!.map(tier => (
                       <button
@@ -280,11 +283,13 @@ export default function Products() {
                 </div>
               )}
 
-              {/* Flavor picker — shown once a non-custom tier is selected */}
               {selectedTier && !selectedTier.custom && flavorOptions.length > 0 && (
                 <div className="flavor-picker">
                   <div className="flavor-picker-header">
-                    <label>Choisir les saveurs {selectedProduct.category === 'Crêpes' && <small>(min. 7 / saveur)</small>}</label>
+                    <label>
+                      {t('products.chooseFlavor')}
+                      {selectedProduct.category === 'Crêpes' && <small> ({t('products.minPerFlavor')})</small>}
+                    </label>
                     <span className={`flavor-counter ${remaining === 0 ? 'done' : ''}`}>
                       {totalPicked} / {selectedTier.qty}
                     </span>
@@ -302,7 +307,12 @@ export default function Products() {
                     ))}
                   </div>
                   {remaining > 0 && (
-                    <p className="flavor-remaining">Il reste <strong>{remaining}</strong> {selectedProduct.category === 'Cookies' ? 'cookie(s)' : 'crêpe(s)'} à choisir</p>
+                    <p className="flavor-remaining">
+                      {selectedProduct.category === 'Cookies'
+                        ? t(remaining === 1 ? 'products.remaining_one' : 'products.remaining_other', { count: remaining })
+                        : t(remaining === 1 ? 'products.remainingCrepe_one' : 'products.remainingCrepe_other', { count: remaining })
+                      }
+                    </p>
                   )}
                   {remaining === 0 && (
                     <p className="flavor-summary">✅ {flavorSummary()}</p>
@@ -314,29 +324,28 @@ export default function Products() {
               )}
 
               {selectedTier?.custom && (
-                <p className="tier-custom-note">📞 Contactez-nous pour un devis personnalisé.</p>
+                <p className="tier-custom-note">{t('products.contactCustom')}</p>
               )}
 
-              {/* Actions */}
               {added ? (
                 <div className="product-modal-added">
-                  <p className="success-message">✅ Ajouté au panier !</p>
+                  <p className="success-message">{t('products.addedToCart')}</p>
                   <div className="product-modal-actions">
-                    <button className="btn btn-secondary" onClick={closeModal}>Continuer mes achats</button>
-                    <button className="btn btn-primary" onClick={() => { closeModal(); navigate('/cart'); }}>Voir le panier</button>
+                    <button className="btn btn-secondary" onClick={closeModal}>{t('products.continueShopping')}</button>
+                    <button className="btn btn-primary" onClick={() => { closeModal(); navigate('/cart'); }}>{t('products.viewCart')}</button>
                   </div>
                 </div>
               ) : selectedTier?.custom ? (
                 <div className="product-modal-actions">
-                  <button className="btn btn-primary" onClick={() => { closeModal(); navigate('/contact'); }}>Nous contacter</button>
+                  <button className="btn btn-primary" onClick={() => { closeModal(); navigate('/contact'); }}>{t('products.contactUs')}</button>
                 </div>
               ) : (
                 <div className="product-modal-actions">
                   <button className="btn btn-secondary" onClick={() => doAddToCart(false)} disabled={!canAddToCart}>
-                    🛒 Ajouter au panier
+                    {t('products.addToCart')}
                   </button>
                   <button className="btn btn-primary" onClick={() => doAddToCart(true)} disabled={!canAddToCart}>
-                    ⚡ Payer maintenant
+                    {t('products.buyNow')}
                   </button>
                 </div>
               )}

@@ -1,12 +1,14 @@
 import { useNavigate } from 'react-router-dom';
 import { User } from 'firebase/auth';
+import { useTranslation } from 'react-i18next';
 
 interface HomeProps {
   user: User | null;
 }
 
-export default function Home({ user }: HomeProps) {
+export default function Home({ user: _user }: HomeProps) {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   return (
     <div className="home-page">
@@ -15,17 +17,14 @@ export default function Home({ user }: HomeProps) {
         <div className="hero-content">
           <img src="/logo.png" alt="Joycy Bakery Logo" className="hero-logo" />
           <h1>Joycy Bakery</h1>
-          <p className="hero-subtitle">De l'art qui se mange, du goût qui reste</p>
-          <p className="hero-description">
-            Créations artisanales faites avec passion à Québec. 
-            Cookies XL, crêpes gourmandes et gâteaux personnalisés pour vos moments spéciaux.
-          </p>
+          <p className="hero-subtitle">{t('home.hero.subtitle')}</p>
+          <p className="hero-description">{t('home.hero.description')}</p>
           <div className="hero-buttons">
             <button onClick={() => navigate('/promotions')} className="btn-hero-primary">
-              Voir nos Promotions
+              {t('home.hero.seePromotions')}
             </button>
             <button onClick={() => navigate('/personnalisation')} className="btn-hero-secondary">
-              Créer ma Commande
+              {t('home.hero.createOrder')}
             </button>
           </div>
         </div>
@@ -33,76 +32,76 @@ export default function Home({ user }: HomeProps) {
 
       {/* Specialties Section */}
       <section className="home-specialties">
-        <h2>Nos Spécialités</h2>
+        <h2>{t('home.specialties.title')}</h2>
         <div className="specialties-cards">
           <div className="specialty-home-card" onClick={() => navigate('/promotions')}>
             <div className="specialty-icon-large">🍪</div>
-            <h3>Cookies XL</h3>
-            <p>Irrésistibles et généreux</p>
-            <p className="specialty-price">À partir de 4,00 $</p>
+            <h3>{t('home.specialties.cookies.name')}</h3>
+            <p>{t('home.specialties.cookies.desc')}</p>
+            <p className="specialty-price">{t('home.specialties.cookies.price')}</p>
           </div>
           <div className="specialty-home-card" onClick={() => navigate('/promotions')}>
             <div className="specialty-icon-large">🥞</div>
-            <h3>Crêpes Artisanales</h3>
-            <p>Nature, citron ou vanille</p>
-            <p className="specialty-price">13 pour 20,00 $</p>
+            <h3>{t('home.specialties.crepes.name')}</h3>
+            <p>{t('home.specialties.crepes.desc')}</p>
+            <p className="specialty-price">{t('home.specialties.crepes.price')}</p>
           </div>
           <div className="specialty-home-card" onClick={() => navigate('/personnalisation')}>
             <div className="specialty-icon-large">🎂</div>
-            <h3>Cake Design</h3>
-            <p>Gâteaux personnalisés sur mesure</p>
-            <p className="specialty-price">Sur devis</p>
+            <h3>{t('home.specialties.cakes.name')}</h3>
+            <p>{t('home.specialties.cakes.desc')}</p>
+            <p className="specialty-price">{t('home.specialties.cakes.price')}</p>
           </div>
         </div>
       </section>
 
       {/* Why Choose Us */}
       <section className="home-why">
-        <h2>Pourquoi Joycy Bakery ?</h2>
+        <h2>{t('home.why.title')}</h2>
         <div className="why-grid">
           <div className="why-item">
             <div className="why-icon">✨</div>
-            <h3>Créations Uniques</h3>
-            <p>Chaque produit est fait avec soin et créativité</p>
+            <h3>{t('home.why.unique.title')}</h3>
+            <p>{t('home.why.unique.desc')}</p>
           </div>
           <div className="why-item">
             <div className="why-icon">🎨</div>
-            <h3>Personnalisation</h3>
-            <p>Vos gâteaux sur mesure pour toutes occasions</p>
+            <h3>{t('home.why.custom.title')}</h3>
+            <p>{t('home.why.custom.desc')}</p>
           </div>
           <div className="why-item">
             <div className="why-icon">❤️</div>
-            <h3>Fait avec Passion</h3>
-            <p>L'amour de la pâtisserie dans chaque bouchée</p>
+            <h3>{t('home.why.passion.title')}</h3>
+            <p>{t('home.why.passion.desc')}</p>
           </div>
           <div className="why-item">
             <div className="why-icon">📍</div>
-            <h3>Local - Québec</h3>
-            <p>Livraison ou ramassage gratuit</p>
+            <h3>{t('home.why.local.title')}</h3>
+            <p>{t('home.why.local.desc')}</p>
           </div>
         </div>
       </section>
 
       {/* Featured Promotions */}
       <section className="home-promos">
-        <h2>Offres du Moment</h2>
+        <h2>{t('home.promos.title')}</h2>
         <div className="promo-highlight-grid">
           <div className="promo-highlight">
-            <div className="promo-badge-home">Populaire</div>
-            <h3>Boîte de 6 Cookies</h3>
+            <div className="promo-badge-home">{t('home.promos.popular')}</div>
+            <h3>{t('home.promos.box6')}</h3>
             <p className="promo-price-home">20,00 $</p>
-            <p>Économisez 4 $ - Parfait pour partager</p>
+            <p>{t('home.promos.box6Desc')}</p>
             <button onClick={() => navigate('/promotions')} className="btn-promo">
-              Commander
+              {t('home.promos.order')}
             </button>
           </div>
           <div className="promo-highlight">
-            <div className="promo-badge-home">Meilleure Valeur</div>
-            <h3>30 Crêpes</h3>
+            <div className="promo-badge-home">{t('home.promos.bestValue')}</div>
+            <h3>{t('home.promos.crepes30')}</h3>
             <p className="promo-price-home">40,00 $</p>
-            <p>Économisez 6 $ - Nature, citron ou vanille</p>
+            <p>{t('home.promos.crepes30Desc')}</p>
             <button onClick={() => navigate('/promotions')} className="btn-promo">
-              Commander
+              {t('home.promos.order')}
             </button>
           </div>
         </div>
@@ -111,43 +110,39 @@ export default function Home({ user }: HomeProps) {
       {/* About Preview */}
       <section className="home-about">
         <div className="about-content">
-          <h2>À Propos</h2>
-          <p>
-            Étudiante passionnée et créative basée à Québec, je suis la fondatrice de Joycy Bakery. 
-            Entrepreneure le jour et pâtissière passionnée la nuit, je combine la précision de la 
-            gestion et la magie de la pâtisserie.
-          </p>
+          <h2>{t('home.about.title')}</h2>
+          <p>{t('home.about.text')}</p>
           <button onClick={() => navigate('/bio')} className="btn-learn-more">
-            En savoir plus
+            {t('home.about.learnMore')}
           </button>
         </div>
       </section>
 
       {/* CTA Section */}
       <section className="home-cta">
-        <h2>Prêt à commander ?</h2>
-        <p>Découvrez nos promotions ou créez votre commande personnalisée</p>
+        <h2>{t('home.cta.title')}</h2>
+        <p>{t('home.cta.desc')}</p>
         <div className="cta-buttons">
           <button onClick={() => navigate('/promotions')} className="btn-cta-primary">
-            Voir les Promotions
+            {t('home.cta.seePromos')}
           </button>
           <button onClick={() => navigate('/personnalisation')} className="btn-cta-secondary">
-            Personnaliser ma Commande
+            {t('home.cta.customize')}
           </button>
         </div>
       </section>
 
       {/* Delivery Info */}
       <section className="home-delivery">
-        <h3>🚚 Livraison & Ramassage</h3>
+        <h3>{t('home.delivery.title')}</h3>
         <div className="delivery-options-home">
           <div className="delivery-option-home">
             <span className="delivery-icon-home">📍</span>
-            <span>Ramassage gratuit à Québec City</span>
+            <span>{t('home.delivery.pickup')}</span>
           </div>
           <div className="delivery-option-home">
             <span className="delivery-icon-home">🚗</span>
-            <span>Livraison 10 $ dans la ville de Québec</span>
+            <span>{t('home.delivery.home')}</span>
           </div>
         </div>
       </section>

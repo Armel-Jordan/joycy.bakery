@@ -1,8 +1,11 @@
 export interface Product {
   id: string;
   name: string;
+  name_en?: string;
   description: string;
+  description_en?: string;
   flavor?: string;
+  flavor_en?: string;
   price: number;
   category: 'Cookies' | 'Crêpes' | 'Gâteaux';
   imageUrl?: string;

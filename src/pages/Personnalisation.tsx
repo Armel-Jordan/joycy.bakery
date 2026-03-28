@@ -2,20 +2,10 @@ import { useState, useRef } from 'react';
 import { getFunctions, httpsCallable } from 'firebase/functions';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../firebase';
-
-const OCCASIONS = [
-  'Anniversaire',
-  'Mariage',
-  'Baptême',
-  'Diplômation',
-  'Fête des mères / pères',
-  'Saint-Valentin',
-  'Noël',
-  'Événement corporatif',
-  'Autre',
-];
+import { useTranslation } from 'react-i18next';
 
 export default function Personnalisation() {
+  const { t } = useTranslation();
   const [form, setForm] = useState({
     clientName: '',
     clientEmail: '',
@@ -36,26 +26,37 @@ export default function Personnalisation() {
   const [error, setError] = useState('');
   const dateInputRef = useRef<HTMLInputElement>(null);
 
+  const OCCASIONS = [
+    { value: 'Anniversaire',            label: t('personnalisation.occasions.birthday') },
+    { value: 'Mariage',                 label: t('personnalisation.occasions.wedding') },
+    { value: 'Baptême',                 label: t('personnalisation.occasions.baptism') },
+    { value: 'Diplômation',             label: t('personnalisation.occasions.graduation') },
+    { value: 'Fête des mères / pères',  label: t('personnalisation.occasions.parentsDay') },
+    { value: 'Saint-Valentin',          label: t('personnalisation.occasions.valentine') },
+    { value: 'Noël',                    label: t('personnalisation.occasions.christmas') },
+    { value: 'Événement corporatif',    label: t('personnalisation.occasions.corporate') },
+    { value: 'Autre',                   label: t('personnalisation.occasions.other') },
+  ];
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
 
     if (!form.clientName || !form.clientEmail || !form.clientPhone || !form.productType) {
-      setError('Veuillez remplir tous les champs obligatoires.');
+      setError(t('personnalisation.required'));
       return;
     }
 
     setSending(true);
     try {
       const descriptionFull = [
-        form.flavors    ? `Saveurs : ${form.flavors}`                    : '',
-        form.colors     ? `Couleurs : ${form.colors}`                    : '',
-        form.decoration ? `Décoration : ${form.decoration}`              : '',
-        form.allergies  ? `Allergies/Restrictions : ${form.allergies}`   : '',
-        form.description? `Description : ${form.description}`            : '',
+        form.flavors     ? `Saveurs : ${form.flavors}`                  : '',
+        form.colors      ? `Couleurs : ${form.colors}`                  : '',
+        form.decoration  ? `Décoration : ${form.decoration}`            : '',
+        form.allergies   ? `Allergies/Restrictions : ${form.allergies}` : '',
+        form.description ? `Description : ${form.description}`          : '',
       ].filter(Boolean).join('\n');
 
-      // Sauvegarde Firestore
       await addDoc(collection(db, 'customOrders'), {
         clientName: form.clientName,
         clientEmail: form.clientEmail,
@@ -73,7 +74,6 @@ export default function Personnalisation() {
         createdAt: serverTimestamp(),
       });
 
-      // Email
       const functions = getFunctions();
       const sendCustomOrderEmail = httpsCallable(functions, 'sendCustomOrderEmail');
       await sendCustomOrderEmail({
@@ -88,7 +88,7 @@ export default function Personnalisation() {
       });
       setSubmitted(true);
     } catch (err: any) {
-      setError(err.message || 'Une erreur est survenue. Veuillez réessayer.');
+      setError(err.message || t('personnalisation.error'));
     } finally {
       setSending(false);
     }
@@ -98,19 +98,19 @@ export default function Personnalisation() {
     return (
       <div className="personnalisation-page">
         <div className="personnalisation-hero">
-          <h1>🎨 Personnalisation</h1>
+          <h1>{t('personnalisation.hero.title')}</h1>
         </div>
         <div className="custom-success">
           <div className="custom-success-icon">✅</div>
-          <h2>Demande envoyée !</h2>
-          <p>Merci <strong>{form.clientName}</strong> ! Votre demande a bien été reçue.</p>
-          <p>Nous vous contacterons très bientôt pour discuter des détails et confirmer le prix.</p>
-          <p className="custom-success-note">Un email de confirmation vous a été envoyé à <strong>{form.clientEmail}</strong>.</p>
+          <h2>{t('personnalisation.success.title')}</h2>
+          <p dangerouslySetInnerHTML={{ __html: t('personnalisation.success.thanks', { name: form.clientName }) }} />
+          <p>{t('personnalisation.success.willContact')}</p>
+          <p className="custom-success-note" dangerouslySetInnerHTML={{ __html: t('personnalisation.success.emailSent', { email: form.clientEmail }) }} />
           <button className="btn btn-primary" onClick={() => {
             setSubmitted(false);
             setForm({ clientName: '', clientEmail: '', clientPhone: '', productType: '', occasion: '', deliveryDate: '', quantity: '', flavors: '', colors: '', decoration: '', allergies: '', description: '' });
           }}>
-            Faire une autre demande
+            {t('personnalisation.success.another')}
           </button>
         </div>
       </div>
@@ -120,33 +120,33 @@ export default function Personnalisation() {
   return (
     <div className="personnalisation-page">
       <div className="personnalisation-hero">
-        <h1>🎨 Personnalisation</h1>
-        <p>Créez votre commande sur mesure — gâteau, cookies ou crêpes selon vos envies</p>
+        <h1>{t('personnalisation.hero.title')}</h1>
+        <p>{t('personnalisation.hero.desc')}</p>
       </div>
 
-      {/* Comment ça marche — au dessus */}
+      {/* Comment ça marche */}
       <div className="custom-how-it-works">
-        <h2>Comment ça marche ?</h2>
+        <h2>{t('personnalisation.howItWorks.title')}</h2>
         <div className="info-steps">
           <div className="info-step">
             <span className="step-number">1</span>
             <div>
-              <h3>Remplissez le formulaire</h3>
-              <p>Décrivez votre projet, l'occasion et la quantité souhaitée</p>
+              <h3>{t('personnalisation.howItWorks.step1.title')}</h3>
+              <p>{t('personnalisation.howItWorks.step1.desc')}</p>
             </div>
           </div>
           <div className="info-step">
             <span className="step-number">2</span>
             <div>
-              <h3>Nous vous contactons</h3>
-              <p>On revient vers vous dans les 24h pour discuter des détails</p>
+              <h3>{t('personnalisation.howItWorks.step2.title')}</h3>
+              <p>{t('personnalisation.howItWorks.step2.desc')}</p>
             </div>
           </div>
           <div className="info-step">
             <span className="step-number">3</span>
             <div>
-              <h3>Confirmation & paiement</h3>
-              <p>Une fois le prix validé, vous confirmez et on prépare votre commande</p>
+              <h3>{t('personnalisation.howItWorks.step3.title')}</h3>
+              <p>{t('personnalisation.howItWorks.step3.desc')}</p>
             </div>
           </div>
         </div>
@@ -161,37 +161,37 @@ export default function Personnalisation() {
           <div className="custom-bloc">
             <div className="custom-bloc-header">
               <span className="custom-bloc-icon">👤</span>
-              <h3>Vos coordonnées</h3>
+              <h3>{t('personnalisation.bloc1.title')}</h3>
             </div>
             <div className="custom-bloc-body">
               <div className="form-group">
-                <label>Nom complet <span className="required">*</span></label>
+                <label>{t('personnalisation.bloc1.name')} <span className="required">*</span></label>
                 <input
                   type="text"
                   value={form.clientName}
                   onChange={e => setForm({ ...form, clientName: e.target.value })}
-                  placeholder="Votre nom complet"
+                  placeholder={t('personnalisation.bloc1.namePlaceholder')}
                   required
                 />
               </div>
               <div className="form-row">
                 <div className="form-group">
-                  <label>Numéro de téléphone <span className="required">*</span></label>
+                  <label>{t('personnalisation.bloc1.phone')} <span className="required">*</span></label>
                   <input
                     type="tel"
                     value={form.clientPhone}
                     onChange={e => setForm({ ...form, clientPhone: e.target.value })}
-                    placeholder="+1 (819) 000-0000"
+                    placeholder={t('personnalisation.bloc1.phonePlaceholder')}
                     required
                   />
                 </div>
                 <div className="form-group">
-                  <label>Email <span className="required">*</span></label>
+                  <label>{t('personnalisation.bloc1.email')} <span className="required">*</span></label>
                   <input
                     type="email"
                     value={form.clientEmail}
                     onChange={e => setForm({ ...form, clientEmail: e.target.value })}
-                    placeholder="jkuibia@gmail.com"
+                    placeholder="email@example.com"
                     required
                   />
                 </div>
@@ -203,12 +203,12 @@ export default function Personnalisation() {
           <div className="custom-bloc">
             <div className="custom-bloc-header">
               <span className="custom-bloc-icon">🛍️</span>
-              <h3>Votre commande</h3>
+              <h3>{t('personnalisation.bloc2.title')}</h3>
             </div>
             <div className="custom-bloc-body">
               <div className="form-row">
                 <div className="form-group">
-                  <label>Type de produit <span className="required">*</span></label>
+                  <label>{t('personnalisation.bloc2.productType')} <span className="required">*</span></label>
                   <div className="product-type-grid">
                     {[
                       { value: 'Gâteaux', emoji: '🎂', label: 'Gâteaux' },
@@ -229,19 +229,19 @@ export default function Personnalisation() {
                   </div>
                 </div>
                 <div className="form-group">
-                  <label>Occasion</label>
+                  <label>{t('personnalisation.bloc2.occasion')}</label>
                   <select
                     value={form.occasion}
                     onChange={e => setForm({ ...form, occasion: e.target.value })}
                   >
-                    <option value="">-- Choisir --</option>
-                    {OCCASIONS.map(o => <option key={o} value={o}>{o}</option>)}
+                    <option value="">{t('personnalisation.bloc2.occasionPlaceholder')}</option>
+                    {OCCASIONS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
                   </select>
                 </div>
               </div>
               <div className="form-row">
                 <div className="form-group">
-                  <label>Date souhaitée</label>
+                  <label>{t('personnalisation.bloc2.date')}</label>
                   <div className="date-input-wrapper">
                     <input
                       ref={dateInputRef}
@@ -256,12 +256,12 @@ export default function Personnalisation() {
                   </div>
                 </div>
                 <div className="form-group">
-                  <label>Quantité souhaitée</label>
+                  <label>{t('personnalisation.bloc2.quantity')}</label>
                   <input
                     type="text"
                     value={form.quantity}
                     onChange={e => setForm({ ...form, quantity: e.target.value })}
-                    placeholder="Ex : 24 cookies, 1 gâteau 6 parts…"
+                    placeholder={t('personnalisation.bloc2.quantityPlaceholder')}
                   />
                 </div>
               </div>
@@ -272,55 +272,55 @@ export default function Personnalisation() {
           <div className="custom-bloc">
             <div className="custom-bloc-header">
               <span className="custom-bloc-icon">📝</span>
-              <h3>Description</h3>
+              <h3>{t('personnalisation.bloc3.title')}</h3>
             </div>
             <div className="custom-bloc-body">
               <div className="form-row">
                 <div className="form-group">
-                  <label>Saveurs</label>
+                  <label>{t('personnalisation.bloc3.flavors')}</label>
                   <input
                     type="text"
                     value={form.flavors}
                     onChange={e => setForm({ ...form, flavors: e.target.value })}
-                    placeholder="Ex : chocolat noir, vanille, framboise…"
+                    placeholder={t('personnalisation.bloc3.flavorsPlaceholder')}
                   />
                 </div>
                 <div className="form-group">
-                  <label>Couleurs</label>
+                  <label>{t('personnalisation.bloc3.colors')}</label>
                   <input
                     type="text"
                     value={form.colors}
                     onChange={e => setForm({ ...form, colors: e.target.value })}
-                    placeholder="Ex : rose et blanc, doré, arc-en-ciel…"
+                    placeholder={t('personnalisation.bloc3.colorsPlaceholder')}
                   />
                 </div>
               </div>
               <div className="form-row">
                 <div className="form-group">
-                  <label>Décoration</label>
+                  <label>{t('personnalisation.bloc3.decoration')}</label>
                   <input
                     type="text"
                     value={form.decoration}
                     onChange={e => setForm({ ...form, decoration: e.target.value })}
-                    placeholder="Ex : fleurs en sucre, figurines, lettres…"
+                    placeholder={t('personnalisation.bloc3.decorationPlaceholder')}
                   />
                 </div>
                 <div className="form-group">
-                  <label>Allergies / Restrictions</label>
+                  <label>{t('personnalisation.bloc3.allergies')}</label>
                   <input
                     type="text"
                     value={form.allergies}
                     onChange={e => setForm({ ...form, allergies: e.target.value })}
-                    placeholder="Ex : sans gluten, sans lactose, noix…"
+                    placeholder={t('personnalisation.bloc3.allergiesPlaceholder')}
                   />
                 </div>
               </div>
               <div className="form-group">
-                <label>Description complémentaire</label>
+                <label>{t('personnalisation.bloc3.description')}</label>
                 <textarea
                   value={form.description}
                   onChange={e => setForm({ ...form, description: e.target.value })}
-                  placeholder="Tout autre détail important pour votre commande…"
+                  placeholder={t('personnalisation.bloc3.descriptionPlaceholder')}
                   rows={4}
                 />
               </div>
@@ -328,30 +328,29 @@ export default function Personnalisation() {
           </div>
 
           <button type="submit" className="btn btn-primary btn-large" disabled={sending}>
-            {sending ? 'Envoi en cours...' : '✉️ Envoyer ma demande'}
+            {sending ? t('personnalisation.sending') : t('personnalisation.submit')}
           </button>
         </form>
-
       </div>
 
-      {/* Idées de personnalisation — en bas */}
+      {/* Idées de personnalisation */}
       <div className="custom-ideas-section">
-        <h2>Idées de personnalisation</h2>
+        <h2>{t('personnalisation.ideas.title')}</h2>
         <div className="examples-grid">
           <div className="example-card">
             <div className="example-icon">🍪</div>
-            <h4>Cookies</h4>
-            <p>Pépites de chocolat noir, blanc ou caramel, noisettes, M&M's, glaçage personnalisé…</p>
+            <h4>{t('personnalisation.ideas.cookies.name')}</h4>
+            <p>{t('personnalisation.ideas.cookies.desc')}</p>
           </div>
           <div className="example-card">
             <div className="example-icon">🥞</div>
-            <h4>Crêpes</h4>
-            <p>Saveurs vanille, citron, chocolat, fruits rouges, garnitures sur mesure…</p>
+            <h4>{t('personnalisation.ideas.crepes.name')}</h4>
+            <p>{t('personnalisation.ideas.crepes.desc')}</p>
           </div>
           <div className="example-card">
             <div className="example-icon">🎂</div>
-            <h4>Gâteaux</h4>
-            <p>Thématiques : anniversaire, mariage, baptême, diplômation, cake design…</p>
+            <h4>{t('personnalisation.ideas.cakes.name')}</h4>
+            <p>{t('personnalisation.ideas.cakes.desc')}</p>
           </div>
         </div>
       </div>

@@ -99,6 +99,41 @@ main {
 .nav-cart {
   display: flex;
   align-items: center;
+  gap: 0.75rem;
+}
+
+/* Language switcher */
+.lang-switcher {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: rgba(255,255,255,0.15);
+  border-radius: 20px;
+  padding: 0.2rem 0.5rem;
+}
+
+.lang-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: #6E260E;
+  padding: 0.2rem 0.3rem;
+  border-radius: 12px;
+  transition: background 0.2s, color 0.2s;
+}
+
+.lang-btn.active {
+  background: #6E260E;
+  color: #fff;
+}
+
+.lang-sep {
+  color: #c0a090;
+  font-size: 0.75rem;
+  user-select: none;
 }
 
 .cart-icon {
@@ -737,6 +772,36 @@ main {
 
 .product-modal-added .success-message {
   margin: 0;
+}
+
+/* Bilingual tabs in product form */
+.bilingual-tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 2px solid #e8d5c4;
+  margin-bottom: 1.25rem;
+}
+
+.bilingual-tab {
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
+  padding: 0.5rem 1.25rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #999;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.bilingual-tab.active {
+  color: #6E260E;
+  border-bottom-color: #6E260E;
+}
+
+.bilingual-tab:hover:not(.active) {
+  color: #6E260E;
 }
 
 .image-upload-area {

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { User, signInWithEmailAndPassword, signOut, sendPasswordResetEmail } from 'firebase/auth';
 import { auth } from '../firebase';
+import { useTranslation } from 'react-i18next';
 import OrderManagement from '../components/admin/OrderManagement';
 import ProductManagement from '../components/admin/ProductManagement';
 import CalendarView from '../components/admin/CalendarView';
@@ -22,19 +23,8 @@ const ALLOWED_ADMIN_EMAILS = [
   'jkuibia@gmail.com'
 ];
 
-const NAV_ITEMS: { id: TabType; icon: string; label: string }[] = [
-  { id: 'orders',   icon: '📦', label: 'Commandes'        },
-  { id: 'custom',   icon: '🎨', label: 'Personnalisations' },
-  { id: 'products',   icon: '🍰', label: 'Produits'      },
-  { id: 'promotions', icon: '🎉', label: 'Promotions'    },
-  { id: 'team',       icon: '👥', label: 'Équipe'        },
-  { id: 'calendar', icon: '📅', label: 'Calendrier'        },
-  { id: 'vacation', icon: '🏖️', label: 'Congés'            },
-  { id: 'hours',    icon: '🕐', label: 'Horaires'          },
-  { id: 'password', icon: '🔑', label: 'Mot de passe'      },
-];
-
 export default function AdminDashboard({ user }: AdminDashboardProps) {
+  const { t, i18n } = useTranslation();
   const [activeTab, setActiveTab] = useState<TabType>('orders');
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [email, setEmail] = useState('');
@@ -44,6 +34,25 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
   const [resetMode, setResetMode] = useState(false);
   const [resetEmail, setResetEmail] = useState('');
   const [resetSuccess, setResetSuccess] = useState('');
+  const [lang, setLang] = useState(i18n.language);
+
+  const NAV_ITEMS: { id: TabType; icon: string; label: string }[] = [
+    { id: 'orders',     icon: '📦', label: t('admin.nav.orders')     },
+    { id: 'custom',     icon: '🎨', label: t('admin.nav.custom')     },
+    { id: 'products',   icon: '🍰', label: t('admin.nav.products')   },
+    { id: 'promotions', icon: '🎉', label: t('admin.nav.promotions') },
+    { id: 'team',       icon: '👥', label: t('admin.nav.team')       },
+    { id: 'calendar',   icon: '📅', label: t('admin.nav.calendar')   },
+    { id: 'vacation',   icon: '🏖️', label: t('admin.nav.vacation')   },
+    { id: 'hours',      icon: '🕐', label: t('admin.nav.hours')      },
+    { id: 'password',   icon: '🔑', label: t('admin.nav.password')   },
+  ];
+
+  const toggleLang = (l: string) => {
+    i18n.changeLanguage(l);
+    localStorage.setItem('lang', l);
+    setLang(l);
+  };
 
   const isAdmin = user && ALLOWED_ADMIN_EMAILS.includes(user.email || '');
 
@@ -55,13 +64,13 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
       const cred = await signInWithEmailAndPassword(auth, email, password);
       if (!ALLOWED_ADMIN_EMAILS.includes(cred.user.email || '')) {
         await signOut(auth);
-        setError('Accès refusé. Vous n\'êtes pas autorisé.');
+        setError(t('admin.login.accessDenied'));
       }
     } catch (err: any) {
       setError(
         err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential'
-          ? 'Email ou mot de passe incorrect.'
-          : 'Erreur de connexion. Veuillez réessayer.'
+          ? t('admin.login.wrongCredentials')
+          : t('admin.login.connectionError')
       );
     } finally {
       setLoading(false);
@@ -73,9 +82,9 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
     setError(''); setResetSuccess(''); setLoading(true);
     try {
       await sendPasswordResetEmail(auth, resetEmail);
-      setResetSuccess('Email de réinitialisation envoyé. Vérifiez votre boîte mail.');
+      setResetSuccess(t('admin.login.resetSuccess'));
     } catch {
-      setError('Impossible d\'envoyer l\'email. Vérifiez l\'adresse saisie.');
+      setError("Impossible d'envoyer l'email. Vérifiez l'adresse saisie.");
     } finally {
       setLoading(false);
     }
@@ -91,47 +100,53 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
           <div className="admin-login-logo">🍪</div>
           {resetMode ? (
             <>
-              <h1>Mot de passe oublié</h1>
-              <p>Entrez votre email pour recevoir un lien de réinitialisation.</p>
+              <h1>{t('admin.login.resetTitle')}</h1>
+              <p>{t('admin.login.resetSubtitle')}</p>
               <form onSubmit={handleResetPassword} className="admin-login-form">
                 <div className="form-group">
-                  <label>Email</label>
+                  <label>{t('admin.login.email')}</label>
                   <input type="email" value={resetEmail} onChange={e => setResetEmail(e.target.value)} placeholder="votre@email.com" required />
                 </div>
-                {error       && <p className="error-message">{error}</p>}
+                {error        && <p className="error-message">{error}</p>}
                 {resetSuccess && <p className="success-message">{resetSuccess}</p>}
                 <button type="submit" className="btn btn-primary" disabled={loading}>
-                  {loading ? 'Envoi…' : 'Envoyer le lien'}
+                  {loading ? t('admin.login.resetSubmitting') : t('admin.login.resetSubmit')}
                 </button>
               </form>
               <button className="admin-text-btn" onClick={() => { setResetMode(false); setError(''); setResetSuccess(''); }}>
-                ← Retour à la connexion
+                {t('admin.login.backToLogin')}
               </button>
             </>
           ) : (
             <>
-              <h1>Accès Administrateur</h1>
-              <p>Connectez-vous pour accéder au tableau de bord.</p>
+              <h1>{t('admin.login.title')}</h1>
+              <p>{t('admin.login.subtitle')}</p>
               <form onSubmit={handleLogin} className="admin-login-form">
                 <div className="form-group">
-                  <label>Email</label>
+                  <label>{t('admin.login.email')}</label>
                   <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="votre@email.com" required />
                 </div>
                 <div className="form-group">
-                  <label>Mot de passe</label>
+                  <label>{t('admin.login.password')}</label>
                   <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="••••••••" required />
                 </div>
                 {error && <p className="error-message">{error}</p>}
                 <button type="submit" className="btn btn-primary" disabled={loading}>
-                  {loading ? 'Connexion…' : 'Se connecter'}
+                  {loading ? t('admin.login.submitting') : t('admin.login.submit')}
                 </button>
               </form>
               <button className="admin-text-btn" onClick={() => { setResetMode(true); setError(''); }}>
-                Mot de passe oublié ?
+                {t('admin.login.forgotPassword')}
               </button>
-              <a href="/" className="admin-text-btn">← Retour au site</a>
+              <a href="/" className="admin-text-btn">{t('admin.login.backToSite')}</a>
             </>
           )}
+          {/* Lang switcher on login page */}
+          <div className="lang-switcher" style={{ marginTop: '1.5rem', justifyContent: 'center' }}>
+            <button className={`lang-btn${lang === 'fr' ? ' active' : ''}`} onClick={() => toggleLang('fr')}>FR</button>
+            <span className="lang-sep">|</span>
+            <button className={`lang-btn${lang === 'en' ? ' active' : ''}`} onClick={() => toggleLang('en')}>EN</button>
+          </div>
         </div>
       </div>
     );
@@ -162,6 +177,12 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
         </nav>
 
         <div className="admin-sidebar-footer">
+          {/* Lang switcher in sidebar */}
+          <div className="lang-switcher" style={{ marginBottom: '0.75rem', background: 'rgba(255,255,255,0.08)' }}>
+            <button className={`lang-btn${lang === 'fr' ? ' active' : ''}`} style={{ color: lang === 'fr' ? '#fff' : '#c9a87c' }} onClick={() => toggleLang('fr')}>FR</button>
+            <span className="lang-sep" style={{ color: '#c9a87c' }}>|</span>
+            <button className={`lang-btn${lang === 'en' ? ' active' : ''}`} style={{ color: lang === 'en' ? '#fff' : '#c9a87c' }} onClick={() => toggleLang('en')}>EN</button>
+          </div>
           <div className="admin-sidebar-user">
             <span className="admin-sidebar-avatar">
               {user?.email?.[0].toUpperCase()}
@@ -169,7 +190,7 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
             <span className="admin-sidebar-email">{user?.email}</span>
           </div>
           <button className="admin-logout-btn" onClick={() => signOut(auth)}>
-            Déconnexion
+            {t('admin.logout')}
           </button>
         </div>
       </aside>
@@ -187,15 +208,15 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
         </div>
 
         <div className="admin-content">
-          {activeTab === 'orders'   && <OrderManagement />}
-          {activeTab === 'custom'   && <CustomOrderManagement />}
+          {activeTab === 'orders'     && <OrderManagement />}
+          {activeTab === 'custom'     && <CustomOrderManagement />}
           {activeTab === 'products'   && <ProductManagement />}
           {activeTab === 'promotions' && <PromotionManagement />}
           {activeTab === 'team'       && <TeamManagement />}
-          {activeTab === 'calendar' && <CalendarView />}
-          {activeTab === 'vacation' && <VacationManagement />}
-          {activeTab === 'hours'    && <HoursManagement />}
-          {activeTab === 'password' && <PasswordManagement />}
+          {activeTab === 'calendar'   && <CalendarView />}
+          {activeTab === 'vacation'   && <VacationManagement />}
+          {activeTab === 'hours'      && <HoursManagement />}
+          {activeTab === 'password'   && <PasswordManagement />}
         </div>
       </main>
     </div>

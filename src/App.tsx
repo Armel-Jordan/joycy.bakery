@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react
 import { auth } from './firebase'
 import { onAuthStateChanged, User } from 'firebase/auth'
 import { CartProvider, useCart } from './context/CartContext'
+import { useTranslation } from 'react-i18next'
 import Home from './pages/Home'
 import Bio from './pages/Bio'
 import Promotions from './pages/Promotions'
@@ -13,15 +14,40 @@ import Contact from './pages/Contact'
 import AdminDashboard from './pages/AdminDashboard'
 import './App.css'
 
+function LanguageSwitcher() {
+  const { i18n } = useTranslation()
+  const [lang, setLang] = useState(i18n.language)
+
+  const toggle = (l: string) => {
+    i18n.changeLanguage(l)
+    localStorage.setItem('lang', l)
+    setLang(l)
+  }
+
+  return (
+    <div className="lang-switcher">
+      <button
+        className={`lang-btn${lang === 'fr' ? ' active' : ''}`}
+        onClick={() => toggle('fr')}
+      >FR</button>
+      <span className="lang-sep">|</span>
+      <button
+        className={`lang-btn${lang === 'en' ? ' active' : ''}`}
+        onClick={() => toggle('en')}
+      >EN</button>
+    </div>
+  )
+}
+
 function Navigation() {
   const location = useLocation()
   const { getItemCount } = useCart()
-  
-  // Hide navigation on admin page
+  const { t } = useTranslation()
+
   if (location.pathname === '/admin') {
     return null
   }
-  
+
   return (
     <nav className="main-nav">
       <div className="nav-brand">
@@ -32,25 +58,26 @@ function Navigation() {
       </div>
       <div className="nav-links">
         <Link to="/" className={location.pathname === '/' ? 'active' : ''}>
-          Accueil
+          {t('nav.home')}
         </Link>
         <Link to="/bio" className={location.pathname === '/bio' ? 'active' : ''}>
-          Bio
+          {t('nav.bio')}
         </Link>
         <Link to="/promotions" className={location.pathname === '/promotions' ? 'active' : ''}>
-          Promotions
+          {t('nav.promotions')}
         </Link>
         <Link to="/personnalisation" className={location.pathname === '/personnalisation' ? 'active' : ''}>
-          Personnalisation
+          {t('nav.personnalisation')}
         </Link>
         <Link to="/produits" className={location.pathname === '/produits' ? 'active' : ''}>
-          Produits
+          {t('nav.products')}
         </Link>
         <Link to="/contact" className={location.pathname === '/contact' ? 'active' : ''}>
-          Contact
+          {t('nav.contact')}
         </Link>
       </div>
       <div className="nav-cart">
+        <LanguageSwitcher />
         <Link to="/cart" className="cart-icon">
           🛒 {getItemCount() > 0 && <span className="cart-badge">{getItemCount()}</span>}
         </Link>
@@ -62,6 +89,7 @@ function Navigation() {
 function App() {
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
+  const { t } = useTranslation()
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -73,7 +101,7 @@ function App() {
   }, [])
 
   if (loading) {
-    return <div className="loading">Chargement...</div>
+    return <div className="loading">{t('nav.loading')}</div>
   }
 
   return (
