@@ -208,23 +208,31 @@ export default function Home({ user: _user }: HomeProps) {
                 {homePromos.map((p, i) => (
                   <div key={p.id} className="promo-carousel-slide">
                     <div className="home-promo-card">
-                      {locPromo(p, 'badge') && (
-                        <div className={`home-promo-badge${i % 2 === 1 ? ' home-promo-badge--gold' : ''}`}>
-                          {locPromo(p, 'badge')}
+                      {p.imageUrl ? (
+                        <div className="home-promo-img">
+                          <img src={p.imageUrl} alt={locPromo(p, 'name')} />
+                        </div>
+                      ) : (
+                        <div className="home-promo-icon">
+                          {p.category === 'Cookies' ? '🍪' : p.category === 'Crêpes' ? '🥞' : p.category === 'Gâteaux' ? '🎂' : '🎉'}
                         </div>
                       )}
-                      <div className="home-promo-icon">
-                        {p.category === 'Cookies' ? '🍪' : p.category === 'Crêpes' ? '🥞' : p.category === 'Gâteaux' ? '🎂' : '🎉'}
+                      <div className="home-promo-body">
+                        {locPromo(p, 'badge') && (
+                          <div className={`home-promo-badge${i % 2 === 1 ? ' home-promo-badge--gold' : ''}`}>
+                            {locPromo(p, 'badge')}
+                          </div>
+                        )}
+                        <h3>{locPromo(p, 'name')}</h3>
+                        <p className="home-promo-price">{p.price.toFixed(2).replace('.', ',')} $</p>
+                        {locPromo(p, 'savings') && <p className="home-promo-desc">{locPromo(p, 'savings')}</p>}
+                        {!locPromo(p, 'savings') && locPromo(p, 'description') && (
+                          <p className="home-promo-desc">{locPromo(p, 'description')}</p>
+                        )}
+                        <button className="home-btn-primary" style={{ marginTop: '0.75rem' }} onClick={() => setSelectedPromo(p)}>
+                          {t('home.promos.order')}
+                        </button>
                       </div>
-                      <h3>{locPromo(p, 'name')}</h3>
-                      <p className="home-promo-price">{p.price.toFixed(2).replace('.', ',')} $</p>
-                      {locPromo(p, 'savings') && <p className="home-promo-desc">{locPromo(p, 'savings')}</p>}
-                      {!locPromo(p, 'savings') && locPromo(p, 'description') && (
-                        <p className="home-promo-desc">{locPromo(p, 'description')}</p>
-                      )}
-                      <button className="home-btn-primary" onClick={() => setSelectedPromo(p)}>
-                        {t('home.promos.order')}
-                      </button>
                     </div>
                   </div>
                 ))}
