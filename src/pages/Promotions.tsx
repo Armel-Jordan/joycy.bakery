@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../firebase';
-import { useCart } from '../context/CartContext';
 import { useTranslation } from 'react-i18next';
+import PromotionModal from '../components/PromotionModal';
 
 interface Promotion {
   id: string;
@@ -30,7 +30,6 @@ const CATEGORIES = [
 ];
 
 export default function Promotions() {
-  const { addToCart } = useCart();
   const { t, i18n } = useTranslation();
 
   const loc = (p: Promotion, field: 'name' | 'description' | 'badge' | 'savings') => {
@@ -40,10 +39,11 @@ export default function Promotions() {
     }
     return p[field] || '';
   };
+
   const [promotions, setPromotions] = useState<Promotion[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('all');
-  const [added, setAdded] = useState<string | null>(null);
+  const [selectedPromo, setSelectedPromo] = useState<Promotion | null>(null);
 
   useEffect(() => {
     const load = async () => {
@@ -59,12 +59,6 @@ export default function Promotions() {
     };
     load();
   }, []);
-
-  const handleAddToCart = (p: Promotion) => {
-    addToCart({ type: 'promotion', name: p.name, price: p.price, quantity: 1, description: p.description });
-    setAdded(p.id);
-    setTimeout(() => setAdded(null), 2000);
-  };
 
   const visibleTabs = CATEGORIES.filter(c =>
     c.key === 'all' || promotions.some(p => p.category === c.key)
@@ -114,7 +108,12 @@ export default function Promotions() {
             {/* Grille promotions */}
             <div className="promo-grid">
               {sorted.map(p => (
-                <div key={p.id} className={`promo-card${p.featured ? ' featured' : ''}`}>
+                <div
+                  key={p.id}
+                  className={`promo-card${p.featured ? ' featured' : ''}`}
+                  onClick={() => setSelectedPromo(p)}
+                  style={{ cursor: 'pointer' }}
+                >
                   {p.badge && (
                     <div className={`promo-badge${loc(p, 'badge').toLowerCase().includes('populaire') || loc(p, 'badge').toLowerCase().includes('valeur') || loc(p, 'badge').toLowerCase().includes('popular') || loc(p, 'badge').toLowerCase().includes('value') ? ' popular' : ''}`}>
                       {loc(p, 'badge')}
@@ -134,13 +133,6 @@ export default function Promotions() {
                   </div>
                   <p>{loc(p, 'description')}</p>
                   {p.savings && <div className="savings">{loc(p, 'savings')}</div>}
-                  <button
-                    className={`btn btn-add-cart${added === p.id ? ' btn-added' : ''}`}
-                    onClick={() => handleAddToCart(p)}
-                    disabled={added === p.id}
-                  >
-                    {added === p.id ? t('promotions.added') : t('promotions.addToCart')}
-                  </button>
                 </div>
               ))}
             </div>
@@ -167,6 +159,13 @@ export default function Promotions() {
           </div>
         </div>
       </div>
+
+      {selectedPromo && (
+        <PromotionModal
+          promotion={selectedPromo}
+          onClose={() => setSelectedPromo(null)}
+        />
+      )}
     </div>
   );
 }

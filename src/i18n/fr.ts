@@ -13,6 +13,7 @@ export const fr = {
       subtitle: "De l'art qui se mange, du goût qui reste",
       description: "Créations artisanales faites avec passion à Québec. Cookies XL, crêpes gourmandes et gâteaux personnalisés pour vos moments spéciaux.",
       seePromotions: "Voir nos Promotions",
+      seeProducts: "Voir nos Produits",
       createOrder: "Créer ma Commande",
     },
     specialties: {
@@ -37,6 +38,7 @@ export const fr = {
       crepes30: "30 Crêpes",
       crepes30Desc: "Économisez 6 $ - Nature, citron ou vanille",
       order: "Commander",
+      seeAll: "Voir toutes les promotions",
     },
     about: {
       title: "À Propos",
@@ -45,14 +47,20 @@ export const fr = {
     },
     cta: {
       title: "Prêt à commander ?",
-      desc: "Découvrez nos promotions ou créez votre commande personnalisée",
+      desc: "Découvrez nos produits ou créez votre commande personnalisée",
       seePromos: "Voir les Promotions",
+      seeProducts: "Voir nos Produits",
       customize: "Personnaliser ma Commande",
     },
     delivery: {
       title: "🚚 Livraison & Ramassage",
       pickup: "Ramassage gratuit à Québec City",
       home: "Livraison 10 $ dans la ville de Québec",
+    },
+    featuredProducts: {
+      title: "Nos Produits",
+      seeMore: "Voir tous les produits →",
+      from: "À partir de",
     },
   },
   bio: {

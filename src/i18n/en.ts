@@ -13,6 +13,7 @@ export const en = {
       subtitle: "Art you can eat, taste that stays",
       description: "Handcrafted creations made with passion in Québec. XL Cookies, gourmet crêpes and custom cakes for your special moments.",
       seePromotions: "See our Promotions",
+      seeProducts: "See our Products",
       createOrder: "Create my Order",
     },
     specialties: {
@@ -37,6 +38,7 @@ export const en = {
       crepes30: "30 Crêpes",
       crepes30Desc: "Save $6 - Plain, lemon or vanilla",
       order: "Order",
+      seeAll: "See all promotions",
     },
     about: {
       title: "About",
@@ -45,14 +47,20 @@ export const en = {
     },
     cta: {
       title: "Ready to order?",
-      desc: "Explore our promotions or create your custom order",
+      desc: "Explore our products or create your custom order",
       seePromos: "See Promotions",
+      seeProducts: "See our Products",
       customize: "Customize my Order",
     },
     delivery: {
       title: "🚚 Delivery & Pickup",
       pickup: "Free pickup in Québec City",
       home: "$10 delivery within Québec City",
+    },
+    featuredProducts: {
+      title: "Our Products",
+      seeMore: "See all products →",
+      from: "From",
     },
   },
   bio: {
