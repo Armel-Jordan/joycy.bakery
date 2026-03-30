@@ -119,20 +119,26 @@ export default function Promotions() {
                       {loc(p, 'badge')}
                     </div>
                   )}
-                  {p.imageUrl && (
+                  {p.imageUrl ? (
                     <div className="promo-card-img">
                       <img src={p.imageUrl} alt={loc(p, 'name')} />
                     </div>
+                  ) : (
+                    <div className="promo-card-img" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '3.5rem' }}>
+                      {CATEGORIES.find(c => c.key === p.category)?.icon || '🎉'}
+                    </div>
                   )}
-                  <div className="promo-card-cat">{
-                    CATEGORIES.find(c => c.key === p.category)?.icon
-                  } {p.category}</div>
-                  <h3>{loc(p, 'name')}</h3>
-                  <div className="promo-price">
-                    <span className="price-main">{p.price.toFixed(2).replace('.', ',')} $</span>
+                  <div className="promo-card-body">
+                    <div className="promo-card-cat">
+                      {CATEGORIES.find(c => c.key === p.category)?.icon} {p.category}
+                    </div>
+                    <h3>{loc(p, 'name')}</h3>
+                    <div className="promo-price">
+                      <span className="price-main">{p.price.toFixed(2).replace('.', ',')} $</span>
+                    </div>
+                    <p>{loc(p, 'description')}</p>
+                    {p.savings && <div className="savings">{loc(p, 'savings')}</div>}
                   </div>
-                  <p>{loc(p, 'description')}</p>
-                  {p.savings && <div className="savings">{loc(p, 'savings')}</div>}
                 </div>
               ))}
             </div>

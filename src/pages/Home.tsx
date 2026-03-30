@@ -176,7 +176,7 @@ export default function Home({ user: _user }: HomeProps) {
           </div>
           <div className="home-see-more-wrap">
             <button className="home-btn-outline" onClick={() => navigate('/produits')}>
-              {t('home.featuredProducts.seeMore')} →
+              {t('home.featuredProducts.seeMore')}
             </button>
           </div>
         </section>
